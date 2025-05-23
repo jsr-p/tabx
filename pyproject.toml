@@ -1,0 +1,78 @@
+[project]
+name = "tabx-py"
+dynamic = ["version"]
+description = "tabx - compose LaTeX tables using booktabs in Python"
+readme = {file = "README.md", content-type = "text/markdown"}
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "jsr-p", email = "jsr-p@sodas.ku.dk" }
+]
+requires-python = ">=3.12"  # TypeAlias :=)
+dependencies = []
+
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+]
+
+[project.urls]
+Homepage = "https://github.com/jsr-p/tabx"
+Documentation = "https://jsr-p.github.io/tabx"
+Repository = "https://github.com/jsr-p/tabx"
+
+[dependency-groups]
+dev = [
+    "coverage>=7.8.0",
+    "jupyter>=1.1.1",
+    "pyfiglet>=1.0.2",
+    "pytest>=8.3.5",
+    "furo>=2024.8.6",
+    "myst-parser>=4.0.1",
+    "sphinx>=8.2.3",
+    "sphinx-autobuild>=2024.10.3",
+    "sphinx-copybutton>=0.5.2",
+    "sphinx-rtd-theme>=3.0.2",
+    "coverage-badge>=1.1.2",
+]
+
+[tool.coverage.run]
+source = ["src/tabx"]
+
+[tool.coverage.report]
+omit = [
+  "src/tabx/_ext/*",
+  "src/tabx/utils.py",
+]
+exclude_also = [
+    "def __repr__",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = [
+  "src/tabx/**",
+  "README.md",
+  "LICENSE",
+  "pyproject.toml"
+]
+exclude = [
+  "src/tabx/_ext/**",
+  "examples/**",
+  "figs/**",
+  "docs/**",
+  "tests/**",
+  "*.qmd",
+  "*.lock",
+  "Justfile"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tabx"]
+
+[tool.hatch.version]
+path = "src/tabx/__init__.py"

@@ -1,0 +1,231 @@
+---
+format: gfm
+output-dir: _output
+---
+
+# tabx - compose LaTeX tables using booktabs in Python
+
+![Coverage Status](figs/coverage.svg)
+
+> tabular + booktabs is all you need
+
+
+- `tabx` is a Python library for creating LaTeX tables using the
+  [booktabs](https://ctan.org/pkg/booktabs?lang=en) package 
+- Features include:
+  - concatenate `Table`s (and other table-related LaTeX objects) horizontally and
+    vertically using overloaded `|` and `/` operators
+  - slice tables using numpy-like indexing e.g. `table[1:, 2:]`
+  - no external dependencies
+- For a quick overview of functionality, see [showcase](#showcase)
+- For a more in-depth tutorial, see [tutorial](#tutorial)
+- For some wisdom, see [wisdom from bookstabs](#wisdom-from-bookstabs)
+- For a list of examples, see [examples](#examples)
+  - [Parameter estimates with standard errors underneath](#models-estimates-and-standard-errors)
+  - [Descriptive statistics](#descriptive-statistics)
+  - ... see the [rest](#examples)
+- See also the [documentation](https://jsr-p.github.io/tabx/index.html)
+
+## Installation
+
+```bash
+uv pip install tabx-py
+```
+
+
+## Showcase
+
+
+```{python} 
+#| echo: false
+from IPython.display import Markdown
+Markdown(
+  open("_output/showcase.md").read() + "\n</details>"
+)
+```
+
+---
+
+
+## Tutorial
+
+```{python} 
+#| echo: false
+from IPython.display import Markdown
+Markdown(
+  "<details>\n" 
+  + "<summary></summary>\n"
+  + open("_output/tutorial.md").read() + "\n</details>"
+)
+```
+
+<!-- NOTE: we need the `---` here else the headers float to the top for some
+reason -->
+---
+
+## Wisdom from bookstabs
+
+> You will not go far wrong if you remember two simple guidelines at all times: 
+> 
+> 1. Never, ever use vertical rules. 
+> 
+> 2. Never use double rules. 
+
+See Section 2
+[here](https://mirrors.dotsrc.org/ctan/macros/latex/contrib/booktabs/booktabs.pdf) for more wisdom.
+
+
+
+## Examples
+
+### Models estimates and standard errors
+
+```{python} 
+#| echo: false
+from IPython.display import Markdown
+Markdown(
+  "<details>\n" 
+  + "<summary></summary>\n" 
+  + open("_output/models_example.md").read() + "\n</details>\n<br>\n"
+)
+```
+
+### Descriptive statistics
+
+```{python} 
+#| echo: false
+from IPython.display import Markdown
+Markdown(
+  "<details>\n" 
+  + "<summary></summary>\n" 
+  + open("_output/desc_exp.md").read() + "\n</details>\n<br>\n"
+)
+```
+
+
+
+### Scientific Table 1
+
+```{python} 
+#| echo: false
+from IPython.display import Markdown
+Markdown(
+  "<details>\n" 
+  + "<summary></summary>\n" 
+  + open("_output/booktabs1.md").read() + "\n</details>\n<br>\n"
+)
+```
+
+
+### Scientific Table 2
+
+```{python} 
+#| echo: false
+from IPython.display import Markdown
+Markdown(
+  "<details>\n" 
+  + "<summary></summary>\n" 
+  + open("_output/booktabs2.md").read() + "\n</details>\n<br>\n"
+)
+```
+
+
+### Great Tables
+
+```{python} 
+#| echo: false
+from IPython.display import Markdown
+Markdown(
+  "<details>\n" 
+  + "<summary></summary>\n" 
+  + open("_output/great_tables.md").read() + "\n</details>\n<br>\n"
+)
+```
+
+### Colored output
+
+```{python} 
+#| echo: false
+from IPython.display import Markdown
+Markdown(
+  "<details>\n" 
+  + "<summary></summary>\n" 
+  + open("_output/color.md").read() + "\n</details>\n<br>\n"
+)
+```
+
+
+### Misc
+
+```{python} 
+#| echo: false
+from IPython.display import Markdown
+Markdown(
+  "<details>\n" 
+  + "<summary></summary>\n" 
+  + open("_output/misc.md").read() + "\n</details>"
+)
+```
+
+### Ascii
+
+```{python} 
+#| echo: false
+from IPython.display import Markdown
+Markdown(
+  "<details>\n" 
+  + "<summary></summary>\n" 
+  + open("_output/ascii.md").read() + "\n</details>"
+)
+```
+
+<!-- NOTE: we need the `---` here else the headers float to the top for some
+reason -->
+---
+
+
+## Development
+
+```bash
+git clone git@github.com:jsr-p/tabx.git
+cd tabx
+uv venv
+uv sync --all-extras
+```
+
+### Contributions
+
+Contributions are welcome!
+
+- If you have any suggestions or improvements, please open an issue or a pull
+  request.
+- If you have an example you would like to share, add the code inside
+  [examples](examples/), add the example to the [README](README.qmd)
+  and a statement to the [Justfile](Justfile) under `readme`.
+
+
+## Misc.
+
+### Alternatives
+
+The alternatives below are great but didn't suit my needs fiddling with
+multicolumn cells, multirow cells, cmidrules etc. and using the `tabular`
+environment in LaTeX.
+
+- [pandas to latex](https://pandas.pydata.org/docs/reference/api/pandas.io.formats.style.Styler.to_latex.html)
+- [great tables](https://posit-dev.github.io/great-tables/articles/intro.html)
+- [tinytable](https://vincentarelbundock.github.io/tinytable/)
+
+
+### Why not tabularray?
+
+The reason for using tabular + booktabs instead of tabularray is that
+tabularray is too slow when compiling.
+Also, tabular + booktabs is all you need.
+
+
+## License
+
+[MIT](LICENSE)
+
+
