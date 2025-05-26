@@ -1362,7 +1362,7 @@ multicolumn cells, multirow cells, cmidrules etc. and using the
 ### Why not tabularray?
 
 The reason for using tabular + booktabs instead of tabularray is that
-tabularray is too slow when compiling. Also, tabularray + booktabs is
+tabularray is too slow when compiling. Also, tabular + booktabs is
 all you need.
 
 ## License
