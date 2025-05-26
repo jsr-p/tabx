@@ -1,0 +1,19 @@
+# {py:mod}`tabx`
+
+```{py:module} tabx
+```
+
+```{autodoc2-docstring} tabx
+:allowtitles:
+```
+
+## Submodules
+
+```{toctree}
+:titlesonly:
+:maxdepth: 1
+
+tabx.utils
+tabx.custom
+tabx.table
+```

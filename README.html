@@ -1,0 +1,1645 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="API Reference" href="apidocs/index.html" /><link rel="prev" title="tabx documentation" href="index.html" />
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>tabx - compose LaTeX tables using booktabs in Python - tabx documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">tabx  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">tabx  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">tabx - compose LaTeX tables using booktabs in Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="apidocs/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="apidocs/tabx/tabx.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tabx</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of tabx</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="apidocs/tabx/tabx.utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tabx.utils</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="apidocs/tabx/tabx.custom.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tabx.custom</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="apidocs/tabx/tabx.table.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tabx.table</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/README.md.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="tabx-compose-latex-tables-using-booktabs-in-python">
+<h1>tabx - compose LaTeX tables using booktabs in Python<a class="headerlink" href="#tabx-compose-latex-tables-using-booktabs-in-python" title="Link to this heading">¶</a></h1>
+<p><img alt="Coverage Status" src="_images/coverage.svg" /></p>
+<blockquote>
+<div><p>tabular + booktabs is all you need</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tabx</span></code> is a Python library for creating LaTeX tables using the
+<a class="reference external" href="https://ctan.org/pkg/booktabs?lang=en">booktabs</a> package</p></li>
+<li><p>Features include:</p>
+<ul>
+<li><p>concatenate <code class="docutils literal notranslate"><span class="pre">Table</span></code>s (and other table-related LaTeX objects)
+horizontally and vertically using overloaded <code class="docutils literal notranslate"><span class="pre">|</span></code> and <code class="docutils literal notranslate"><span class="pre">/</span></code> operators</p></li>
+<li><p>slice tables using numpy-like indexing e.g. <code class="docutils literal notranslate"><span class="pre">table[1:,</span> <span class="pre">2:]</span></code></p></li>
+<li><p>no external dependencies</p></li>
+</ul>
+</li>
+<li><p>For a quick overview of functionality, see <a class="reference internal" href="#showcase"><span class="xref myst">showcase</span></a></p></li>
+<li><p>For a more in-depth tutorial, see <a class="reference internal" href="#tutorial"><span class="xref myst">tutorial</span></a></p></li>
+<li><p>For some wisdom, see <a class="reference internal" href="#wisdom-from-bookstabs"><span class="xref myst">wisdom from bookstabs</span></a></p></li>
+<li><p>For a list of examples, see <a class="reference internal" href="#examples"><span class="xref myst">examples</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#models-estimates-and-standard-errors"><span class="xref myst">Parameter estimates with standard errors
+underneath</span></a></p></li>
+<li><p><a class="reference internal" href="#descriptive-statistics"><span class="xref myst">Descriptive statistics</span></a></p></li>
+<li><p>… see the <a class="reference internal" href="#examples"><span class="xref myst">rest</span></a></p></li>
+</ul>
+</li>
+<li><p>See also the <a class="reference external" href="https://jsr-p.github.io/tabx/index.html">documentation</a></p></li>
+</ul>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>tabx-py
+</pre></div>
+</div>
+</section>
+<section id="showcase">
+<h2>Showcase<a class="headerlink" href="#showcase" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cell</span><span class="p">,</span> <span class="n">Table</span><span class="p">,</span> <span class="n">Cmidrule</span><span class="p">,</span> <span class="n">Midrule</span><span class="p">,</span> <span class="n">multirow_column</span><span class="p">,</span> <span class="n">multicolumn_row</span>
+
+<span class="n">C</span> <span class="o">=</span> <span class="n">Cell</span>
+
+<span class="n">base</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_cells</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="n">C</span><span class="p">(</span><span class="mf">3.14</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="mf">3.14</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="mf">3.14</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="mf">3.14</span><span class="p">)],</span>
+        <span class="p">[</span><span class="n">C</span><span class="p">(</span><span class="mf">1.62</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="mf">1.62</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="mf">1.62</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="mf">1.62</span><span class="p">)],</span>
+        <span class="p">[</span><span class="n">C</span><span class="p">(</span><span class="mf">1.41</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="mf">1.41</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="mf">1.41</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="mf">1.41</span><span class="p">)],</span>
+        <span class="p">[</span><span class="n">C</span><span class="p">(</span><span class="mf">2.72</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="mf">2.72</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="mf">2.72</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="mf">2.72</span><span class="p">)],</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">row_labels</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_cells</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">C</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\sigma = 0.1$&quot;</span><span class="p">),</span>
+        <span class="n">C</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\sigma = 0.3$&quot;</span><span class="p">),</span>
+        <span class="n">C</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\eta = 0.1$&quot;</span><span class="p">),</span>
+        <span class="n">C</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\eta = 0.3$&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="n">header</span> <span class="o">=</span> <span class="n">multicolumn_row</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\beta$&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">pad_before</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">|</span> <span class="n">multicolumn_row</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\gamma$&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">mr</span> <span class="o">=</span> <span class="n">multirow_column</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$R_</span><span class="si">{1}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">cmrs</span> <span class="o">=</span> <span class="n">Cmidrule</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;lr&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Cmidrule</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;lr&quot;</span><span class="p">)</span>
+<span class="c1"># Stack header on top of Cmidrules; stack row labels onto table from the left</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="n">header</span> <span class="o">/</span> <span class="n">cmrs</span> <span class="o">/</span> <span class="p">(</span><span class="n">mr</span> <span class="o">|</span> <span class="n">row_labels</span> <span class="o">|</span> <span class="n">base</span><span class="p">)</span>
+<span class="n">tab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>  <span class="c1"># Print table to stdout</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>\begin{tabular}{@{}cccccc@{}}
+  \toprule
+   &amp;  &amp; \multicolumn{2}{c}{$\beta$} &amp; \multicolumn{2}{c}{$\gamma$} \\
+  \cmidrule(lr){3-4}
+  \cmidrule(lr){5-6}
+  \multirow{4}{*}{$R_{1}$} &amp; $\sigma = 0.1$ &amp; 3.14 &amp; 3.14 &amp; 3.14 &amp; 3.14 \\
+   &amp; $\sigma = 0.3$ &amp; 1.62 &amp; 1.62 &amp; 1.62 &amp; 1.62 \\
+   &amp; $\eta = 0.1$ &amp; 1.41 &amp; 1.41 &amp; 1.41 &amp; 1.41 \\
+   &amp; $\eta = 0.3$ &amp; 2.72 &amp; 2.72 &amp; 2.72 &amp; 2.72 \\
+  \bottomrule
+\end{tabular}
+</pre></div>
+</div>
+<p>Compiling the table and converting to PNG yields:</p>
+<p><img alt="image" src="_images/showcase.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add some more complexity to the previous table</span>
+<span class="n">row_labels2</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_cells</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">C</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\xi = 0.1$&quot;</span><span class="p">),</span>
+        <span class="n">C</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\xi = 0.3$&quot;</span><span class="p">),</span>
+        <span class="n">C</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\delta = 0.1$&quot;</span><span class="p">),</span>
+        <span class="n">C</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\delta = 0.3$&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="n">header2</span> <span class="o">=</span> <span class="n">multicolumn_row</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\theta$&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">|</span> <span class="n">multicolumn_row</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mu$&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">mr</span> <span class="o">=</span> <span class="n">multirow_column</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$R_</span><span class="si">{2}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">tab2</span> <span class="o">=</span> <span class="n">mr</span> <span class="o">|</span> <span class="n">row_labels2</span> <span class="o">|</span> <span class="n">base</span>
+<span class="n">concat_tab</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="c1"># Stack header with Cmidrule above all columns</span>
+    <span class="p">(</span><span class="n">multicolumn_row</span><span class="p">(</span><span class="s2">&quot;All models&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">pad_before</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">Cmidrule</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="o">/</span> <span class="p">(</span>
+        <span class="c1"># Stack tables vertically with Midrule in between</span>
+        <span class="p">(</span><span class="n">tab</span> <span class="o">/</span> <span class="n">Midrule</span><span class="p">()</span> <span class="o">/</span> <span class="n">tab2</span><span class="p">)</span>
+        <span class="c1"># Stack the resulting table horizontally with the one below</span>
+        <span class="o">|</span> <span class="p">(</span>
+            <span class="c1"># Slice tables and stack new header on top</span>
+            <span class="c1"># Cmidrules start from 1 while no row labels for the right table</span>
+            <span class="n">header2</span>
+            <span class="o">/</span> <span class="p">(</span><span class="n">Cmidrule</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;lr&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Cmidrule</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;lr&quot;</span><span class="p">))</span>
+            <span class="o">/</span> <span class="n">tab</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span> <span class="mi">2</span><span class="p">:]</span>  <span class="c1"># Previous table sliced</span>
+            <span class="o">/</span> <span class="n">Midrule</span><span class="p">()</span>
+            <span class="o">/</span> <span class="n">tab2</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:]</span>  <span class="c1"># New table sliced</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">set_align</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="s2">&quot;l&quot;</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">*</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="n">concat_tab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>\begin{tabular}{@{}llcccccccc@{}}
+  \toprule
+   &amp;  &amp; \multicolumn{8}{c}{All models} \\
+  \cmidrule(lr){3-10}
+   &amp;  &amp; \multicolumn{2}{c}{$\beta$} &amp; \multicolumn{2}{c}{$\gamma$} &amp; \multicolumn{2}{c}{$\theta$} &amp; \multicolumn{2}{c}{$\mu$} \\
+  \cmidrule(lr){3-4}
+  \cmidrule(lr){5-6}
+  \cmidrule(lr){7-8}
+  \cmidrule(lr){9-10}
+  \multirow{4}{*}{$R_{1}$} &amp; $\sigma = 0.1$ &amp; 3.14 &amp; 3.14 &amp; 3.14 &amp; 3.14 &amp; 3.14 &amp; 3.14 &amp; 3.14 &amp; 3.14 \\
+   &amp; $\sigma = 0.3$ &amp; 1.62 &amp; 1.62 &amp; 1.62 &amp; 1.62 &amp; 1.62 &amp; 1.62 &amp; 1.62 &amp; 1.62 \\
+   &amp; $\eta = 0.1$ &amp; 1.41 &amp; 1.41 &amp; 1.41 &amp; 1.41 &amp; 1.41 &amp; 1.41 &amp; 1.41 &amp; 1.41 \\
+   &amp; $\eta = 0.3$ &amp; 2.72 &amp; 2.72 &amp; 2.72 &amp; 2.72 &amp; 2.72 &amp; 2.72 &amp; 2.72 &amp; 2.72 \\
+  \midrule
+  \multirow{4}{*}{$R_{2}$} &amp; $\xi = 0.1$ &amp; 3.14 &amp; 3.14 &amp; 3.14 &amp; 3.14 &amp; 3.14 &amp; 3.14 &amp; 3.14 &amp; 3.14 \\
+   &amp; $\xi = 0.3$ &amp; 1.62 &amp; 1.62 &amp; 1.62 &amp; 1.62 &amp; 1.62 &amp; 1.62 &amp; 1.62 &amp; 1.62 \\
+   &amp; $\delta = 0.1$ &amp; 1.41 &amp; 1.41 &amp; 1.41 &amp; 1.41 &amp; 1.41 &amp; 1.41 &amp; 1.41 &amp; 1.41 \\
+   &amp; $\delta = 0.3$ &amp; 2.72 &amp; 2.72 &amp; 2.72 &amp; 2.72 &amp; 2.72 &amp; 2.72 &amp; 2.72 &amp; 2.72 \\
+  \bottomrule
+\end{tabular}
+</pre></div>
+</div>
+<p>Compiling the table and converting to PNG yields:</p>
+<p><img alt="image" src="_images/showcase2.png" /></p>
+</details>
+</section>
+<hr class="docutils" />
+<section id="tutorial">
+<h2>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading">¶</a></h2>
+<details>
+<summary>
+</summary>
+<section id="cell-table-and-concatenation">
+<h3>Cell, Table, and concatenation<a class="headerlink" href="#cell-table-and-concatenation" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cell</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span>
+</pre></div>
+</div>
+<p>The most basic object is a <code class="docutils literal notranslate"><span class="pre">Cell</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cell</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+<span class="n">cell</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Cell(value=&quot;1&quot;, multirow=1, multicolumn=1)
+</pre></div>
+</div>
+<p>Rendering a cell returns it values as a <code class="docutils literal notranslate"><span class="pre">str</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cell</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&#39;1&#39;
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cell</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\alpha$&quot;</span><span class="p">)</span>
+<span class="n">cell</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&#39;$\\alpha$&#39;
+</pre></div>
+</div>
+<p>Cells can be concatenated with other cells. Concatenating three cells
+horizontally with the <code class="docutils literal notranslate"><span class="pre">|</span></code> operator yields a <code class="docutils literal notranslate"><span class="pre">Table</span></code> object of dimension
+(1, 3)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tab</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;3&quot;</span><span class="p">)</span>
+<span class="n">tab</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Table(nrows=1, ncols=3)
+</pre></div>
+</div>
+<p>Rendering this yields a <code class="docutils literal notranslate"><span class="pre">str</span></code> with the three cells concatenated wrapped
+inside a <code class="docutils literal notranslate"><span class="pre">tabular</span></code> environment ready to be used in a LaTeX document.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tab</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&#39;\\begin{tabular}{@{}ccc@{}}\n  \\toprule\n  1 &amp; 2 &amp; 3 \\\\\n  \\bottomrule\n\\end{tabular}&#39;
+</pre></div>
+</div>
+<p>Can also be done vertically with the <code class="docutils literal notranslate"><span class="pre">/</span></code> operator yielding a <code class="docutils literal notranslate"><span class="pre">Table</span></code>
+object of dimension (3, 1)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tab_other</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;3&quot;</span><span class="p">)</span>
+<span class="n">tab_other</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Table(nrows=3, ncols=1)
+</pre></div>
+</div>
+<p>We can concatenate a <code class="docutils literal notranslate"><span class="pre">Table</span></code> horizontally to stack the tables above each
+other. This is done using the <code class="docutils literal notranslate"><span class="pre">/</span></code> operator.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stacked_tab</span> <span class="o">=</span> <span class="n">tab</span> <span class="o">/</span> <span class="n">tab</span>
+<span class="n">stacked_tab</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Table(nrows=2, ncols=3)
+</pre></div>
+</div>
+<p>And we can concatenate another table onto it from below and then the
+other from the right</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stacked_tab2</span> <span class="o">=</span> <span class="p">(</span><span class="n">stacked_tab</span> <span class="o">/</span> <span class="n">tab</span><span class="p">)</span> <span class="o">|</span> <span class="n">tab_other</span>
+<span class="n">stacked_tab2</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Table(nrows=3, ncols=4)
+</pre></div>
+</div>
+<p>To print out how the table looks like, we can use the <code class="docutils literal notranslate"><span class="pre">print</span></code> method;
+this does not return anything but prints out the object to the console.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stacked_tab2</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>\begin{tabular}{@{}cccc@{}}
+  \toprule
+  1 &amp; 2 &amp; 3 &amp; 1 \\
+  1 &amp; 2 &amp; 3 &amp; 2 \\
+  1 &amp; 2 &amp; 3 &amp; 3 \\
+  \bottomrule
+\end{tabular}
+</pre></div>
+</div>
+<p>Say we want some columns name onto this table. This can be done:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stacked_tab3</span> <span class="o">=</span> <span class="p">(</span><span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">))</span> <span class="o">/</span> <span class="n">stacked_tab2</span>
+<span class="n">stacked_tab3</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>\begin{tabular}{@{}cccc@{}}
+  \toprule
+  A &amp; B &amp; C &amp; D \\
+  1 &amp; 2 &amp; 3 &amp; 1 \\
+  1 &amp; 2 &amp; 3 &amp; 2 \\
+  1 &amp; 2 &amp; 3 &amp; 3 \\
+  \bottomrule
+\end{tabular}
+</pre></div>
+</div>
+<p>Maybe we want a <code class="docutils literal notranslate"><span class="pre">Midrule</span></code> underneath the column names. This can be done
+as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Midrule</span>
+
+<span class="n">stacked_tab3</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">))</span> <span class="o">/</span> <span class="n">Midrule</span><span class="p">()</span> <span class="o">/</span> <span class="n">stacked_tab2</span>
+<span class="p">)</span>
+<span class="n">stacked_tab3</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>\begin{tabular}{@{}cccc@{}}
+  \toprule
+  A &amp; B &amp; C &amp; D \\
+  \midrule
+  1 &amp; 2 &amp; 3 &amp; 1 \\
+  1 &amp; 2 &amp; 3 &amp; 2 \\
+  1 &amp; 2 &amp; 3 &amp; 3 \\
+  \bottomrule
+\end{tabular}
+</pre></div>
+</div>
+<p>Let add some variable names on the left side. We can construct a column
+as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">row_labels</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="c1"># The header row and Midrule row shouldn&#39;t get a label hence empty cells</span>
+    <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;Var1&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;Var2&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;Var3&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">stacked_tab3</span> <span class="o">=</span> <span class="n">row_labels</span> <span class="o">|</span> <span class="n">stacked_tab3</span>
+<span class="n">stacked_tab3</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>\begin{tabular}{@{}ccccc@{}}
+  \toprule
+   &amp; A &amp; B &amp; C &amp; D \\
+  \midrule
+  Var1 &amp; 1 &amp; 2 &amp; 3 &amp; 1 \\
+  Var2 &amp; 1 &amp; 2 &amp; 3 &amp; 2 \\
+  Var3 &amp; 1 &amp; 2 &amp; 3 &amp; 3 \\
+  \bottomrule
+\end{tabular}
+</pre></div>
+</div>
+<p>If you have a LaTeX compiler in your path, you can compile the table to
+a PDF and convert it to a PNG using <code class="docutils literal notranslate"><span class="pre">tabx.utils.compile_table</span></code> and
+<code class="docutils literal notranslate"><span class="pre">tabx.utils.pdf_to_png</span></code> respectively.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_table</span><span class="p">(</span>
+    <span class="n">stacked_tab2</span><span class="o">.</span><span class="n">render</span><span class="p">(),</span>
+    <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tutorial&quot;</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">proj_folder</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;figs&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">pdf_to_png</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Compiling the table to PDF and converting it to PNG yields:</p>
+<p><img alt="image" src="_images/tutorial.png" /></p>
+</section>
+<hr class="docutils" />
+<section id="slicing-tables">
+<h3>Slicing tables<a class="headerlink" href="#slicing-tables" title="Link to this heading">¶</a></h3>
+<p>Tables can be sliced like numpy arrays.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Slice out the row label column</span>
+<span class="n">sliced_tab</span> <span class="o">=</span> <span class="n">stacked_tab3</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+<span class="n">sliced_tab</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Table(nrows=5, ncols=4)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sliced_tab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>\begin{tabular}{@{}cccc@{}}
+  \toprule
+  A &amp; B &amp; C &amp; D \\
+  \midrule
+  1 &amp; 2 &amp; 3 &amp; 1 \\
+  1 &amp; 2 &amp; 3 &amp; 2 \\
+  1 &amp; 2 &amp; 3 &amp; 3 \\
+  \bottomrule
+\end{tabular}
+</pre></div>
+</div>
+<p>Lets concatenate the sliced table to the original table, add a header
+above the columns of each concatenated table and two <code class="docutils literal notranslate"><span class="pre">Cmidrule</span></code>s between
+to distinguish the two tables.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cmidrule</span>
+
+<span class="n">tab</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="c1"># Add a header row; one empty cell for the row label column</span>
+    <span class="p">(</span><span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;Table 1&quot;</span><span class="p">,</span> <span class="n">multicolumn</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">|</span> <span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;Table 2&quot;</span><span class="p">,</span> <span class="n">multicolumn</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+    <span class="c1"># Insert Cmidrules after columns</span>
+    <span class="o">/</span> <span class="p">(</span><span class="n">Cmidrule</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">trim</span><span class="o">=</span><span class="s2">&quot;lr&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Cmidrule</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">trim</span><span class="o">=</span><span class="s2">&quot;lr&quot;</span><span class="p">))</span>
+    <span class="c1"># Stack header row and Cmidrules above the concatenated tables</span>
+    <span class="o">/</span> <span class="p">(</span><span class="n">stacked_tab3</span> <span class="o">|</span> <span class="n">sliced_tab</span><span class="p">)</span>
+    <span class="c1"># Left align the first column and center the rest</span>
+    <span class="o">.</span><span class="n">set_align</span><span class="p">(</span><span class="s2">&quot;l&quot;</span> <span class="o">+</span> <span class="s2">&quot;c&quot;</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">tab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+<span class="n">file</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_table</span><span class="p">(</span>
+    <span class="n">tab</span><span class="o">.</span><span class="n">render</span><span class="p">(),</span>
+    <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tutorial2&quot;</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">proj_folder</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;figs&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">pdf_to_png</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>\begin{tabular}{@{}ccccccccc@{}}
+  \toprule
+   &amp; \multicolumn{4}{c}{Table 1} &amp; \multicolumn{4}{c}{Table 2} \\
+  \cmidrule(lr){2-5}
+  \cmidrule(lr){6-9}
+   &amp; A &amp; B &amp; C &amp; D &amp; A &amp; B &amp; C &amp; D \\
+  \midrule
+  Var1 &amp; 1 &amp; 2 &amp; 3 &amp; 1 &amp; 1 &amp; 2 &amp; 3 &amp; 1 \\
+  Var2 &amp; 1 &amp; 2 &amp; 3 &amp; 2 &amp; 1 &amp; 2 &amp; 3 &amp; 2 \\
+  Var3 &amp; 1 &amp; 2 &amp; 3 &amp; 3 &amp; 1 &amp; 2 &amp; 3 &amp; 3 \\
+  \bottomrule
+\end{tabular}
+</pre></div>
+</div>
+<p><img alt="image" src="_images/tutorial2.png" /></p>
+<p>Okay let’s have some fun. We’ll slice out the upper part of the previous
+table, concatenate the sliced table onto it from below and then
+concatenate a column of multirow labels on the left. Let’s see it in
+action instead of the just read word salad:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">empty_table</span>
+
+<span class="n">multirow_labels</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">empty_table</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="o">/</span> <span class="n">Midrule</span><span class="p">()</span>
+    <span class="c1"># A multirow label spanning 3 rows should be followed by 2 empty cells</span>
+    <span class="o">/</span> <span class="p">(</span><span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;Label 1&quot;</span><span class="p">,</span> <span class="n">multirow</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="n">empty_table</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="o">/</span> <span class="n">Midrule</span><span class="p">()</span>
+    <span class="o">/</span> <span class="p">(</span><span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;Label 2&quot;</span><span class="p">,</span> <span class="n">multirow</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="n">empty_table</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="n">tab_new</span> <span class="o">=</span> <span class="n">multirow_labels</span> <span class="o">|</span> <span class="p">(</span><span class="n">tab</span> <span class="o">/</span> <span class="n">tab</span><span class="p">[</span><span class="mi">3</span><span class="p">:,</span> <span class="p">:])</span>
+<span class="n">tab_new</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+<span class="n">file</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_table</span><span class="p">(</span>
+    <span class="n">tab_new</span><span class="o">.</span><span class="n">render</span><span class="p">(),</span>
+    <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tutorial3&quot;</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">proj_folder</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;figs&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">pdf_to_png</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>\begin{tabular}{@{}cccccccccc@{}}
+  \toprule
+   &amp;  &amp; \multicolumn{4}{c}{Table 1} &amp; \multicolumn{4}{c}{Table 2} \\
+  \cmidrule(lr){3-6}
+  \cmidrule(lr){7-10}
+   &amp;  &amp; A &amp; B &amp; C &amp; D &amp; A &amp; B &amp; C &amp; D \\
+  \midrule
+  \multirow{3}{*}{Label 1} &amp; Var1 &amp; 1 &amp; 2 &amp; 3 &amp; 1 &amp; 1 &amp; 2 &amp; 3 &amp; 1 \\
+   &amp; Var2 &amp; 1 &amp; 2 &amp; 3 &amp; 2 &amp; 1 &amp; 2 &amp; 3 &amp; 2 \\
+   &amp; Var3 &amp; 1 &amp; 2 &amp; 3 &amp; 3 &amp; 1 &amp; 2 &amp; 3 &amp; 3 \\
+  \midrule
+  \multirow{3}{*}{Label 2} &amp; Var1 &amp; 1 &amp; 2 &amp; 3 &amp; 1 &amp; 1 &amp; 2 &amp; 3 &amp; 1 \\
+   &amp; Var2 &amp; 1 &amp; 2 &amp; 3 &amp; 2 &amp; 1 &amp; 2 &amp; 3 &amp; 2 \\
+   &amp; Var3 &amp; 1 &amp; 2 &amp; 3 &amp; 3 &amp; 1 &amp; 2 &amp; 3 &amp; 3 \\
+  \bottomrule
+\end{tabular}
+</pre></div>
+</div>
+<p><img alt="image" src="_images/tutorial3.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+
+<span class="c1"># Renders the table body without the tabular environment</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tab_new</span><span class="o">.</span><span class="n">render_body</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> &amp;  &amp; \multicolumn{4}{c}{Table 1} &amp; \multicolumn{4}{c}{Table 2} \\
+\cmidrule(lr){3-6}
+\cmidrule(lr){7-10}
+ &amp;  &amp; A &amp; B &amp; C &amp; D &amp; A &amp; B &amp; C &amp; D \\
+\midrule
+\multirow{3}{*}{Label 1} &amp; Var1 &amp; 1 &amp; 2 &amp; 3 &amp; 1 &amp; 1 &amp; 2 &amp; 3 &amp; 1 \\
+ &amp; Var2 &amp; 1 &amp; 2 &amp; 3 &amp; 2 &amp; 1 &amp; 2 &amp; 3 &amp; 2 \\
+ &amp; Var3 &amp; 1 &amp; 2 &amp; 3 &amp; 3 &amp; 1 &amp; 2 &amp; 3 &amp; 3 \\
+\midrule
+\multirow{3}{*}{Label 2} &amp; Var1 &amp; 1 &amp; 2 &amp; 3 &amp; 1 &amp; 1 &amp; 2 &amp; 3 &amp; 1 \\
+ &amp; Var2 &amp; 1 &amp; 2 &amp; 3 &amp; 2 &amp; 1 &amp; 2 &amp; 3 &amp; 2 \\
+ &amp; Var3 &amp; 1 &amp; 2 &amp; 3 &amp; 3 &amp; 1 &amp; 2 &amp; 3 &amp; 3 \\
+</pre></div>
+</div>
+</section>
+<section id="custom-render-function">
+<h3>Custom render function<a class="headerlink" href="#custom-render-function" title="Link to this heading">¶</a></h3>
+<p>A custom rendering function can be used to render the body of a table.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">render_body_simple</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">align</span> <span class="o">:=</span> <span class="n">table</span><span class="o">.</span><span class="n">align</span><span class="p">):</span>
+        <span class="n">align</span> <span class="o">=</span> <span class="s2">&quot;c&quot;</span> <span class="o">*</span> <span class="n">table</span><span class="o">.</span><span class="n">ncols</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="sa">r</span><span class="s2">&quot;\begin</span><span class="si">{tabular}</span><span class="s2">{&quot;</span> <span class="o">+</span> <span class="n">align</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;}&quot;</span><span class="p">,</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">render_body</span><span class="p">(),</span>
+            <span class="sa">r</span><span class="s2">&quot;\end</span><span class="si">{tabular}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">tab_new</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">custom_render</span><span class="o">=</span><span class="n">render_body_simple</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>\begin{tabular}{cccccccccc}
+ &amp;  &amp; \multicolumn{4}{c}{Table 1} &amp; \multicolumn{4}{c}{Table 2} \\
+\cmidrule(lr){3-6}
+\cmidrule(lr){7-10}
+ &amp;  &amp; A &amp; B &amp; C &amp; D &amp; A &amp; B &amp; C &amp; D \\
+\midrule
+\multirow{3}{*}{Label 1} &amp; Var1 &amp; 1 &amp; 2 &amp; 3 &amp; 1 &amp; 1 &amp; 2 &amp; 3 &amp; 1 \\
+ &amp; Var2 &amp; 1 &amp; 2 &amp; 3 &amp; 2 &amp; 1 &amp; 2 &amp; 3 &amp; 2 \\
+ &amp; Var3 &amp; 1 &amp; 2 &amp; 3 &amp; 3 &amp; 1 &amp; 2 &amp; 3 &amp; 3 \\
+\midrule
+\multirow{3}{*}{Label 2} &amp; Var1 &amp; 1 &amp; 2 &amp; 3 &amp; 1 &amp; 1 &amp; 2 &amp; 3 &amp; 1 \\
+ &amp; Var2 &amp; 1 &amp; 2 &amp; 3 &amp; 2 &amp; 1 &amp; 2 &amp; 3 &amp; 2 \\
+ &amp; Var3 &amp; 1 &amp; 2 &amp; 3 &amp; 3 &amp; 1 &amp; 2 &amp; 3 &amp; 3 \\
+\end{tabular}
+</pre></div>
+</div>
+</section>
+<section id="utility-functions">
+<h3>Utility functions<a class="headerlink" href="#utility-functions" title="Link to this heading">¶</a></h3>
+<p>The function <code class="docutils literal notranslate"><span class="pre">empty_table</span></code> is convienient for creating empty cells of
+dimension (nrows, ncols) as fillers.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span>
+<span class="n">empty_table</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Table(nrows=3, ncols=5)
+</pre></div>
+</div>
+<p>The notation for the multirow cells above is a bit verbose. The function
+<code class="docutils literal notranslate"><span class="pre">multirow_column</span></code> is a wrapper for creating a multirow column with
+padding before and after the multirow cell.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">multirow_column</span>
+
+<span class="n">mr</span> <span class="o">=</span> <span class="n">multirow_column</span><span class="p">(</span><span class="s2">&quot;Label1&quot;</span><span class="p">,</span> <span class="n">multirow</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">pad_before</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pad_after</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Columns(nrows=7, ncols=1)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mr</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> \\
+ \\
+\multirow{3}{*}{Label1} \\
+ \\
+ \\
+ \\
+ \\
+</pre></div>
+</div>
+<p>We can write the <code class="docutils literal notranslate"><span class="pre">multirow_labels</span></code> column from before as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">multirow_labels_succ</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="c1"># A multirow label spanning 3 rows should be followed by 2 empty cells</span>
+    <span class="n">empty_table</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="o">/</span> <span class="n">Midrule</span><span class="p">()</span>
+    <span class="o">/</span> <span class="n">multirow_column</span><span class="p">(</span><span class="s2">&quot;Label 1&quot;</span><span class="p">,</span> <span class="n">multirow</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="o">/</span> <span class="n">Midrule</span><span class="p">()</span>
+    <span class="o">/</span> <span class="n">multirow_column</span><span class="p">(</span><span class="s2">&quot;Label 2&quot;</span><span class="p">,</span> <span class="n">multirow</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">multirow_labels_succ</span><span class="o">.</span><span class="n">rows</span> <span class="o">==</span> <span class="n">multirow_labels</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</details>
+<!-- NOTE: we need the `---` here else the headers float to the top for some
+reason -->
+</section>
+</section>
+<hr class="docutils" />
+<section id="wisdom-from-bookstabs">
+<h2>Wisdom from bookstabs<a class="headerlink" href="#wisdom-from-bookstabs" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><p>You will not go far wrong if you remember two simple guidelines at all
+times:</p>
+<ol class="arabic simple">
+<li><p>Never, ever use vertical rules.</p></li>
+<li><p>Never use double rules.</p></li>
+</ol>
+</div></blockquote>
+<p>See Section 2
+<a class="reference external" href="https://mirrors.dotsrc.org/ctan/macros/latex/contrib/booktabs/booktabs.pdf">here</a>
+for more wisdom.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<section id="models-estimates-and-standard-errors">
+<h3>Models estimates and standard errors<a class="headerlink" href="#models-estimates-and-standard-errors" title="Link to this heading">¶</a></h3>
+<details>
+<summary>
+</summary>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tabx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColMap</span><span class="p">,</span> <span class="n">utils</span>
+
+
+<span class="n">m1</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;v1&quot;</span><span class="p">,</span> <span class="s2">&quot;v2&quot;</span><span class="p">,</span> <span class="s2">&quot;v3&quot;</span><span class="p">,</span> <span class="s2">&quot;v4&quot;</span><span class="p">,</span> <span class="s2">&quot;v5&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;estimates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="s2">&quot;se&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+    <span class="s2">&quot;extra_data&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="sa">r</span><span class="s2">&quot;$n$&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s2">&quot;FE&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;\checkmark&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+<span class="n">m2</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;e1&quot;</span><span class="p">,</span> <span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="s2">&quot;e3&quot;</span><span class="p">,</span> <span class="s2">&quot;e4&quot;</span><span class="p">,</span> <span class="s2">&quot;e5&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;estimates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.34</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="s2">&quot;se&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+    <span class="s2">&quot;extra_data&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="sa">r</span><span class="s2">&quot;$n$&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s2">&quot;$t$-stat&quot;</span><span class="p">:</span> <span class="mf">2.3</span><span class="p">,</span>
+        <span class="s2">&quot;FE&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+<span class="n">m3</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;v1&quot;</span><span class="p">,</span> <span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="s2">&quot;e3&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$\gamma$&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;estimates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="s2">&quot;se&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s2">&quot;0.0400&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;extra_data&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;FE&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;\checkmark&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+<span class="n">m4</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;v1&quot;</span><span class="p">,</span> <span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="s2">&quot;e3&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$\gamma$&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;estimates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="s2">&quot;se&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s2">&quot;0.0400&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+<span class="n">mod1</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">ModelData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;(M1)&quot;</span><span class="p">)</span>
+<span class="n">mod2</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">ModelData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;(M2)&quot;</span><span class="p">)</span>
+<span class="n">mod3</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">ModelData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">m3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;(M3)&quot;</span><span class="p">)</span>
+<span class="n">mod4</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">ModelData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">m4</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;(M4)&quot;</span><span class="p">)</span>
+<span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">mod1</span><span class="p">,</span> <span class="n">mod2</span><span class="p">,</span> <span class="n">mod3</span><span class="p">,</span> <span class="n">mod4</span><span class="p">]</span>
+
+<span class="n">variables</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;v1&quot;</span><span class="p">,</span> <span class="s2">&quot;v2&quot;</span><span class="p">,</span> <span class="s2">&quot;v3&quot;</span><span class="p">,</span> <span class="s2">&quot;v4&quot;</span><span class="p">,</span> <span class="s2">&quot;v5&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;e1&quot;</span><span class="p">,</span> <span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="s2">&quot;e3&quot;</span><span class="p">,</span> <span class="s2">&quot;e4&quot;</span><span class="p">,</span> <span class="s2">&quot;e5&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="sa">r</span><span class="s2">&quot;$\gamma$&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">order_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">))))</span> <span class="o">|</span> <span class="p">{</span>
+    <span class="s2">&quot;session&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="sa">r</span><span class="s2">&quot;$n$&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;$t$-stat&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">models_table</span><span class="p">(</span>
+    <span class="n">models</span><span class="p">,</span>
+    <span class="n">col_maps</span><span class="o">=</span><span class="n">ColMap</span><span class="p">(</span>
+        <span class="n">mapping</span><span class="o">=</span><span class="p">{</span>
+            <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="sa">r</span><span class="s2">&quot;\texttt</span><span class="si">{Outcome1}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span> <span class="sa">r</span><span class="s2">&quot;\texttt</span><span class="si">{Outcome2}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">),</span>
+    <span class="n">var_name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">order_map</span><span class="o">=</span><span class="n">order_map</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="image" src="_images/models_example.png" /></p>
+</details>
+<br>
+</section>
+<section id="descriptive-statistics">
+<h3>Descriptive statistics<a class="headerlink" href="#descriptive-statistics" title="Link to this heading">¶</a></h3>
+<details>
+<summary>
+</summary>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tabx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColMap</span><span class="p">,</span> <span class="n">RowMap</span><span class="p">,</span> <span class="n">utils</span>
+
+
+<span class="n">m1</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;v1&quot;</span><span class="p">,</span> <span class="s2">&quot;v2&quot;</span><span class="p">,</span> <span class="s2">&quot;v3&quot;</span><span class="p">,</span> <span class="s2">&quot;v4&quot;</span><span class="p">,</span> <span class="s2">&quot;v5&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="s2">&quot;extra_data&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="sa">r</span><span class="s2">&quot;$n$&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s2">&quot;session&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+<span class="n">m2</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;e1&quot;</span><span class="p">,</span> <span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="s2">&quot;e3&quot;</span><span class="p">,</span> <span class="s2">&quot;e4&quot;</span><span class="p">,</span> <span class="s2">&quot;Something&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="s2">&quot;extra_data&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="sa">r</span><span class="s2">&quot;$n$&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s2">&quot;tstat&quot;</span><span class="p">:</span> <span class="mf">2.3</span><span class="p">,</span>
+        <span class="s2">&quot;session&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+<span class="n">m3</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;v1&quot;</span><span class="p">,</span> <span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="s2">&quot;e3&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$\gamma$&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="s2">&quot;se&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s2">&quot;0.0400&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">mod1</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">DescData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;\texttt</span><span class="si">{Outcome1}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">mod2</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">DescData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;\texttt</span><span class="si">{Outcome2}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">mod3</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">DescData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">m3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;\texttt</span><span class="si">{Outcome3}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">descs</span> <span class="o">=</span> <span class="p">[</span><span class="n">mod1</span><span class="p">,</span> <span class="n">mod2</span><span class="p">,</span> <span class="n">mod3</span><span class="p">,</span> <span class="n">mod1</span><span class="p">,</span> <span class="n">mod2</span><span class="p">,</span> <span class="n">mod3</span><span class="p">]</span>
+
+<span class="n">variables</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;Something&quot;</span><span class="p">,</span> <span class="s2">&quot;v2&quot;</span><span class="p">,</span> <span class="s2">&quot;v3&quot;</span><span class="p">,</span> <span class="s2">&quot;v4&quot;</span><span class="p">,</span> <span class="s2">&quot;v5&quot;</span><span class="p">]</span>
+    <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;e1&quot;</span><span class="p">,</span> <span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="s2">&quot;e3&quot;</span><span class="p">,</span> <span class="s2">&quot;e4&quot;</span><span class="p">,</span> <span class="s2">&quot;e5&quot;</span><span class="p">]</span>
+    <span class="o">+</span> <span class="p">[</span><span class="sa">r</span><span class="s2">&quot;$\gamma$&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">order_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">))))</span> <span class="o">|</span> <span class="p">{</span>
+    <span class="s2">&quot;session&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="sa">r</span><span class="s2">&quot;$n$&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;tstat&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="n">tab</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">descriptives_table</span><span class="p">(</span>
+    <span class="n">descs</span><span class="p">,</span>
+    <span class="n">col_maps</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">ColMap</span><span class="p">(</span>
+            <span class="n">mapping</span><span class="o">=</span><span class="p">{</span>
+                <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span> <span class="sa">r</span><span class="s2">&quot;Full experiment&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="n">include_cmidrule</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">ColMap</span><span class="p">(</span>
+            <span class="n">mapping</span><span class="o">=</span><span class="p">{</span>
+                <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="sa">r</span><span class="s2">&quot;Col group 1&quot;</span><span class="p">,</span>
+                <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span> <span class="sa">r</span><span class="s2">&quot;Col group 2&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="n">include_cmidrule</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">order_map</span><span class="o">=</span><span class="n">order_map</span><span class="p">,</span>
+    <span class="n">include_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">include_extra</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">row_maps</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">RowMap</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">):</span> <span class="sa">r</span><span class="s2">&quot;All&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">),</span>
+        <span class="n">RowMap</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span> <span class="sa">r</span><span class="s2">&quot;Row group 1&quot;</span><span class="p">,</span>
+                <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">):</span> <span class="sa">r</span><span class="s2">&quot;Row group 2&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">fill_value</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="image" src="_images/desc_example.png" /></p>
+</details>
+<br>
+</section>
+<section id="scientific-table-1">
+<h3>Scientific Table 1<a class="headerlink" href="#scientific-table-1" title="Link to this heading">¶</a></h3>
+<details>
+<summary>
+</summary>
+<p>Example from:
+<a class="reference external" href="https://lazyscientist.wordpress.com/2021/07/23/make-better-tables-in-latex-using-booktabs/">here</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tabx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">DescData</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">Cmidrule</span>
+
+
+<span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;</span><span class="si">{A}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{B}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{C}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{D}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{Avg}</span><span class="s2">&quot;</span><span class="p">]</span>
+<span class="n">values</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;Density (g/mL)&quot;</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.04</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">,</span> <span class="mf">1.109</span><span class="p">,</span> <span class="mf">1.07</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;Mass (g)&quot;</span><span class="p">,</span> <span class="mf">1.399</span><span class="p">,</span> <span class="mf">1.32</span><span class="p">,</span> <span class="mf">1.328</span><span class="p">,</span> <span class="mf">1.408</span><span class="p">,</span> <span class="mf">1.364</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;Mass w/ Precipitate (g)&quot;</span><span class="p">,</span> <span class="mf">13.443</span><span class="p">,</span> <span class="mf">13.401</span><span class="p">,</span> <span class="mf">13.348</span><span class="p">,</span> <span class="s2">&quot;{---}&quot;</span><span class="p">,</span> <span class="mf">13.397</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;Mass AgCl (</span><span class="se">\\</span><span class="s2">num{e-2} g)&quot;</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">9.2</span><span class="p">,</span> <span class="mf">8.7</span><span class="p">,</span> <span class="s2">&quot;{---}&quot;</span><span class="p">,</span> <span class="mf">8.9</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;Moles AgCl (</span><span class="se">\\</span><span class="s2">num{e-4} mol&quot;</span><span class="p">,</span> <span class="mf">6.28</span><span class="p">,</span> <span class="mf">6.42</span><span class="p">,</span> <span class="mf">6.08</span><span class="p">,</span> <span class="s2">&quot;{---}&quot;</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">],</span>
+<span class="p">]</span>
+<span class="n">desc_datas</span> <span class="o">=</span> <span class="n">DescData</span><span class="o">.</span><span class="n">from_values</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">column_names</span><span class="o">=</span><span class="n">column_names</span><span class="p">)</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">tabx</span><span class="o">.</span><span class="n">descriptives_table</span><span class="p">(</span>
+        <span class="n">desc_datas</span><span class="p">,</span>
+        <span class="n">col_maps</span><span class="o">=</span><span class="n">tabx</span><span class="o">.</span><span class="n">ColMap</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span> <span class="sa">r</span><span class="s2">&quot;Test Tubes&quot;</span><span class="p">}),</span>
+        <span class="n">var_name</span><span class="o">=</span><span class="s2">&quot;Qty of Sample&quot;</span><span class="p">,</span>
+        <span class="n">include_midrule</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">insert_row</span><span class="p">(</span>
+        <span class="n">Cmidrule</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Cmidrule</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;rl&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Cmidrule</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;l&quot;</span><span class="p">),</span>
+        <span class="n">index</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">set_align</span><span class="p">(</span><span class="s2">&quot;l&quot;</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">*</span> <span class="s2">&quot;S&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">file</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_table</span><span class="p">(</span>
+    <span class="n">tab</span><span class="o">.</span><span class="n">render</span><span class="p">(),</span>
+    <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;booktabs1&quot;</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">proj_folder</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;figs&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">pdf_to_png</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Compiling the table to PDF and converting it to PNG yields:</p>
+<p><img alt="image" src="_images/booktabs1.png" /></p>
+</details>
+<br>
+</section>
+<section id="scientific-table-2">
+<h3>Scientific Table 2<a class="headerlink" href="#scientific-table-2" title="Link to this heading">¶</a></h3>
+<details>
+<summary>
+</summary>
+<p>Example from:
+<a class="reference external" href="https://nhigham.com/2019/11/19/better-latex-tables-with-booktabs/">here</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tabx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">DescData</span><span class="p">,</span> <span class="n">utils</span>
+
+
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="sa">r</span><span class="s2">&quot;\texttt</span><span class="si">{trigmv}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">r</span><span class="s2">&quot;\texttt{trig\_expmv}&quot;</span><span class="p">,</span>
+    <span class="sa">r</span><span class="s2">&quot;\texttt{trig\_block}&quot;</span><span class="p">,</span>
+    <span class="sa">r</span><span class="s2">&quot;\texttt</span><span class="si">{expleja}</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">desc_datas</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">DescData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">names</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">11034</span><span class="p">,</span> <span class="mi">21952</span><span class="p">,</span> <span class="mi">15883</span><span class="p">,</span> <span class="mi">11180</span><span class="p">]},</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;$mv$&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">DescData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">names</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.3e-7</span><span class="p">,</span> <span class="mf">1.3e-7</span><span class="p">,</span> <span class="mf">5.2e-8</span><span class="p">,</span> <span class="mf">8.0e-9</span><span class="p">]},</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Rel.~err&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">DescData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">names</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.9</span><span class="p">,</span> <span class="mf">6.2</span><span class="p">,</span> <span class="mf">7.1</span><span class="p">,</span> <span class="mf">4.3</span><span class="p">]},</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">DescData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">names</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">15846</span><span class="p">,</span> <span class="mi">31516</span><span class="p">,</span> <span class="mi">32023</span><span class="p">,</span> <span class="mi">17348</span><span class="p">]},</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;$mv$&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">DescData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">names</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.7e-11</span><span class="p">,</span> <span class="mf">2.7e-11</span><span class="p">,</span> <span class="mf">1.1e-11</span><span class="p">,</span> <span class="mf">1.5e-11</span><span class="p">]},</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Rel.~err&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">DescData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">names</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.6</span><span class="p">,</span> <span class="mf">8.8</span><span class="p">,</span> <span class="mf">14.0</span><span class="p">,</span> <span class="mf">6.6</span><span class="p">]},</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">]</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">descriptives_table</span><span class="p">(</span>
+    <span class="n">desc_datas</span><span class="p">,</span>
+    <span class="n">col_maps</span><span class="o">=</span><span class="n">tabx</span><span class="o">.</span><span class="n">ColMap</span><span class="p">(</span>
+        <span class="n">mapping</span><span class="o">=</span><span class="p">{</span>
+            <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="sa">r</span><span class="s2">&quot;$\text</span><span class="si">{tol}</span><span class="s2">=u_{\text</span><span class="si">{single}</span><span class="s2">}$&quot;</span><span class="p">,</span>
+            <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span> <span class="sa">r</span><span class="s2">&quot;$\text</span><span class="si">{tol}</span><span class="s2">=u_{\text</span><span class="si">{double}</span><span class="s2">}$&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">),</span>
+    <span class="n">var_name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">include_midrule</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">file</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_table</span><span class="p">(</span>
+    <span class="n">tab</span><span class="o">.</span><span class="n">render</span><span class="p">(),</span>
+    <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;booktabs2&quot;</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">proj_folder</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;figs&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">pdf_to_png</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Compiling the table to PDF and converting it to PNG yields:</p>
+<p><img alt="image" src="_images/booktabs2.png" /></p>
+<p>The above is a bit verbose. If you have the data as a list of lists, you
+can use <code class="docutils literal notranslate"><span class="pre">DescData.from_values</span></code> to create the table as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;$mv$&quot;</span><span class="p">,</span> <span class="s2">&quot;Rel.~err&quot;</span><span class="p">,</span> <span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="s2">&quot;$mv$&quot;</span><span class="p">,</span> <span class="s2">&quot;Rel.~err&quot;</span><span class="p">,</span> <span class="s2">&quot;Time&quot;</span><span class="p">]</span>
+<span class="n">values</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">texttt</span><span class="si">{trigmv}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="mi">11034</span><span class="p">,</span> <span class="mf">1.3e-07</span><span class="p">,</span> <span class="mf">3.9</span><span class="p">,</span> <span class="mi">15846</span><span class="p">,</span> <span class="mf">2.7e-11</span><span class="p">,</span> <span class="mf">5.6</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">texttt{trig</span><span class="se">\\</span><span class="s2">_expmv}&quot;</span><span class="p">,</span> <span class="mi">21952</span><span class="p">,</span> <span class="mf">1.3e-07</span><span class="p">,</span> <span class="mf">6.2</span><span class="p">,</span> <span class="mi">31516</span><span class="p">,</span> <span class="mf">2.7e-11</span><span class="p">,</span> <span class="mf">8.8</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">texttt{trig</span><span class="se">\\</span><span class="s2">_block}&quot;</span><span class="p">,</span> <span class="mi">15883</span><span class="p">,</span> <span class="mf">5.2e-08</span><span class="p">,</span> <span class="mf">7.1</span><span class="p">,</span> <span class="mi">32023</span><span class="p">,</span> <span class="mf">1.1e-11</span><span class="p">,</span> <span class="mf">14.0</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">texttt</span><span class="si">{expleja}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="mi">11180</span><span class="p">,</span> <span class="mf">8e-09</span><span class="p">,</span> <span class="mf">4.3</span><span class="p">,</span> <span class="mi">17348</span><span class="p">,</span> <span class="mf">1.5e-11</span><span class="p">,</span> <span class="mf">6.6</span><span class="p">],</span>
+<span class="p">]</span>
+<span class="n">desc_datas</span> <span class="o">=</span> <span class="n">DescData</span><span class="o">.</span><span class="n">from_values</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">column_names</span><span class="o">=</span><span class="n">column_names</span><span class="p">)</span>
+<span class="n">tab_other</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">descriptives_table</span><span class="p">(</span>
+    <span class="n">desc_datas</span><span class="p">,</span>
+    <span class="n">col_maps</span><span class="o">=</span><span class="n">tabx</span><span class="o">.</span><span class="n">ColMap</span><span class="p">(</span>
+        <span class="n">mapping</span><span class="o">=</span><span class="p">{</span>
+            <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="sa">r</span><span class="s2">&quot;$\text</span><span class="si">{tol}</span><span class="s2">=u_{\text</span><span class="si">{single}</span><span class="s2">}$&quot;</span><span class="p">,</span>
+            <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span> <span class="sa">r</span><span class="s2">&quot;$\text</span><span class="si">{tol}</span><span class="s2">=u_{\text</span><span class="si">{double}</span><span class="s2">}$&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">),</span>
+    <span class="n">var_name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">include_midrule</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tab</span> <span class="o">==</span> <span class="n">tab_other</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</details>
+<br>
+</section>
+<section id="great-tables">
+<h3>Great Tables<a class="headerlink" href="#great-tables" title="Link to this heading">¶</a></h3>
+<details>
+<summary>
+</summary>
+<p><strong>Great Tables table</strong></p>
+<p>Construct a table from its components as shown in in <a class="reference external" href="https://posit-dev.github.io/great-tables/articles/intro.html">Great
+Tables</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">See: https://posit-dev.github.io/great-tables/articles/intro.html</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">tabx</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">Cmidrule</span><span class="p">,</span> <span class="n">Midrule</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cell</span> <span class="k">as</span> <span class="n">C</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">multicolumn_row</span><span class="p">,</span> <span class="n">multirow_column</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">compile_table</span><span class="p">,</span> <span class="n">render_body_no_rules</span><span class="p">,</span> <span class="n">pdf_to_png</span>
+
+
+<span class="n">vals</span> <span class="o">=</span> <span class="p">[[</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
+<span class="n">colsums</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">vals</span><span class="p">)]</span>
+<span class="n">table_body</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_values</span><span class="p">(</span><span class="n">vals</span> <span class="o">+</span> <span class="p">[</span><span class="n">colsums</span><span class="p">])</span>
+<span class="n">stub</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">Column</span><span class="o">.</span><span class="n">from_values</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;Row label&quot;</span><span class="p">,</span> <span class="s2">&quot;Row label&quot;</span><span class="p">,</span> <span class="s2">&quot;Row label&quot;</span><span class="p">,</span> <span class="s2">&quot;Summary label&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">stubhead_label</span> <span class="o">=</span> <span class="n">multirow_column</span><span class="p">(</span>
+    <span class="s2">&quot;Stubhead label&quot;</span><span class="p">,</span>
+    <span class="n">multirow</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">vpos</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">,</span>
+    <span class="n">vmove</span><span class="o">=</span><span class="s2">&quot;3pt&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">col_labels1</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="c1"># spanner label</span>
+    <span class="n">C</span><span class="p">(</span><span class="s2">&quot;Spanner label&quot;</span><span class="p">,</span> <span class="n">multicolumn</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="o">/</span> <span class="n">Cmidrule</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">trim</span><span class="o">=</span><span class="s2">&quot;lr&quot;</span><span class="p">)</span>
+    <span class="c1"># column labels</span>
+    <span class="o">/</span> <span class="p">(</span><span class="n">C</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\shortstack{Column</span><span class="se">\\</span><span class="s2">Label}&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">C</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\shortstack{Column</span><span class="se">\\</span><span class="s2">Label}&quot;</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="n">col_labels2</span> <span class="o">=</span> <span class="n">multirow_column</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">&quot;\shortstack{Column</span><span class="se">\\</span><span class="s2">Label}&quot;</span><span class="p">,</span>
+    <span class="c1"># &quot;Column label&quot;,</span>
+    <span class="n">multirow</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">vpos</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">,</span>
+    <span class="n">vmove</span><span class="o">=</span><span class="s2">&quot;3pt&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">col_labels</span> <span class="o">=</span> <span class="n">col_labels1</span> <span class="o">|</span> <span class="n">col_labels2</span>
+<span class="n">footnotes</span> <span class="o">=</span> <span class="n">multicolumn_row</span><span class="p">(</span><span class="s2">&quot;footnotes&quot;</span><span class="p">,</span> <span class="n">multicolumn</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">colspec</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="n">sourcenotes</span> <span class="o">=</span> <span class="n">multicolumn_row</span><span class="p">(</span><span class="s2">&quot;sourcenotes&quot;</span><span class="p">,</span> <span class="n">multicolumn</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">colspec</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="n">title</span> <span class="o">=</span> <span class="n">multicolumn_row</span><span class="p">(</span><span class="s2">&quot;Some very long title&quot;</span><span class="p">,</span> <span class="n">multicolumn</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">colspec</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="n">subtitle</span> <span class="o">=</span> <span class="n">multicolumn_row</span><span class="p">(</span><span class="s2">&quot;Some very long subtitle&quot;</span><span class="p">,</span> <span class="n">multicolumn</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">colspec</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="n">title</span> <span class="o">/</span> <span class="n">subtitle</span><span class="p">)</span>
+    <span class="o">/</span> <span class="n">Midrule</span><span class="p">()</span>
+    <span class="o">/</span> <span class="p">(</span><span class="n">stubhead_label</span> <span class="o">|</span> <span class="n">col_labels</span><span class="p">)</span>
+    <span class="o">/</span> <span class="p">(</span><span class="n">C</span><span class="p">(</span><span class="s2">&quot;Row group label&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">[</span><span class="n">C</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)])</span>
+    <span class="o">/</span> <span class="p">(</span><span class="n">stub</span> <span class="o">|</span> <span class="n">table_body</span><span class="p">)</span>
+    <span class="o">/</span> <span class="n">Midrule</span><span class="p">()</span>
+    <span class="o">/</span> <span class="p">(</span><span class="n">footnotes</span> <span class="o">/</span> <span class="n">sourcenotes</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">set_align</span><span class="p">(</span><span class="s2">&quot;lccc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Compiling the table to PDF and converting it to PNG yields:</p>
+<p><img alt="image" src="_images/great_tables.png" /></p>
+<hr class="docutils" />
+<p><strong>Annotated table</strong></p>
+<p>Annotate the table as shown in in <a class="reference external" href="https://posit-dev.github.io/great-tables/articles/intro.html">Great Tables
+docs</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Remove midrules and annotate the table&#39;s components</span>
+<span class="c1"># Midrules will span the annotations; hence we remove them</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="n">title</span> <span class="o">/</span> <span class="n">subtitle</span><span class="p">)</span>
+    <span class="o">/</span> <span class="p">(</span><span class="n">stubhead_label</span> <span class="o">|</span> <span class="n">col_labels</span><span class="p">)</span>
+    <span class="o">/</span> <span class="p">(</span><span class="n">C</span><span class="p">(</span><span class="s2">&quot;Row group label&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">[</span><span class="n">C</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)])</span>
+    <span class="o">/</span> <span class="p">(</span><span class="n">stub</span> <span class="o">|</span> <span class="n">table_body</span><span class="p">)</span>
+    <span class="o">/</span> <span class="p">(</span><span class="n">footnotes</span> <span class="o">/</span> <span class="n">sourcenotes</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">set_align</span><span class="p">(</span><span class="s2">&quot;lccc&quot;</span><span class="p">)</span>
+<span class="n">annotations_left</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">multirow_column</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\large \shortstack{TABLE</span><span class="se">\\</span><span class="s2">HEADER}&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">vpos</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+    <span class="o">/</span> <span class="n">multirow_column</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\large \shortstack{STUB</span><span class="se">\\</span><span class="s2">HEAD}&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">vpos</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+    <span class="c1"># add 1 for row group label</span>
+    <span class="o">/</span> <span class="n">multirow_column</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\large STUB&quot;</span><span class="p">,</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vpos</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+    <span class="o">/</span> <span class="n">tabx</span><span class="o">.</span><span class="n">empty_columns</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">annotations_right</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">tabx</span><span class="o">.</span><span class="n">empty_columns</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="o">/</span> <span class="n">multirow_column</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\large \shortstack{COLUMN</span><span class="se">\\</span><span class="s2">LABELS}&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">vpos</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+    <span class="o">/</span> <span class="n">multirow_column</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\large \shortstack{TABLE</span><span class="se">\\</span><span class="s2">BODY}&quot;</span><span class="p">,</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vpos</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+    <span class="o">/</span> <span class="n">multirow_column</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\large \shortstack{TABLE</span><span class="se">\\</span><span class="s2">FOOTER}&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">vpos</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">annotations_top</span> <span class="o">=</span> <span class="n">multicolumn_row</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">&quot;\LARGE The Components of a Table&quot;</span><span class="p">,</span> <span class="n">multicolumn</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">colspec</span><span class="o">=</span><span class="s2">&quot;c&quot;</span>
+<span class="p">)</span>
+<span class="n">annotated_tab</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">annotations_top</span> <span class="o">/</span> <span class="n">Cmidrule</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">annotations_left</span> <span class="o">|</span> <span class="n">tab</span> <span class="o">|</span> <span class="n">annotations_right</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Compiling the table to PDF and converting it to PNG yields:</p>
+<p><img alt="image" src="_images/great_tables_annotated.png" /></p>
+</details>
+<br>
+</section>
+<section id="colored-output">
+<h3>Colored output<a class="headerlink" href="#colored-output" title="Link to this heading">¶</a></h3>
+<details>
+<summary>
+</summary>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tabx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">colored_column_spec</span><span class="p">,</span> <span class="n">compile_table</span><span class="p">,</span> <span class="n">pdf_to_png</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColoredRow</span><span class="p">,</span> <span class="n">ColoredCell</span>
+
+<span class="n">C</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">Cell</span>
+<span class="n">CC</span> <span class="o">=</span> <span class="n">ColoredCell</span>
+<span class="n">et</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">empty_table</span>
+<span class="n">CR</span> <span class="o">=</span> <span class="n">ColoredRow</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">Table</span><span class="o">.</span><span class="n">from_cells</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="n">C</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">),</span> <span class="n">CC</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)],</span>
+        <span class="p">[</span><span class="n">C</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">),</span> <span class="n">CC</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)],</span>
+        <span class="p">[</span><span class="n">C</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">),</span> <span class="n">CC</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)],</span>
+        <span class="p">[</span><span class="n">C</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)],</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">multicolumn</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="n">tabx</span><span class="o">.</span><span class="n">Cmidrule</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="n">tab</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="p">(</span><span class="n">tab</span> <span class="o">/</span> <span class="n">tabx</span><span class="o">.</span><span class="n">empty_table</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">set_align</span><span class="p">(</span>
+    <span class="n">colored_column_spec</span><span class="p">(</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">colored_column_spec</span><span class="p">(</span><span class="s2">&quot;magenta&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">colored_column_spec</span><span class="p">(</span><span class="s2">&quot;purple&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">subtab</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">Table</span><span class="o">.</span><span class="n">from_cells</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span>
+            <span class="n">CC</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">),</span>
+            <span class="n">CC</span><span class="p">(</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">),</span>
+            <span class="n">CC</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">),</span>
+            <span class="n">CC</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">),</span>
+            <span class="n">CC</span><span class="p">(</span><span class="s2">&quot;O&quot;</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">subtab</span> <span class="o">=</span> <span class="n">et</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">/</span> <span class="n">subtab</span> <span class="o">/</span> <span class="n">et</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">tab</span>
+    <span class="o">|</span> <span class="n">subtab</span>
+    <span class="o">|</span> <span class="n">tabx</span><span class="o">.</span><span class="n">multirow_column</span><span class="p">(</span>
+        <span class="sa">r</span><span class="s2">&quot;\rotatebox[origin=c]</span><span class="si">{270}{Greetings}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="mi">7</span><span class="p">,</span>
+        <span class="n">pad_before</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="n">tab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>\begin{tabular}{@{}&gt;{\columncolor{blue}}{c}&gt;{\columncolor{magenta}}{c}&gt;{\columncolor{purple}}{r}cccccc@{}}
+  \toprule
+  \multicolumn{3}{c}{X} &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  \\
+  \cmidrule(lr){1-3}
+  A &amp; \cellcolor{yellow}B &amp; C &amp; \cellcolor{red}H &amp; \cellcolor{green}E &amp; \cellcolor{blue}L &amp; \cellcolor{orange}L &amp; \cellcolor{yellow}O &amp; \multirow{7}{*}{\rotatebox[origin=c]{270}{Greetings}} \\
+  A &amp; \cellcolor{green}B &amp; C &amp; \cellcolor{red}H &amp; \cellcolor{green}E &amp; \cellcolor{blue}L &amp; \cellcolor{orange}L &amp; \cellcolor{yellow}O &amp;  \\
+  A &amp; \cellcolor{orange}X &amp; C &amp; \cellcolor{red}H &amp; \cellcolor{green}E &amp; \cellcolor{blue}L &amp; \cellcolor{orange}L &amp; \cellcolor{yellow}O &amp;  \\
+  A &amp; B &amp; C &amp; \cellcolor{red}H &amp; \cellcolor{green}E &amp; \cellcolor{blue}L &amp; \cellcolor{orange}L &amp; \cellcolor{yellow}O &amp;  \\
+   &amp;  &amp;  &amp; \cellcolor{red}H &amp; \cellcolor{green}E &amp; \cellcolor{blue}L &amp; \cellcolor{orange}L &amp; \cellcolor{yellow}O &amp;  \\
+   &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  \\
+   &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  \\
+  \bottomrule
+\end{tabular}
+</pre></div>
+</div>
+<p>Compiling the table to PDF and converting it to PNG yields:</p>
+<p><img alt="image" src="_images/color0.png" /></p>
+</details>
+<br>
+</section>
+<section id="misc">
+<h3>Misc<a class="headerlink" href="#misc" title="Link to this heading">¶</a></h3>
+<details>
+<summary>
+</summary>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tabx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">compile_table</span><span class="p">,</span> <span class="n">pdf_to_png</span>
+
+<span class="n">C</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">Cell</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">Table</span><span class="o">.</span><span class="n">from_cells</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="n">C</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)],</span>
+        <span class="p">[</span><span class="n">C</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)],</span>
+        <span class="p">[</span><span class="n">C</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)],</span>
+        <span class="p">[</span><span class="n">C</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">),</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)],</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">multicolumn</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="n">tabx</span><span class="o">.</span><span class="n">Cmidrule</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="n">tab</span>
+<span class="n">tab</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Table(nrows=6, ncols=3)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tab</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(6, 3)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tab</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tab</span><span class="o">.</span><span class="n">render</span><span class="p">())</span>  <span class="c1"># Rendered table</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>\begin{tabular}{@{}ccc@{}}
+  \toprule
+  \multicolumn{3}{c}{X} \\
+  \cmidrule(lr){1-3}
+  A &amp; B &amp; C \\
+  A &amp; B &amp; C \\
+  A &amp; B &amp; C \\
+  A &amp; B &amp; C \\
+  \bottomrule
+\end{tabular}
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ce</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">empty_columns</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ctab</span> <span class="o">=</span> <span class="n">ce</span> <span class="o">|</span> <span class="n">tab</span> <span class="o">|</span> <span class="n">ce</span>
+<span class="n">ctab</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>\begin{tabular}{@{}ccccc@{}}
+  \toprule
+   &amp; \multicolumn{3}{c}{X} &amp;  \\
+  \cmidrule(lr){2-4}
+   &amp; A &amp; B &amp; C &amp;  \\
+   &amp; A &amp; B &amp; C &amp;  \\
+   &amp; A &amp; B &amp; C &amp;  \\
+   &amp; A &amp; B &amp; C &amp;  \\
+  \bottomrule
+\end{tabular}
+</pre></div>
+</div>
+<p>Compiling the table to PDF and converting it to PNG yields:</p>
+<p><img alt="image" src="_images/table0.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rlab</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">multirow_column</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">&quot;\rotatebox[origin=c]</span><span class="si">{90}</span><span class="s2">{$x = 2$}&quot;</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">,</span>
+    <span class="n">pad_before</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">align</span><span class="o">=</span><span class="s2">&quot;l&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">rlab2</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">multirow_column</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">&quot;\rotatebox[origin=c]</span><span class="si">{270}</span><span class="s2">{$x = 2$}&quot;</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">,</span>
+    <span class="n">pad_before</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">align</span><span class="o">=</span><span class="s2">&quot;l&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">tt</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="n">rlab</span> <span class="o">|</span> <span class="n">tab</span> <span class="o">|</span> <span class="n">rlab2</span><span class="p">)</span>
+    <span class="o">/</span> <span class="n">tabx</span><span class="o">.</span><span class="n">Midrule</span><span class="p">()</span>
+    <span class="o">/</span> <span class="n">C</span><span class="p">(</span><span class="s2">&quot;Estimand&quot;</span><span class="p">,</span> <span class="n">multicolumn</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;italic&quot;</span><span class="p">)</span>
+    <span class="o">/</span> <span class="n">tabx</span><span class="o">.</span><span class="n">Cmidrule</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="o">/</span> <span class="n">C</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\beta$&quot;</span><span class="p">,</span> <span class="n">multicolumn</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">tt</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>\begin{tabular}{@{}ccccc@{}}
+  \toprule
+   &amp; \multicolumn{3}{c}{X} &amp;  \\
+  \cmidrule(lr){2-4}
+  \multirow{4}{*}{\rotatebox[origin=c]{90}{$x = 2$}} &amp; A &amp; B &amp; C &amp; \multirow{4}{*}{\rotatebox[origin=c]{270}{$x = 2$}} \\
+   &amp; A &amp; B &amp; C &amp;  \\
+   &amp; A &amp; B &amp; C &amp;  \\
+   &amp; A &amp; B &amp; C &amp;  \\
+  \midrule
+  \multicolumn{5}{c}{\textit{Estimand}} \\
+  \cmidrule(lr){2-4}
+  \multicolumn{5}{c}{$\beta$} \\
+  \bottomrule
+\end{tabular}
+</pre></div>
+</div>
+<p>Compiling the table to PDF and converting it to PNG yields:</p>
+<p><img alt="image" src="_images/table.png" /></p>
+</details>
+</section>
+<section id="ascii">
+<h3>Ascii<a class="headerlink" href="#ascii" title="Link to this heading">¶</a></h3>
+<details>
+<summary>
+</summary>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">ASCII art tables.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">reduce</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyfiglet</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">tabx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cell</span><span class="p">,</span> <span class="n">utils</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">render_body_simple</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_lines</span><span class="p">(</span><span class="n">c</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_c</span><span class="p">(</span><span class="n">c</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;_&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">r</span><span class="s2">&quot;\_&quot;</span>
+    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;|&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">r</span><span class="s2">&quot;\textbar&quot;</span>
+    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">r</span><span class="s2">&quot;\textbackslash&quot;</span>
+    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&lt;&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">r</span><span class="s2">&quot;\textless&quot;</span>
+    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">r</span><span class="s2">&quot;\textgreater&quot;</span>
+    <span class="k">return</span> <span class="n">c</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_table</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="n">get_lines</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">max_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">])</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">lp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">max_len</span> <span class="o">-</span> <span class="n">lp</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Cell</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">parse_c</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">diff</span><span class="p">):</span>  <span class="c1"># pad differences</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tabx</span><span class="o">.</span><span class="n">empty_cell</span><span class="p">())</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tabx</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">tabx</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+
+
+<span class="n">p1</span> <span class="o">=</span> <span class="n">pyfiglet</span><span class="o">.</span><span class="n">figlet_format</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">pyfiglet</span><span class="o">.</span><span class="n">figlet_format</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+<span class="n">p3</span> <span class="o">=</span> <span class="n">pyfiglet</span><span class="o">.</span><span class="n">figlet_format</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="n">p4</span> <span class="o">=</span> <span class="n">pyfiglet</span><span class="o">.</span><span class="n">figlet_format</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+
+<span class="n">cols</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">get_table</span><span class="p">(</span><span class="n">p1</span><span class="p">),</span>
+    <span class="n">get_table</span><span class="p">(</span><span class="n">p2</span><span class="p">),</span>
+    <span class="n">get_table</span><span class="p">(</span><span class="n">p3</span><span class="p">),</span>
+    <span class="n">get_table</span><span class="p">(</span><span class="n">p4</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">ec</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">empty_columns</span>
+
+<span class="n">tab</span> <span class="o">=</span> <span class="n">get_table</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span> <span class="o">|</span> <span class="n">get_table</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span> <span class="o">|</span> <span class="n">get_table</span><span class="p">(</span><span class="n">p3</span><span class="p">)</span> <span class="o">|</span> <span class="n">get_table</span><span class="p">(</span><span class="n">p4</span><span class="p">)</span>
+<span class="n">file</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_table</span><span class="p">(</span>
+    <span class="n">tab</span><span class="o">.</span><span class="n">render</span><span class="p">(),</span>
+    <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">proj_folder</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;figs&quot;</span><span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ascii1&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">pdf_to_png</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="image" src="_images/ascii1.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">words</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;LaTeX&quot;</span><span class="p">,</span> <span class="s2">&quot;tables&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;Python&quot;</span><span class="p">]:</span>
+    <span class="n">word_cols</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
+        <span class="n">word_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_table</span><span class="p">(</span><span class="n">pyfiglet</span><span class="o">.</span><span class="n">figlet_format</span><span class="p">(</span><span class="n">c</span><span class="p">)))</span>
+    <span class="n">words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">:</span> <span class="n">x1</span> <span class="o">|</span> <span class="n">x2</span><span class="p">,</span> <span class="n">word_cols</span><span class="p">))</span>
+<span class="n">extra</span> <span class="o">=</span> <span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">|</span> <span class="n">ec</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="n">words</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span>
+    <span class="n">ec</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="o">|</span> <span class="n">words</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">|</span> <span class="n">ec</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">|</span> <span class="n">words</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">|</span> <span class="n">ec</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">top</span> <span class="o">=</span> <span class="n">ec</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span> <span class="o">|</span> <span class="n">tab</span> <span class="o">|</span> <span class="n">ec</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">file</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_table</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">top</span> <span class="o">/</span> <span class="n">extra</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">render_body_simple</span><span class="p">),</span>
+    <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">proj_folder</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;figs&quot;</span><span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ascii2&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">pdf_to_png</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="image" src="_images/ascii2.png" /></p>
+</details>
+<!-- NOTE: we need the `---` here else the headers float to the top for some
+reason -->
+</section>
+</section>
+<hr class="docutils" />
+<section id="development">
+<h2>Development<a class="headerlink" href="#development" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:jsr-p/tabx.git
+<span class="nb">cd</span><span class="w"> </span>tabx
+uv<span class="w"> </span>venv
+uv<span class="w"> </span>sync<span class="w"> </span>--all-extras
+</pre></div>
+</div>
+<section id="contributions">
+<h3>Contributions<a class="headerlink" href="#contributions" title="Link to this heading">¶</a></h3>
+<p>Contributions are welcome!</p>
+<ul class="simple">
+<li><p>If you have any suggestions or improvements, please open an issue or a
+pull request.</p></li>
+<li><p>If you have an example you would like to share, add the code inside
+<a class="reference internal" href="#examples/"><span class="xref myst">examples</span></a>, add the example to the <a class="reference internal" href="#README.qmd"><span class="xref myst">README</span></a> and
+a statement to the <a class="reference internal" href="#Justfile"><span class="xref myst">Justfile</span></a> under <code class="docutils literal notranslate"><span class="pre">readme</span></code>.</p></li>
+</ul>
+</section>
+</section>
+<section id="id1">
+<h2>Misc.<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<section id="alternatives">
+<h3>Alternatives<a class="headerlink" href="#alternatives" title="Link to this heading">¶</a></h3>
+<p>The alternatives below are great but didn’t suit my needs fiddling with
+multicolumn cells, multirow cells, cmidrules etc. and using the
+<code class="docutils literal notranslate"><span class="pre">tabular</span></code> environment in LaTeX.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.io.formats.style.Styler.to_latex.html">pandas to
+latex</a></p></li>
+<li><p><a class="reference external" href="https://posit-dev.github.io/great-tables/articles/intro.html">great
+tables</a></p></li>
+<li><p><a class="reference external" href="https://vincentarelbundock.github.io/tinytable/">tinytable</a></p></li>
+</ul>
+</section>
+<section id="why-not-tabularray">
+<h3>Why not tabularray?<a class="headerlink" href="#why-not-tabularray" title="Link to this heading">¶</a></h3>
+<p>The reason for using tabular + booktabs instead of tabularray is that
+tabularray is too slow when compiling. Also, tabular + booktabs is all
+you need.</p>
+</section>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="#LICENSE"><span class="xref myst">MIT</span></a></p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="apidocs/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">API Reference</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Home</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, jsr-p
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">tabx - compose LaTeX tables using booktabs in Python</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#showcase">Showcase</a></li>
+<li><a class="reference internal" href="#tutorial">Tutorial</a><ul>
+<li><a class="reference internal" href="#cell-table-and-concatenation">Cell, Table, and concatenation</a></li>
+<li><a class="reference internal" href="#slicing-tables">Slicing tables</a></li>
+<li><a class="reference internal" href="#custom-render-function">Custom render function</a></li>
+<li><a class="reference internal" href="#utility-functions">Utility functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wisdom-from-bookstabs">Wisdom from bookstabs</a></li>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#models-estimates-and-standard-errors">Models estimates and standard errors</a></li>
+<li><a class="reference internal" href="#descriptive-statistics">Descriptive statistics</a></li>
+<li><a class="reference internal" href="#scientific-table-1">Scientific Table 1</a></li>
+<li><a class="reference internal" href="#scientific-table-2">Scientific Table 2</a></li>
+<li><a class="reference internal" href="#great-tables">Great Tables</a></li>
+<li><a class="reference internal" href="#colored-output">Colored output</a></li>
+<li><a class="reference internal" href="#misc">Misc</a></li>
+<li><a class="reference internal" href="#ascii">Ascii</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#development">Development</a><ul>
+<li><a class="reference internal" href="#contributions">Contributions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id1">Misc.</a><ul>
+<li><a class="reference internal" href="#alternatives">Alternatives</a></li>
+<li><a class="reference internal" href="#why-not-tabularray">Why not tabularray?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    </body>
+</html>

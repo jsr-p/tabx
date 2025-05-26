@@ -1,0 +1,257 @@
+# {py:mod}`tabx.custom`
+
+```{py:module} tabx.custom
+```
+
+```{autodoc2-docstring} tabx.custom
+:allowtitles:
+```
+
+## Module Contents
+
+### Classes
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`DescData <tabx.custom.DescData>`
+  - ```{autodoc2-docstring} tabx.custom.DescData
+    :summary:
+    ```
+* - {py:obj}`ModelData <tabx.custom.ModelData>`
+  - ```{autodoc2-docstring} tabx.custom.ModelData
+    :summary:
+    ```
+* - {py:obj}`ColMap <tabx.custom.ColMap>`
+  - ```{autodoc2-docstring} tabx.custom.ColMap
+    :summary:
+    ```
+* - {py:obj}`RowMap <tabx.custom.RowMap>`
+  - ```{autodoc2-docstring} tabx.custom.RowMap
+    :summary:
+    ```
+````
+
+### Functions
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`descriptives_table <tabx.custom.descriptives_table>`
+  - ```{autodoc2-docstring} tabx.custom.descriptives_table
+    :summary:
+    ```
+* - {py:obj}`models_table <tabx.custom.models_table>`
+  - ```{autodoc2-docstring} tabx.custom.models_table
+    :summary:
+    ```
+````
+
+### API
+
+`````{py:class} DescData
+:canonical: tabx.custom.DescData
+
+```{autodoc2-docstring} tabx.custom.DescData
+```
+
+````{py:attribute} variables
+:canonical: tabx.custom.DescData.variables
+:type: list[str]
+:value: >
+   None
+
+```{autodoc2-docstring} tabx.custom.DescData.variables
+```
+
+````
+
+````{py:attribute} values
+:canonical: tabx.custom.DescData.values
+:type: list[float]
+:value: >
+   None
+
+```{autodoc2-docstring} tabx.custom.DescData.values
+```
+
+````
+
+````{py:attribute} name
+:canonical: tabx.custom.DescData.name
+:type: str
+:value: >
+   None
+
+```{autodoc2-docstring} tabx.custom.DescData.name
+```
+
+````
+
+````{py:attribute} extra_data
+:canonical: tabx.custom.DescData.extra_data
+:type: dict[str, typing.Any]
+:value: >
+   'field(...)'
+
+```{autodoc2-docstring} tabx.custom.DescData.extra_data
+```
+
+````
+
+````{py:method} from_dict(data: dict, var_col: str = 'variable', val_col: str = 'values', name: str = '') -> tabx.custom.DescData
+:canonical: tabx.custom.DescData.from_dict
+:classmethod:
+
+```{autodoc2-docstring} tabx.custom.DescData.from_dict
+```
+
+````
+
+````{py:method} from_values(values: collections.abc.Sequence[collections.abc.Sequence[tabx.table.NumOrStr]], column_names: list[str]) -> list[tabx.custom.DescData]
+:canonical: tabx.custom.DescData.from_values
+:classmethod:
+
+```{autodoc2-docstring} tabx.custom.DescData.from_values
+```
+
+````
+
+`````
+
+`````{py:class} ModelData
+:canonical: tabx.custom.ModelData
+
+```{autodoc2-docstring} tabx.custom.ModelData
+```
+
+````{py:attribute} variables
+:canonical: tabx.custom.ModelData.variables
+:type: list[str]
+:value: >
+   None
+
+```{autodoc2-docstring} tabx.custom.ModelData.variables
+```
+
+````
+
+````{py:attribute} estimates
+:canonical: tabx.custom.ModelData.estimates
+:type: list[float]
+:value: >
+   None
+
+```{autodoc2-docstring} tabx.custom.ModelData.estimates
+```
+
+````
+
+````{py:attribute} ses
+:canonical: tabx.custom.ModelData.ses
+:type: list[float | str]
+:value: >
+   None
+
+```{autodoc2-docstring} tabx.custom.ModelData.ses
+```
+
+````
+
+````{py:attribute} name
+:canonical: tabx.custom.ModelData.name
+:type: str
+:value: >
+   None
+
+```{autodoc2-docstring} tabx.custom.ModelData.name
+```
+
+````
+
+````{py:attribute} extra_data
+:canonical: tabx.custom.ModelData.extra_data
+:type: dict[str, typing.Any]
+:value: >
+   'field(...)'
+
+```{autodoc2-docstring} tabx.custom.ModelData.extra_data
+```
+
+````
+
+````{py:method} from_dict(data: dict, v_col: str = 'variable', est_col: str = 'estimates', se_col: str = 'se', name: str = '') -> tabx.custom.ModelData
+:canonical: tabx.custom.ModelData.from_dict
+:classmethod:
+
+```{autodoc2-docstring} tabx.custom.ModelData.from_dict
+```
+
+````
+
+`````
+
+`````{py:class} ColMap
+:canonical: tabx.custom.ColMap
+
+```{autodoc2-docstring} tabx.custom.ColMap
+```
+
+````{py:attribute} mapping
+:canonical: tabx.custom.ColMap.mapping
+:type: tabx.custom.RCMap
+:value: >
+   None
+
+```{autodoc2-docstring} tabx.custom.ColMap.mapping
+```
+
+````
+
+````{py:attribute} include_cmidrule
+:canonical: tabx.custom.ColMap.include_cmidrule
+:type: bool
+:value: >
+   True
+
+```{autodoc2-docstring} tabx.custom.ColMap.include_cmidrule
+```
+
+````
+
+`````
+
+`````{py:class} RowMap
+:canonical: tabx.custom.RowMap
+
+```{autodoc2-docstring} tabx.custom.RowMap
+```
+
+````{py:attribute} mapping
+:canonical: tabx.custom.RowMap.mapping
+:type: tabx.custom.RCMap
+:value: >
+   None
+
+```{autodoc2-docstring} tabx.custom.RowMap.mapping
+```
+
+````
+
+`````
+
+````{py:function} descriptives_table(desc_datas: collections.abc.Sequence[tabx.custom.DescData], col_maps: tabx.custom.ColMaps | None = None, row_maps: tabx.custom.RowMaps | None = None, order_map: dict[str, int] = dict(), var_name: str = '', include_header: bool = True, include_extra: bool = True, include_midrule: bool = True, fill_value: tabx.table.NumOrStr = '') -> tabx.table.Table
+:canonical: tabx.custom.descriptives_table
+
+```{autodoc2-docstring} tabx.custom.descriptives_table
+```
+````
+
+````{py:function} models_table(models: collections.abc.Sequence[tabx.custom.ModelData], col_maps: tabx.custom.ColMaps | None = None, row_maps: tabx.custom.RowMaps | None = None, order_map: dict[str, int] = dict(), var_name: str = 'variable', include_extra: bool = True, include_header: bool = True, fill_value: tabx.table.NumOrStr = '') -> tabx.table.Table
+:canonical: tabx.custom.models_table
+
+```{autodoc2-docstring} tabx.custom.models_table
+```
+````

@@ -1,0 +1,53 @@
+# {py:mod}`tabx.utils`
+
+```{py:module} tabx.utils
+```
+
+```{autodoc2-docstring} tabx.utils
+:allowtitles:
+```
+
+## Module Contents
+
+### Functions
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`compile_table <tabx.utils.compile_table>`
+  - ```{autodoc2-docstring} tabx.utils.compile_table
+    :summary:
+    ```
+* - {py:obj}`pdf_to_png <tabx.utils.pdf_to_png>`
+  - ```{autodoc2-docstring} tabx.utils.pdf_to_png
+    :summary:
+    ```
+* - {py:obj}`save_tab <tabx.utils.save_tab>`
+  - ```{autodoc2-docstring} tabx.utils.save_tab
+    :summary:
+    ```
+````
+
+### API
+
+````{py:function} compile_table(tab: str, command: typing.Literal[pdflatex, lualatex, xelatex] = 'pdflatex', output_dir: str | pathlib.Path = '/tmp/', name: str = 'table', silent: bool = True, extra_preamble: str = '')
+:canonical: tabx.utils.compile_table
+
+```{autodoc2-docstring} tabx.utils.compile_table
+```
+````
+
+````{py:function} pdf_to_png(file: str | pathlib.Path) -> pathlib.Path
+:canonical: tabx.utils.pdf_to_png
+
+```{autodoc2-docstring} tabx.utils.pdf_to_png
+```
+````
+
+````{py:function} save_tab(name: str, tab: str, fp: pathlib.Path | str)
+:canonical: tabx.utils.save_tab
+
+```{autodoc2-docstring} tabx.utils.save_tab
+```
+````

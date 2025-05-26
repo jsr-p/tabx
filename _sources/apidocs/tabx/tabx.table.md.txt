@@ -1,0 +1,846 @@
+# {py:mod}`tabx.table`
+
+```{py:module} tabx.table
+```
+
+```{autodoc2-docstring} tabx.table
+:allowtitles:
+```
+
+## Module Contents
+
+### Classes
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`Cmidrule <tabx.table.Cmidrule>`
+  - ```{autodoc2-docstring} tabx.table.Cmidrule
+    :summary:
+    ```
+* - {py:obj}`Cmidrules <tabx.table.Cmidrules>`
+  - ```{autodoc2-docstring} tabx.table.Cmidrules
+    :summary:
+    ```
+* - {py:obj}`Columns <tabx.table.Columns>`
+  - ```{autodoc2-docstring} tabx.table.Columns
+    :summary:
+    ```
+* - {py:obj}`ColoredRow <tabx.table.ColoredRow>`
+  - ```{autodoc2-docstring} tabx.table.ColoredRow
+    :summary:
+    ```
+* - {py:obj}`Cell <tabx.table.Cell>`
+  - ```{autodoc2-docstring} tabx.table.Cell
+    :summary:
+    ```
+* - {py:obj}`Midrule <tabx.table.Midrule>`
+  - ```{autodoc2-docstring} tabx.table.Midrule
+    :summary:
+    ```
+* - {py:obj}`Toprule <tabx.table.Toprule>`
+  - ```{autodoc2-docstring} tabx.table.Toprule
+    :summary:
+    ```
+* - {py:obj}`Bottomrule <tabx.table.Bottomrule>`
+  - ```{autodoc2-docstring} tabx.table.Bottomrule
+    :summary:
+    ```
+* - {py:obj}`Row <tabx.table.Row>`
+  - ```{autodoc2-docstring} tabx.table.Row
+    :summary:
+    ```
+* - {py:obj}`Rule <tabx.table.Rule>`
+  - ```{autodoc2-docstring} tabx.table.Rule
+    :summary:
+    ```
+* - {py:obj}`Table <tabx.table.Table>`
+  - ```{autodoc2-docstring} tabx.table.Table
+    :summary:
+    ```
+````
+
+### Functions
+
+````{list-table}
+:class: autosummary longtable
+:align: left
+
+* - {py:obj}`empty_columns <tabx.table.empty_columns>`
+  - ```{autodoc2-docstring} tabx.table.empty_columns
+    :summary:
+    ```
+* - {py:obj}`empty_cell <tabx.table.empty_cell>`
+  - ```{autodoc2-docstring} tabx.table.empty_cell
+    :summary:
+    ```
+* - {py:obj}`empty_cells <tabx.table.empty_cells>`
+  - ```{autodoc2-docstring} tabx.table.empty_cells
+    :summary:
+    ```
+* - {py:obj}`empty_table <tabx.table.empty_table>`
+  - ```{autodoc2-docstring} tabx.table.empty_table
+    :summary:
+    ```
+* - {py:obj}`filled_columns <tabx.table.filled_columns>`
+  - ```{autodoc2-docstring} tabx.table.filled_columns
+    :summary:
+    ```
+* - {py:obj}`filled_table <tabx.table.filled_table>`
+  - ```{autodoc2-docstring} tabx.table.filled_table
+    :summary:
+    ```
+* - {py:obj}`multirow_column <tabx.table.multirow_column>`
+  - ```{autodoc2-docstring} tabx.table.multirow_column
+    :summary:
+    ```
+* - {py:obj}`multicolumn_row <tabx.table.multicolumn_row>`
+  - ```{autodoc2-docstring} tabx.table.multicolumn_row
+    :summary:
+    ```
+* - {py:obj}`concat <tabx.table.concat>`
+  - ```{autodoc2-docstring} tabx.table.concat
+    :summary:
+    ```
+````
+
+### API
+
+`````{py:class} Cmidrule(start: int, end: int, trim: str = 'lr', dim: str = '')
+:canonical: tabx.table.Cmidrule
+
+```{autodoc2-docstring} tabx.table.Cmidrule
+```
+
+```{rubric} Initialization
+```
+
+```{autodoc2-docstring} tabx.table.Cmidrule.__init__
+```
+
+````{py:property} interval
+:canonical: tabx.table.Cmidrule.interval
+:type: tuple[int, int]
+
+```{autodoc2-docstring} tabx.table.Cmidrule.interval
+```
+
+````
+
+````{py:property} interval_range
+:canonical: tabx.table.Cmidrule.interval_range
+:type: range
+
+```{autodoc2-docstring} tabx.table.Cmidrule.interval_range
+```
+
+````
+
+````{py:method} clen() -> int
+:canonical: tabx.table.Cmidrule.clen
+
+```{autodoc2-docstring} tabx.table.Cmidrule.clen
+```
+
+````
+
+````{py:method} rlen() -> int
+:canonical: tabx.table.Cmidrule.rlen
+
+```{autodoc2-docstring} tabx.table.Cmidrule.rlen
+```
+
+````
+
+````{py:method} dlen() -> int
+:canonical: tabx.table.Cmidrule.dlen
+
+```{autodoc2-docstring} tabx.table.Cmidrule.dlen
+```
+
+````
+
+````{py:method} render_base() -> str
+:canonical: tabx.table.Cmidrule.render_base
+
+```{autodoc2-docstring} tabx.table.Cmidrule.render_base
+```
+
+````
+
+````{py:method} render() -> str
+:canonical: tabx.table.Cmidrule.render
+
+```{autodoc2-docstring} tabx.table.Cmidrule.render
+```
+
+````
+
+`````
+
+`````{py:class} Cmidrules
+:canonical: tabx.table.Cmidrules
+
+```{autodoc2-docstring} tabx.table.Cmidrules
+```
+
+````{py:attribute} values
+:canonical: tabx.table.Cmidrules.values
+:type: list[tabx.table.Cmidrule]
+:value: >
+   None
+
+```{autodoc2-docstring} tabx.table.Cmidrules.values
+```
+
+````
+
+````{py:attribute} start
+:canonical: tabx.table.Cmidrules.start
+:type: int
+:value: >
+   'field(...)'
+
+```{autodoc2-docstring} tabx.table.Cmidrules.start
+```
+
+````
+
+````{py:attribute} end
+:canonical: tabx.table.Cmidrules.end
+:type: int
+:value: >
+   'field(...)'
+
+```{autodoc2-docstring} tabx.table.Cmidrules.end
+```
+
+````
+
+````{py:method} render() -> str
+:canonical: tabx.table.Cmidrules.render
+
+```{autodoc2-docstring} tabx.table.Cmidrules.render
+```
+
+````
+
+````{py:method} clen() -> int
+:canonical: tabx.table.Cmidrules.clen
+
+```{autodoc2-docstring} tabx.table.Cmidrules.clen
+```
+
+````
+
+````{py:method} print()
+:canonical: tabx.table.Cmidrules.print
+
+```{autodoc2-docstring} tabx.table.Cmidrules.print
+```
+
+````
+
+`````
+
+`````{py:class} Columns(rows: collections.abc.Sequence[tabx.table.TableRow], align: str = '')
+:canonical: tabx.table.Columns
+
+```{autodoc2-docstring} tabx.table.Columns
+```
+
+```{rubric} Initialization
+```
+
+```{autodoc2-docstring} tabx.table.Columns.__init__
+```
+
+````{py:attribute} ncols
+:canonical: tabx.table.Columns.ncols
+:type: int
+:value: >
+   None
+
+```{autodoc2-docstring} tabx.table.Columns.ncols
+```
+
+````
+
+````{py:attribute} nrows
+:canonical: tabx.table.Columns.nrows
+:type: int
+:value: >
+   None
+
+```{autodoc2-docstring} tabx.table.Columns.nrows
+```
+
+````
+
+````{py:attribute} rows
+:canonical: tabx.table.Columns.rows
+:type: collections.abc.Sequence[tabx.table.TableRow]
+:value: >
+   None
+
+```{autodoc2-docstring} tabx.table.Columns.rows
+```
+
+````
+
+````{py:attribute} align
+:canonical: tabx.table.Columns.align
+:type: str
+:value: <Multiline-String>
+
+```{autodoc2-docstring} tabx.table.Columns.align
+```
+
+````
+
+````{py:method} render() -> str
+:canonical: tabx.table.Columns.render
+
+```{autodoc2-docstring} tabx.table.Columns.render
+```
+
+````
+
+````{py:method} set_align(align: str)
+:canonical: tabx.table.Columns.set_align
+
+```{autodoc2-docstring} tabx.table.Columns.set_align
+```
+
+````
+
+````{py:method} all_rows() -> collections.abc.Sequence[tabx.table.TableRow]
+:canonical: tabx.table.Columns.all_rows
+
+```{autodoc2-docstring} tabx.table.Columns.all_rows
+```
+
+````
+
+````{py:method} total_rows() -> int
+:canonical: tabx.table.Columns.total_rows
+
+```{autodoc2-docstring} tabx.table.Columns.total_rows
+```
+
+````
+
+````{py:method} print_rows()
+:canonical: tabx.table.Columns.print_rows
+
+```{autodoc2-docstring} tabx.table.Columns.print_rows
+```
+
+````
+
+````{py:property} shape
+:canonical: tabx.table.Columns.shape
+:type: tuple[int, int]
+
+```{autodoc2-docstring} tabx.table.Columns.shape
+```
+
+````
+
+````{py:method} print()
+:canonical: tabx.table.Columns.print
+
+```{autodoc2-docstring} tabx.table.Columns.print
+```
+
+````
+
+````{py:method} prepend_row(row: tabx.table.TableRow)
+:canonical: tabx.table.Columns.prepend_row
+
+```{autodoc2-docstring} tabx.table.Columns.prepend_row
+```
+
+````
+
+````{py:method} append_row(row: tabx.table.TableRow)
+:canonical: tabx.table.Columns.append_row
+
+```{autodoc2-docstring} tabx.table.Columns.append_row
+```
+
+````
+
+````{py:method} insert_row(row: tabx.table.TableRow, index: int)
+:canonical: tabx.table.Columns.insert_row
+
+```{autodoc2-docstring} tabx.table.Columns.insert_row
+```
+
+````
+
+````{py:method} from_cells(cells: collections.abc.Sequence[tabx.table.Cell] | collections.abc.Sequence[collections.abc.Sequence[tabx.table.Cell]])
+:canonical: tabx.table.Columns.from_cells
+:classmethod:
+
+```{autodoc2-docstring} tabx.table.Columns.from_cells
+```
+
+````
+
+````{py:method} from_values(values: collections.abc.Sequence[tabx.table.NumOrStr] | collections.abc.Sequence[collections.abc.Sequence[tabx.table.NumOrStr]])
+:canonical: tabx.table.Columns.from_values
+:classmethod:
+
+```{autodoc2-docstring} tabx.table.Columns.from_values
+```
+
+````
+
+`````
+
+`````{py:class} ColoredRow(color: str)
+:canonical: tabx.table.ColoredRow
+
+Bases: {py:obj}`tabx.table.Rule`
+
+```{autodoc2-docstring} tabx.table.ColoredRow
+```
+
+```{rubric} Initialization
+```
+
+```{autodoc2-docstring} tabx.table.ColoredRow.__init__
+```
+
+````{py:method} render() -> str
+:canonical: tabx.table.ColoredRow.render
+
+````
+
+`````
+
+````{py:function} empty_columns(nrows: int, ncols: int)
+:canonical: tabx.table.empty_columns
+
+```{autodoc2-docstring} tabx.table.empty_columns
+```
+````
+
+````{py:function} empty_cell() -> tabx.table.Cell
+:canonical: tabx.table.empty_cell
+
+```{autodoc2-docstring} tabx.table.empty_cell
+```
+````
+
+````{py:function} empty_cells(n: int) -> list[tabx.table.Cell]
+:canonical: tabx.table.empty_cells
+
+```{autodoc2-docstring} tabx.table.empty_cells
+```
+````
+
+````{py:function} empty_table(nrows: int, ncols: int)
+:canonical: tabx.table.empty_table
+
+```{autodoc2-docstring} tabx.table.empty_table
+```
+````
+
+`````{py:class} Cell
+:canonical: tabx.table.Cell
+
+```{autodoc2-docstring} tabx.table.Cell
+```
+
+````{py:attribute} value
+:canonical: tabx.table.Cell.value
+:type: NumOrStr
+:value: >
+   None
+
+```{autodoc2-docstring} tabx.table.Cell.value
+```
+
+````
+
+````{py:attribute} name
+:canonical: tabx.table.Cell.name
+:type: str
+:value: >
+   'field(...)'
+
+```{autodoc2-docstring} tabx.table.Cell.name
+```
+
+````
+
+````{py:attribute} style
+:canonical: tabx.table.Cell.style
+:type: typing.Literal[math, bold, italic, none]
+:value: >
+   'none'
+
+```{autodoc2-docstring} tabx.table.Cell.style
+```
+
+````
+
+````{py:attribute} multicolumn
+:canonical: tabx.table.Cell.multicolumn
+:type: int
+:value: >
+   1
+
+```{autodoc2-docstring} tabx.table.Cell.multicolumn
+```
+
+````
+
+````{py:attribute} colspec
+:canonical: tabx.table.Cell.colspec
+:type: typing.Literal[l, c, r]
+:value: >
+   'c'
+
+```{autodoc2-docstring} tabx.table.Cell.colspec
+```
+
+````
+
+````{py:attribute} multirow
+:canonical: tabx.table.Cell.multirow
+:type: int
+:value: >
+   1
+
+```{autodoc2-docstring} tabx.table.Cell.multirow
+```
+
+````
+
+````{py:attribute} vpos
+:canonical: tabx.table.Cell.vpos
+:type: typing.Literal[c, t, b, ]
+:value: <Multiline-String>
+
+```{autodoc2-docstring} tabx.table.Cell.vpos
+```
+
+````
+
+````{py:attribute} vmove
+:canonical: tabx.table.Cell.vmove
+:type: str
+:value: <Multiline-String>
+
+```{autodoc2-docstring} tabx.table.Cell.vmove
+```
+
+````
+
+````{py:attribute} width
+:canonical: tabx.table.Cell.width
+:type: str
+:value: >
+   '*'
+
+```{autodoc2-docstring} tabx.table.Cell.width
+```
+
+````
+
+````{py:method} clen() -> int
+:canonical: tabx.table.Cell.clen
+
+```{autodoc2-docstring} tabx.table.Cell.clen
+```
+
+````
+
+````{py:method} is_multirow() -> bool
+:canonical: tabx.table.Cell.is_multirow
+
+```{autodoc2-docstring} tabx.table.Cell.is_multirow
+```
+
+````
+
+````{py:method} is_multicolumn() -> bool
+:canonical: tabx.table.Cell.is_multicolumn
+
+```{autodoc2-docstring} tabx.table.Cell.is_multicolumn
+```
+
+````
+
+````{py:method} is_empty() -> bool
+:canonical: tabx.table.Cell.is_empty
+
+```{autodoc2-docstring} tabx.table.Cell.is_empty
+```
+
+````
+
+````{py:method} render() -> str
+:canonical: tabx.table.Cell.render
+
+```{autodoc2-docstring} tabx.table.Cell.render
+```
+
+````
+
+`````
+
+````{py:function} filled_columns(nrows: int, ncols: int, value: str, **kwargs)
+:canonical: tabx.table.filled_columns
+
+```{autodoc2-docstring} tabx.table.filled_columns
+```
+````
+
+````{py:function} filled_table(nrows: int, ncols: int, value: str, **kwargs)
+:canonical: tabx.table.filled_table
+
+```{autodoc2-docstring} tabx.table.filled_table
+```
+````
+
+`````{py:class} Midrule
+:canonical: tabx.table.Midrule
+
+Bases: {py:obj}`tabx.table.Rule`
+
+```{autodoc2-docstring} tabx.table.Midrule
+```
+
+````{py:method} render() -> str
+:canonical: tabx.table.Midrule.render
+
+````
+
+`````
+
+`````{py:class} Toprule
+:canonical: tabx.table.Toprule
+
+Bases: {py:obj}`tabx.table.Rule`
+
+```{autodoc2-docstring} tabx.table.Toprule
+```
+
+````{py:attribute} width
+:canonical: tabx.table.Toprule.width
+:type: str
+:value: <Multiline-String>
+
+```{autodoc2-docstring} tabx.table.Toprule.width
+```
+
+````
+
+````{py:method} render() -> str
+:canonical: tabx.table.Toprule.render
+
+````
+
+`````
+
+`````{py:class} Bottomrule
+:canonical: tabx.table.Bottomrule
+
+Bases: {py:obj}`tabx.table.Rule`
+
+```{autodoc2-docstring} tabx.table.Bottomrule
+```
+
+````{py:attribute} width
+:canonical: tabx.table.Bottomrule.width
+:type: str
+:value: <Multiline-String>
+
+```{autodoc2-docstring} tabx.table.Bottomrule.width
+```
+
+````
+
+````{py:method} render() -> str
+:canonical: tabx.table.Bottomrule.render
+
+````
+
+`````
+
+````{py:function} multirow_column(value: str, multirow: int, name: str = '', vpos: typing.Literal[c, t, b, ] = '', vmove: str = '', width: str = '*', style: typing.Literal[math, bold, italic, none] = 'none', pad_before: int = 0, pad_after: int = 0, align: str = 'c') -> Columns
+:canonical: tabx.table.multirow_column
+
+```{autodoc2-docstring} tabx.table.multirow_column
+```
+````
+
+````{py:function} multicolumn_row(value: str, multicolumn: int, name: str = '', colspec: typing.Literal[l, c, r] = 'c', pad_before: int = 0, pad_after: int = 0) -> Row
+:canonical: tabx.table.multicolumn_row
+
+```{autodoc2-docstring} tabx.table.multicolumn_row
+```
+````
+
+`````{py:class} Row
+:canonical: tabx.table.Row
+
+```{autodoc2-docstring} tabx.table.Row
+```
+
+````{py:attribute} cells
+:canonical: tabx.table.Row.cells
+:type: collections.abc.Sequence[tabx.table.Cell]
+:value: >
+   None
+
+```{autodoc2-docstring} tabx.table.Row.cells
+```
+
+````
+
+````{py:method} render() -> str
+:canonical: tabx.table.Row.render
+
+```{autodoc2-docstring} tabx.table.Row.render
+```
+
+````
+
+`````
+
+`````{py:class} Rule
+:canonical: tabx.table.Rule
+
+Bases: {py:obj}`abc.ABC`
+
+```{autodoc2-docstring} tabx.table.Rule
+```
+
+````{py:method} clen() -> int
+:canonical: tabx.table.Rule.clen
+
+```{autodoc2-docstring} tabx.table.Rule.clen
+```
+
+````
+
+````{py:method} render() -> str
+:canonical: tabx.table.Rule.render
+:abstractmethod:
+
+```{autodoc2-docstring} tabx.table.Rule.render
+```
+
+````
+
+`````
+
+`````{py:class} Table(rows: collections.abc.Sequence[tabx.table.TableRow], align: str = '')
+:canonical: tabx.table.Table
+
+Bases: {py:obj}`tabx.table.Columns`
+
+```{autodoc2-docstring} tabx.table.Table
+```
+
+```{rubric} Initialization
+```
+
+```{autodoc2-docstring} tabx.table.Table.__init__
+```
+
+````{py:method} from_columns(columns: tabx.table.Columns)
+:canonical: tabx.table.Table.from_columns
+:classmethod:
+
+```{autodoc2-docstring} tabx.table.Table.from_columns
+```
+
+````
+
+````{py:property} columns
+:canonical: tabx.table.Table.columns
+:type: tabx.table.Columns
+
+```{autodoc2-docstring} tabx.table.Table.columns
+```
+
+````
+
+````{py:method} render(custom_render: typing.Callable[..., str] | None = None, *args, **kwargs)
+:canonical: tabx.table.Table.render
+
+```{autodoc2-docstring} tabx.table.Table.render
+```
+
+````
+
+````{py:method} render_body() -> str
+:canonical: tabx.table.Table.render_body
+
+```{autodoc2-docstring} tabx.table.Table.render_body
+```
+
+````
+
+````{py:method} prepend_row(row: tabx.table.TableRow)
+:canonical: tabx.table.Table.prepend_row
+
+```{autodoc2-docstring} tabx.table.Table.prepend_row
+```
+
+````
+
+````{py:method} append_row(row: tabx.table.TableRow)
+:canonical: tabx.table.Table.append_row
+
+```{autodoc2-docstring} tabx.table.Table.append_row
+```
+
+````
+
+````{py:method} insert_row(row: tabx.table.TableRow, index: int)
+:canonical: tabx.table.Table.insert_row
+
+```{autodoc2-docstring} tabx.table.Table.insert_row
+```
+
+````
+
+````{py:method} print(custom_render: typing.Callable[..., str] | None = None)
+:canonical: tabx.table.Table.print
+
+```{autodoc2-docstring} tabx.table.Table.print
+```
+
+````
+
+````{py:method} from_cells(cells: collections.abc.Sequence[tabx.table.Cell] | collections.abc.Sequence[collections.abc.Sequence[tabx.table.Cell]])
+:canonical: tabx.table.Table.from_cells
+:classmethod:
+
+````
+
+````{py:method} from_values(values: collections.abc.Sequence[tabx.table.NumOrStr] | collections.abc.Sequence[collections.abc.Sequence[tabx.table.NumOrStr]])
+:canonical: tabx.table.Table.from_values
+:classmethod:
+
+```{autodoc2-docstring} tabx.table.Table.from_values
+```
+
+````
+
+`````
+
+````{py:function} concat(tables: list[tabx.table.Table], how: typing.Literal[vertical, horizontal] = 'vertical')
+:canonical: tabx.table.concat
+
+```{autodoc2-docstring} tabx.table.concat
+```
+````
