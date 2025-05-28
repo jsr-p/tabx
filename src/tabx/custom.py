@@ -50,10 +50,10 @@ type RowMaps = Sequence[RowMap] | RowMap
 
 
 def align_reg_cells(
-    *cols: Iterable[RegCell],
+    *cols: Sequence[RegCell],
     fill_value: NumOrStr = "",
 ) -> list[tuple[str, list[RegCell]]]:
-    if any(not c.name for c in chain.from_iterable(cols)):
+    if any(not str(c.name) for c in chain.from_iterable(cols)):
         raise ValueError("All RegCells must have a name when aligning")
 
     all_names = sorted(set(c.name for c in chain.from_iterable(cols)))
@@ -158,11 +158,11 @@ class RegRow:
 class ModelData:
     """Object containing model data for model output tables."""
 
-    variables: list[str]
+    variables: Sequence[str]
     """List of variable names."""
-    estimates: list[float]
+    estimates: Sequence[NumOrStr]
     """List of estimates for the variables."""
-    ses: list[float | str]
+    ses: Sequence[NumOrStr]
     """List of standard errors for the variables."""
     name: str
     """Name of the model."""
