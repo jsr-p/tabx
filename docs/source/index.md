@@ -1,5 +1,10 @@
 # tabx documentation
 
+- [README](README)
+- [API](apidocs/index)
+
+## README
+
 ```{toctree}
 :maxdepth: 4
 

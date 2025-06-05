@@ -55,11 +55,13 @@ coverage:
     coverage-badge -f -o figs/coverage.svg
 
 pypi:
+    rm dist/* || true
     uv build
     uv publish -t $(pass pypi-token) \
        --publish-url https://upload.pypi.org/legacy/
 
 testpypi:
+    rm dist/* 
     uv build
     uv publish -t $(pass testpypi-token) \
         --publish-url https://test.pypi.org/legacy/

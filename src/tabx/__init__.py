@@ -29,6 +29,7 @@ from tabx.table import (
     filled_table,
     multirow_column,
     multicolumn_row,
+    concat,
 )
 from tabx.utils import (
     compile_table,
@@ -77,4 +78,4 @@ __all__ = [
     "utils",
 ]
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"

@@ -47,10 +47,11 @@ autodoc2_skip_module_regexes = [
 ]
 
 myst_enable_extensions = [
-    "celllist",
     "attrs_block",
     "attrs_inline",
     "amsmath",
+    # for writing :param:`param_name` in docstrings
+    "fieldlist",
 ]
 myst_number_code_blocks = ["python"]
 myst_heading_anchors = 2
@@ -79,4 +80,3 @@ source_suffix = {
 
 
 html_theme = "furo"
-html_static_path = ["_static"]
