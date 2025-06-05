@@ -110,7 +110,7 @@
 
 ````
 
-````{py:method} from_values(values: collections.abc.Sequence[collections.abc.Sequence[tabx.table.NumOrStr]], column_names: list[str]) -> list[tabx.custom.DescData]
+````{py:method} from_values(values: collections.abc.Sequence[collections.abc.Sequence[tabx.table.NumOrStr]], column_names: list[str], extras: list[dict[str, typing.Any]] | None = None) -> list[tabx.custom.DescData]
 :canonical: tabx.custom.DescData.from_values
 :classmethod:
 
@@ -129,7 +129,7 @@
 
 ````{py:attribute} variables
 :canonical: tabx.custom.ModelData.variables
-:type: list[str]
+:type: collections.abc.Sequence[str]
 :value: >
    None
 
@@ -140,7 +140,7 @@
 
 ````{py:attribute} estimates
 :canonical: tabx.custom.ModelData.estimates
-:type: list[float]
+:type: collections.abc.Sequence[tabx.table.NumOrStr]
 :value: >
    None
 
@@ -151,7 +151,7 @@
 
 ````{py:attribute} ses
 :canonical: tabx.custom.ModelData.ses
-:type: list[float | str]
+:type: collections.abc.Sequence[tabx.table.NumOrStr]
 :value: >
    None
 
@@ -187,6 +187,15 @@
 :classmethod:
 
 ```{autodoc2-docstring} tabx.custom.ModelData.from_dict
+```
+
+````
+
+````{py:method} from_values(values: collections.abc.Sequence[collections.abc.Sequence[tabx.table.NumOrStr]], model_names: list[str], extras: list[dict[str, typing.Any]] | None = None) -> list[tabx.custom.ModelData]
+:canonical: tabx.custom.ModelData.from_values
+:classmethod:
+
+```{autodoc2-docstring} tabx.custom.ModelData.from_values
 ```
 
 ````
@@ -249,7 +258,7 @@
 ```
 ````
 
-````{py:function} models_table(models: collections.abc.Sequence[tabx.custom.ModelData], col_maps: tabx.custom.ColMaps | None = None, row_maps: tabx.custom.RowMaps | None = None, order_map: dict[str, int] = dict(), var_name: str = 'variable', include_extra: bool = True, include_header: bool = True, fill_value: tabx.table.NumOrStr = '') -> tabx.table.Table
+````{py:function} models_table(models: collections.abc.Sequence[tabx.custom.ModelData], col_maps: tabx.custom.ColMaps | None = None, row_maps: tabx.custom.RowMaps | None = None, order_map: dict[str, int] = dict(), var_name: str = 'variable', include_extra: bool = True, include_header: bool = True, include_midrule: bool = True, fill_value: tabx.table.NumOrStr = '') -> tabx.table.Table
 :canonical: tabx.custom.models_table
 
 ```{autodoc2-docstring} tabx.custom.models_table

@@ -298,10 +298,10 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">align_reg_cells</span><span class="p">(</span>
-    <span class="o">*</span><span class="n">cols</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RegCell</span><span class="p">],</span>
+    <span class="o">*</span><span class="n">cols</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">RegCell</span><span class="p">],</span>
     <span class="n">fill_value</span><span class="p">:</span> <span class="n">NumOrStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">RegCell</span><span class="p">]]]:</span>
-    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">cols</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">cols</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;All RegCells must have a name when aligning&quot;</span><span class="p">)</span>
 
     <span class="n">all_names</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">cols</span><span class="p">)))</span>
@@ -414,11 +414,11 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">ModelData</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Object containing model data for model output tables.&quot;&quot;&quot;</span>
 
-    <span class="n">variables</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">variables</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;List of variable names.&quot;&quot;&quot;</span>
-    <span class="n">estimates</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">estimates</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">NumOrStr</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;List of estimates for the variables.&quot;&quot;&quot;</span>
-    <span class="n">ses</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="n">ses</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">NumOrStr</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;List of standard errors for the variables.&quot;&quot;&quot;</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Name of the model.&quot;&quot;&quot;</span>
@@ -457,6 +457,40 @@
             <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
             <span class="n">extra_data</span><span class="o">=</span><span class="n">extra_data</span><span class="p">,</span>
         <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ModelData.from_values">
+<a class="viewcode-back" href="../../apidocs/tabx/tabx.custom.html#tabx.custom.ModelData.from_values">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_values</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">NumOrStr</span><span class="p">]],</span>
+        <span class="n">model_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">extras</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ModelData</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct list of `DescData` objects from a list of values.&quot;&quot;&quot;</span>
+        <span class="n">variable_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">values</span><span class="p">))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]</span>
+        <span class="n">len_row</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">n_models</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_names</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">len_row</span> <span class="o">!=</span> <span class="n">n_models</span> <span class="o">*</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Expected 2 columns per model, got </span><span class="si">{</span><span class="n">len_row</span><span class="si">}</span><span class="s2"> columns for </span><span class="si">{</span><span class="n">n_models</span><span class="si">}</span><span class="s2"> models.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">m_model_datas</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_models</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">model_names</span><span class="p">):</span>
+            <span class="n">m_model_datas</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ModelData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">variable_names</span><span class="p">,</span>
+                    <span class="s2">&quot;estimates&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">data</span><span class="p">)),</span>
+                    <span class="s2">&quot;se&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">data</span><span class="p">)),</span>
+                <span class="p">},</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">model_name</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">extras</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">extra_data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">extras</span><span class="p">):</span>
+                <span class="n">m_model_datas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">extra_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">extra_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">m_model_datas</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
 </div>
 
 
@@ -532,20 +566,34 @@
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">values</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">NumOrStr</span><span class="p">]],</span>
         <span class="n">column_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">extras</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">DescData</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct list of `DescData` objects from a list of values.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct list of `DescData` objects from a list of values.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            values: List of lists, where each inner list contains the variable</span>
+<span class="sd">                    name followed by its values.</span>
+<span class="sd">            column_names: List of column names for the data.</span>
+<span class="sd">            extras: Optional list of dictionaries containing extra data for each</span>
+<span class="sd">                    `DescData` object.</span>
+<span class="sd">                    This is deliberately not a dict but a list of dicts to</span>
+<span class="sd">                    allow for repeated column names.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">variable_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">values</span><span class="p">))</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]</span>
-        <span class="k">return</span> <span class="p">[</span>
-            <span class="n">DescData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
+        <span class="n">m_desc_datas</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">column_names</span><span class="p">):</span>
+            <span class="n">m_desc_datas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">DescData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
                 <span class="p">{</span>
                     <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">variable_names</span><span class="p">,</span>
                     <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">data</span><span class="p">)),</span>
                 <span class="p">},</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">col_name</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">column_names</span><span class="p">)</span>
-        <span class="p">]</span></div>
+        <span class="k">if</span> <span class="n">extras</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">extra_data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">extras</span><span class="p">):</span>
+                <span class="n">m_desc_datas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">extra_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">extra_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">m_desc_datas</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
 </div>
 
 
@@ -870,6 +918,7 @@
     <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;variable&quot;</span><span class="p">,</span>
     <span class="n">include_extra</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">include_header</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">include_midrule</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">fill_value</span><span class="p">:</span> <span class="n">NumOrStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a table of parameter estimates and standard errors.&quot;&quot;&quot;</span>
@@ -897,6 +946,7 @@
         <span class="n">order_map</span><span class="o">=</span><span class="n">order_map</span><span class="p">,</span>
         <span class="n">var_name</span><span class="o">=</span><span class="n">var_name</span><span class="p">,</span>
         <span class="n">include_header</span><span class="o">=</span><span class="n">include_header</span><span class="p">,</span>
+        <span class="n">include_midrule</span><span class="o">=</span><span class="n">include_midrule</span><span class="p">,</span>
         <span class="n">include_extra</span><span class="o">=</span><span class="n">include_extra</span><span class="p">,</span>
         <span class="n">fill_value</span><span class="o">=</span><span class="n">fill_value</span><span class="p">,</span>
     <span class="p">)</span></div>

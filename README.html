@@ -798,6 +798,8 @@ for more wisdom.</p>
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
 <section id="models-estimates-and-standard-errors">
 <h3>Models estimates and standard errors<a class="headerlink" href="#models-estimates-and-standard-errors" title="Link to this heading">¶</a></h3>
+<section id="model-results-dictionary-passing">
+<h4>Model results dictionary passing<a class="headerlink" href="#model-results-dictionary-passing" title="Link to this heading">¶</a></h4>
 <details>
 <summary>
 </summary>
@@ -869,8 +871,76 @@ for more wisdom.</p>
 </details>
 <br>
 </section>
+<section id="model-results-from-values">
+<h4>Model results from values<a class="headerlink" href="#model-results-from-values" title="Link to this heading">¶</a></h4>
+<details>
+<summary>
+</summary>
+<p>Create model table quickly from a <code class="docutils literal notranslate"><span class="pre">polars.DataFrame</span></code> using <code class="docutils literal notranslate"><span class="pre">tabx</span></code>. We
+assume the columns are stacked as pairs of estimates and standard errors
+for each model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tabx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelData</span><span class="p">,</span> <span class="n">utils</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;$x_1$&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.44</span><span class="p">,</span> <span class="mf">1.14</span><span class="p">,</span> <span class="mf">1.04</span><span class="p">,</span> <span class="mf">1.12</span><span class="p">,</span> <span class="mf">0.56</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.21</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;$x_2$&quot;</span><span class="p">,</span> <span class="mf">0.58</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.63</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.92</span><span class="p">,</span> <span class="mf">0.74</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.67</span><span class="p">,</span> <span class="mf">0.33</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;$x_3$&quot;</span><span class="p">,</span> <span class="mf">0.64</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.15</span><span class="p">,</span> <span class="mf">0.78</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.89</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.44</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;$x_4$&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.43</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">,</span> <span class="mf">1.76</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.68</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.11</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.33</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;$x_5$&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.63</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.35</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.21</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.33</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.12</span><span class="p">,</span> <span class="mf">0.44</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;$x_6$&quot;</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.56</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">,</span> <span class="mf">0.44</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.11</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;$x_7$&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.49</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.23</span><span class="p">,</span> <span class="mf">0.67</span><span class="p">,</span> <span class="mf">0.55</span><span class="p">,</span> <span class="mf">0.33</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.44</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;$x_8$&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.91</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.42</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.33</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.11</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.55</span><span class="p">],</span>
+    <span class="p">],</span>
+    <span class="n">schema</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;variable&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ests1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ses1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ests2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ses2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ests3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ses3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ests4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ses4&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">orient</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">desc_datas</span> <span class="o">=</span> <span class="n">ModelData</span><span class="o">.</span><span class="n">from_values</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">rows</span><span class="p">(),</span>
+    <span class="n">model_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M1&quot;</span><span class="p">,</span> <span class="s2">&quot;M2&quot;</span><span class="p">,</span> <span class="s2">&quot;M3&quot;</span><span class="p">,</span> <span class="s2">&quot;M4&quot;</span><span class="p">],</span>  <span class="c1"># Exclude &#39;variable&#39; column</span>
+    <span class="n">extras</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;misc&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;misc&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;optimizer&quot;</span><span class="p">:</span> <span class="s2">&quot;sgd&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s2">&quot;optimizer&quot;</span><span class="p">:</span> <span class="s2">&quot;sgd&quot;</span><span class="p">},</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">models_table</span><span class="p">(</span>
+    <span class="n">desc_datas</span><span class="p">,</span>
+    <span class="n">col_maps</span><span class="o">=</span><span class="n">tabx</span><span class="o">.</span><span class="n">ColMap</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s2">&quot;OLS&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span> <span class="s2">&quot;Logistic&quot;</span><span class="p">}),</span>
+    <span class="n">include_midrule</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+    <span class="n">var_name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">order_map</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;misc&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;optimizer&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Compiling the table to PDF and converting it to PNG yields:</p>
+<p><img alt="image" src="_images/model_simple.png" /></p>
+<p>The downside of this approach is that the estimates and standard errors
+in each row are for the same variable. For the case with many models and
+many variables the dictionary passing approach is more flexible.</p>
+</details>
+<br>
+</section>
+</section>
 <section id="descriptive-statistics">
 <h3>Descriptive statistics<a class="headerlink" href="#descriptive-statistics" title="Link to this heading">¶</a></h3>
+<section id="descriptive-statistics-dictionary-passing">
+<h4>Descriptive statistics dictionary passing<a class="headerlink" href="#descriptive-statistics-dictionary-passing" title="Link to this heading">¶</a></h4>
 <details>
 <summary>
 </summary>
@@ -958,6 +1028,60 @@ for more wisdom.</p>
 <p><img alt="image" src="_images/desc_example.png" /></p>
 </details>
 <br>
+</section>
+<section id="descriptive-statistics-from-values">
+<h4>Descriptive statistics from values<a class="headerlink" href="#descriptive-statistics-from-values" title="Link to this heading">¶</a></h4>
+<details>
+<summary>
+</summary>
+<p>Create descriptive table quickly from a <code class="docutils literal notranslate"><span class="pre">polars.DataFrame</span></code> using <code class="docutils literal notranslate"><span class="pre">tabx</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tabx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">DescData</span><span class="p">,</span> <span class="n">utils</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;$x_1$&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.44</span><span class="p">,</span> <span class="mf">1.14</span><span class="p">,</span> <span class="mf">1.04</span><span class="p">,</span> <span class="mf">1.12</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;$x_2$&quot;</span><span class="p">,</span> <span class="mf">0.58</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.63</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.92</span><span class="p">,</span> <span class="mf">0.74</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;$x_3$&quot;</span><span class="p">,</span> <span class="mf">0.64</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.15</span><span class="p">,</span> <span class="mf">0.78</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;$x_4$&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.43</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">,</span> <span class="mf">1.76</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.68</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;$x_5$&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.63</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.35</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.21</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;$x_6$&quot;</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.56</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.25</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;$x_7$&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.49</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.23</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;$x_8$&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.91</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.42</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">],</span>
+    <span class="p">],</span>
+    <span class="n">schema</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;variable&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">],</span>
+    <span class="n">orient</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">desc_datas</span> <span class="o">=</span> <span class="n">DescData</span><span class="o">.</span><span class="n">from_values</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">rows</span><span class="p">(),</span>
+    <span class="n">column_names</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>  <span class="c1"># Exclude &#39;variable&#39; column</span>
+    <span class="n">extras</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;misc&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;misc&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="s2">&quot;misc&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="n">tabx</span><span class="o">.</span><span class="n">descriptives_table</span><span class="p">(</span>
+    <span class="n">desc_datas</span><span class="p">,</span>
+    <span class="n">col_maps</span><span class="o">=</span><span class="n">tabx</span><span class="o">.</span><span class="n">ColMap</span><span class="p">(</span>
+        <span class="n">mapping</span><span class="o">=</span><span class="p">{</span>
+            <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s2">&quot;First&quot;</span><span class="p">,</span>
+            <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span> <span class="s2">&quot;Second&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">),</span>
+    <span class="n">include_midrule</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+    <span class="n">order_map</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;misc&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Compiling the table to PDF and converting it to PNG yields:</p>
+<p><img alt="image" src="_images/desc_simple.png" /></p>
+</details>
+<br>
+</section>
 </section>
 <section id="scientific-table-1">
 <h3>Scientific Table 1<a class="headerlink" href="#scientific-table-1" title="Link to this heading">¶</a></h3>
@@ -1604,8 +1728,16 @@ you need.</p>
 </li>
 <li><a class="reference internal" href="#wisdom-from-bookstabs">Wisdom from bookstabs</a></li>
 <li><a class="reference internal" href="#examples">Examples</a><ul>
-<li><a class="reference internal" href="#models-estimates-and-standard-errors">Models estimates and standard errors</a></li>
-<li><a class="reference internal" href="#descriptive-statistics">Descriptive statistics</a></li>
+<li><a class="reference internal" href="#models-estimates-and-standard-errors">Models estimates and standard errors</a><ul>
+<li><a class="reference internal" href="#model-results-dictionary-passing">Model results dictionary passing</a></li>
+<li><a class="reference internal" href="#model-results-from-values">Model results from values</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#descriptive-statistics">Descriptive statistics</a><ul>
+<li><a class="reference internal" href="#descriptive-statistics-dictionary-passing">Descriptive statistics dictionary passing</a></li>
+<li><a class="reference internal" href="#descriptive-statistics-from-values">Descriptive statistics from values</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#scientific-table-1">Scientific Table 1</a></li>
 <li><a class="reference internal" href="#scientific-table-2">Scientific Table 2</a></li>
 <li><a class="reference internal" href="#great-tables">Great Tables</a></li>
