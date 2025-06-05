@@ -1481,8 +1481,12 @@ Contributions are welcome!
 - If you have any suggestions or improvements, please open an issue or a
   pull request.
 - If you have an example you would like to share, add the code inside
-  [examples](examples/), add the example to the [README](README.qmd) and
-  a statement to the [Justfile](Justfile) under `readme`.
+  [examples](https://github.com/jsr-p/tabx/blob/main/examples), add the
+  example to the
+  [README](https://github.com/jsr-p/tabx/blob/main/README.qmd) and a
+  statement to the
+  [Justfile](https://github.com/jsr-p/tabx/blob/main/Justfile) under
+  `readme`.
 
 ## Misc.
 
@@ -1506,4 +1510,4 @@ you need.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](https://github.com/jsr-p/tabx/blob/main/LICENSE)
