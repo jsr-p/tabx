@@ -1,5 +1,6 @@
 # tabx documentation
 
+- [Github Repo](https://github.com/jsr-p/tabx)
 - [README](README)
 - [API](apidocs/index)
 
@@ -24,3 +25,5 @@ apidocs/index
 - [Cell](tabx.table.Cell)
 - [Table](tabx.table.Table)
 - [Cmidrule](tabx.table.Cmidrule)
+- [Midrule](tabx.table.Midrule)
+- [Row](tabx.table.Row)
