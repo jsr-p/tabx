@@ -3,7 +3,7 @@ import operator
 import pytest
 
 import tabx
-from tabx import Cell, Row, custom
+from tabx import Cell, Row, custom, utils
 from tabx.custom import ColMap, RegCell, RegRow, RowMap
 
 
@@ -381,6 +381,168 @@ def test_desc_data():
     assert all(isinstance(f, Cell) for f in col)
     assert [f.name for f in col] == ["v1", "v2", "v3", "v4", "v5"]
     assert [f.value for f in col] == ["1.0", "2.0", "3", "4.0", "5"]
+
+
+def test_desc_data_from_values():
+    import polars as pl
+    import tabx
+    from tabx import DescData
+
+    data = pl.DataFrame(
+        [
+            ["$x_1$", -0.44, 1.14],
+            ["$x_2$", 0.58, -0.63],
+            ["$x_3$", 0.64, -1.0],
+        ],
+        schema=["variable", "A", "B"],
+        orient="row",
+    )
+    desc_datas = DescData.from_values(
+        data.rows(),
+        column_names=data.columns[1:],  # Exclude 'variable' column
+    )
+    tab = tabx.descriptives_table(
+        desc_datas,
+        col_maps=tabx.ColMap(mapping={(1, 2): "First"}),
+        include_midrule=True,
+        fill_value="-",
+    )
+
+    assert tab.render().splitlines() == [
+        r"\begin{tabular}{@{}lcc@{}}",
+        r"  \toprule",
+        r"   & \multicolumn{2}{c}{First} \\",
+        r"  \cmidrule(lr){2-3}",
+        r"   & A & B \\",
+        r"  \midrule",
+        r"  $x_1$ & -0.44 & 1.14 \\",
+        r"  $x_2$ & 0.58 & -0.63 \\",
+        r"  $x_3$ & 0.64 & -1.0 \\",
+        r"  \bottomrule",
+        r"\end{tabular}",
+    ]
+
+    desc_datas = DescData.from_values(
+        data.rows(),
+        column_names=data.columns[1:],  # Exclude 'variable' column
+        extras=[
+            {"n": 10, "misc": 1},
+            {"n": 20, "misc": 0},
+        ],
+    )
+    tab = tabx.descriptives_table(
+        desc_datas,
+        col_maps=tabx.ColMap(mapping={(1, 2): "First"}),
+        include_midrule=True,
+        fill_value="-",
+        order_map={"n": 0, "misc": 1},
+    )
+    assert tab.render().splitlines() == [
+        r"\begin{tabular}{@{}lcc@{}}",
+        r"  \toprule",
+        r"   & \multicolumn{2}{c}{First} \\",
+        r"  \cmidrule(lr){2-3}",
+        r"   & A & B \\",
+        r"  \midrule",
+        r"  $x_1$ & -0.44 & 1.14 \\",
+        r"  $x_2$ & 0.58 & -0.63 \\",
+        r"  $x_3$ & 0.64 & -1.0 \\",
+        r"  \midrule",
+        r"  n & 10 & 20 \\",
+        r"  misc & 1 & 0 \\",
+        r"  \bottomrule",
+        r"\end{tabular}",
+    ]
+
+
+def test_model_data_from_values():
+    import polars as pl
+    import tabx
+    from tabx import ModelData
+
+    data = pl.DataFrame(
+        [
+            ["$x_1$", -0.44, 1.14, 1.04, 1.12],
+            ["$x_2$", 0.58, -0.63, -0.92, 0.74],
+            ["$x_3$", 0.64, -1.0, 1.15, 0.78],
+        ],
+        schema=["variable", "ests1", "ses1", "ests2", "ses2"],
+        orient="row",
+    )
+    model_datas = ModelData.from_values(
+        data.rows(),
+        model_names=["M1", "M2"],
+    )
+    tab = tabx.models_table(
+        model_datas,
+        col_maps=tabx.ColMap(mapping={(1, 2): "OLS"}),
+        include_midrule=True,
+        fill_value="-",
+        var_name="",
+    )
+
+    assert tab.render().splitlines() == [
+        r"\begin{tabular}{@{}lcc@{}}",
+        r"  \toprule",
+        r"   & \multicolumn{2}{c}{OLS} \\",
+        r"  \cmidrule(lr){2-3}",
+        r"   & M1 & M2 \\",
+        r"  \midrule",
+        r"  $x_1$ & -0.44 & 1.04 \\",
+        r"   & (1.14) & (1.12) \\",
+        r"  $x_2$ & 0.58 & -0.92 \\",
+        r"   & (-0.63) & (0.74) \\",
+        r"  $x_3$ & 0.64 & 1.15 \\",
+        r"   & (-1.0) & (0.78) \\",
+        r"  \bottomrule",
+        r"\end{tabular}",
+    ]
+
+    model_datas = ModelData.from_values(
+        data.rows(),
+        model_names=["M1", "M2"],
+        extras=[
+            {"n": 10, "misc": 1},
+            {"n": 20, "misc": 0},
+        ],
+    )
+    tab = tabx.models_table(
+        model_datas,
+        col_maps=tabx.ColMap(mapping={(1, 2): "OLS"}),
+        include_midrule=True,
+        fill_value="-",
+        var_name="",
+        order_map={"misc": 0, "n": 1},
+    )
+    assert tab.render().splitlines() == [
+        r"\begin{tabular}{@{}lcc@{}}",
+        r"  \toprule",
+        r"   & \multicolumn{2}{c}{OLS} \\",
+        r"  \cmidrule(lr){2-3}",
+        r"   & M1 & M2 \\",
+        r"  \midrule",
+        r"  $x_1$ & -0.44 & 1.04 \\",
+        r"   & (1.14) & (1.12) \\",
+        r"  $x_2$ & 0.58 & -0.92 \\",
+        r"   & (-0.63) & (0.74) \\",
+        r"  $x_3$ & 0.64 & 1.15 \\",
+        r"   & (-1.0) & (0.78) \\",
+        r"  \midrule",
+        r"  misc & 1 & 0 \\",
+        r"  n & 10 & 20 \\",
+        r"  \bottomrule",
+        r"\end{tabular}",
+    ]
+
+    with pytest.raises(ValueError):
+        model_datas = ModelData.from_values(
+            data.rows(),
+            model_names=["M1"],
+            extras=[
+                {"n": 10, "misc": 1},
+                {"n": 20, "misc": 0},
+            ],
+        )
 
 
 def test_header():

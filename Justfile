@@ -1,3 +1,8 @@
+all:
+    just lint
+    just readme
+    just sphinx
+
 install:
     uv sync
     uv pip install -e /home/jsr-p/gh-repos/documentation-stuff/sphinx-autodoc2
@@ -7,10 +12,6 @@ lint:
     ruff format tests
     ruff format examples
 
-all:
-    just readme
-    just sphinx
-
 readme:
     # - output-dir doesn't work inside the py files
     # - relative paths starting from examples/ dir
@@ -18,7 +19,9 @@ readme:
     quarto render examples/showcase.py --output-dir ../_output
     # examples
     quarto render examples/desc_exp.py --output-dir ../_output
+    quarto render examples/desc_simple.py --output-dir ../_output
     quarto render examples/models_example.py --output-dir ../_output
+    quarto render examples/models_simple.py --output-dir ../_output
     quarto render examples/color.py --output-dir ../_output
     quarto render examples/misc.py --output-dir ../_output
     quarto render examples/great_tables.py --output-dir ../_output

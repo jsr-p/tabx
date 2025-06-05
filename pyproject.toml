@@ -35,6 +35,9 @@ dev = [
     "sphinx-copybutton>=0.5.2",
     "sphinx-rtd-theme>=3.0.2",
     "coverage-badge>=1.1.2",
+    "polars>=1.30.0",
+    "ipdb>=0.13.13",
+    "pdbpp>=0.11.6",
 ]
 
 [tool.coverage.run]

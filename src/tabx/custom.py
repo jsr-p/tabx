@@ -200,6 +200,37 @@ class ModelData:
             extra_data=extra_data,
         )
 
+    @classmethod
+    def from_values(
+        cls,
+        values: Sequence[Sequence[NumOrStr]],
+        model_names: list[str],
+        extras: list[dict[str, Any]] | None = None,
+    ) -> list[ModelData]:
+        """Construct list of `DescData` objects from a list of values."""
+        variable_names = list(map(operator.itemgetter(0), values))
+        data = [row[1:] for row in values]
+        len_row = len(data[0])
+        n_models = len(model_names)
+        if len_row != n_models * 2:
+            raise ValueError(
+                f"Expected 2 columns per model, got {len_row} columns for {n_models} models."
+            )
+        m_model_datas = dict()
+        for i, model_name in zip(range(0, 2 * n_models, 2), model_names):
+            m_model_datas[int(i / 2)] = ModelData.from_dict(
+                {
+                    "variable": variable_names,
+                    "estimates": list(map(operator.itemgetter(i), data)),
+                    "se": list(map(operator.itemgetter(i + 1), data)),
+                },
+                name=model_name,
+            )
+        if extras:
+            for i, extra_data in enumerate(extras):
+                m_model_datas[i].extra_data.update(extra_data)
+        return list(m_model_datas.values())
+
 
 @dataclass
 class DescData:
@@ -265,20 +296,34 @@ class DescData:
         cls,
         values: Sequence[Sequence[NumOrStr]],
         column_names: list[str],
+        extras: list[dict[str, Any]] | None = None,
     ) -> list[DescData]:
-        """Construct list of `DescData` objects from a list of values."""
+        """Construct list of `DescData` objects from a list of values.
+
+        Args:
+            values: List of lists, where each inner list contains the variable
+                    name followed by its values.
+            column_names: List of column names for the data.
+            extras: Optional list of dictionaries containing extra data for each
+                    `DescData` object.
+                    This is deliberately not a dict but a list of dicts to
+                    allow for repeated column names.
+        """
         variable_names = list(map(operator.itemgetter(0), values))
         data = [row[1:] for row in values]
-        return [
-            DescData.from_dict(
+        m_desc_datas = dict()
+        for i, col_name in enumerate(column_names):
+            m_desc_datas[i] = DescData.from_dict(
                 {
                     "variable": variable_names,
                     "values": list(map(operator.itemgetter(i), data)),
                 },
                 name=col_name,
             )
-            for i, col_name in enumerate(column_names)
-        ]
+        if extras:
+            for i, extra_data in enumerate(extras):
+                m_desc_datas[i].extra_data.update(extra_data)
+        return list(m_desc_datas.values())
 
 
 def make_est_col(data: ModelData) -> list[RegCell]:
@@ -599,6 +644,7 @@ def models_table(
     var_name: str = "variable",
     include_extra: bool = True,
     include_header: bool = True,
+    include_midrule: bool = True,
     fill_value: NumOrStr = "",
 ) -> Table:
     """Creates a table of parameter estimates and standard errors."""
@@ -626,6 +672,7 @@ def models_table(
         order_map=order_map,
         var_name=var_name,
         include_header=include_header,
+        include_midrule=include_midrule,
         include_extra=include_extra,
         fill_value=fill_value,
     )

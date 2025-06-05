@@ -80,6 +80,8 @@ See Section 2
 
 ### Models estimates and standard errors
 
+#### Model results dictionary passing
+
 ```{python} 
 #| echo: false
 from IPython.display import Markdown
@@ -90,7 +92,21 @@ Markdown(
 )
 ```
 
+#### Model results from values
+
+```{python} 
+#| echo: false
+from IPython.display import Markdown
+Markdown(
+  "<details>\n" 
+  + "<summary></summary>\n" 
+  + open("_output/models_simple.md").read() + "\n</details>\n<br>\n"
+)
+```
+
 ### Descriptive statistics
+
+#### Descriptive statistics dictionary passing
 
 ```{python} 
 #| echo: false
@@ -102,6 +118,18 @@ Markdown(
 )
 ```
 
+
+#### Descriptive statistics from values
+
+```{python} 
+#| echo: false
+from IPython.display import Markdown
+Markdown(
+  "<details>\n" 
+  + "<summary></summary>\n" 
+  + open("_output/desc_simple.md").read() + "\n</details>\n<br>\n"
+)
+```
 
 
 ### Scientific Table 1
