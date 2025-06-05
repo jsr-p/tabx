@@ -29,6 +29,7 @@ from tabx.table import (
     filled_table,
     multirow_column,
     multicolumn_row,
+    concat,
 )
 from tabx.utils import (
     compile_table,

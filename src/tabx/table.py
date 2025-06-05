@@ -79,8 +79,6 @@ class Cell:
     print(Cell("1"))
     print(Cell("1"))
     ```
-
-    \\multirow[〈vpos〉]{〈nrows〉}{〈width〉}[〈vmove〉]{〈text〉}
     """
 
     value: NumOrStr
@@ -419,18 +417,7 @@ def range_to_interval(r: range):
 
 
 class Cmidrule:
-    """A LaTeX cmidrule.
-
-    Up to tree we go, this works in the docs:
-
-    ```{literalinclude} ../../../../examples/ex2.py
-    :start-after: start example 1
-    :end-before: end example 1
-    ```
-
-    ```{include} ../../../../examples/doctestex.md
-    ```
-    """
+    """A LaTeX cmidrule."""
 
     def __init__(
         self,
@@ -1718,7 +1705,6 @@ def tot_visited_to_cell_idx(tot_visited: int, row: Row):
 
     Notes:
     pick out next cells corresponding to column j
-    >>> f.cells
     [
         Cell(name="", value="sourcenotes", multirow=1, multicolumn=4),
         EmptyCell(name=)
@@ -2016,19 +2002,20 @@ def concat(
 ):
     """Concatenates tables.
 
+    :param tables: List of `Table` objects to concatenate.
+    :param how: How to concatenate the tables.
+    :return: A new `Table` object with the concatenated rows or columns.
+
     See also the operator overloading syntax.
 
     ```python
-    >>> concat([table1, table2]) == table1 | table2
-    True
+    import tabx
+    from tabx import Table
+    table1 = Table.from_values([[1, 2], [3, 4]])
+    table2 = Table.from_values([[5, 6], [7, 8]])
+    tabx.concat([table1, table2], how="horizontal") == table1 | table2
+    # True
     ```
-
-    Args:
-        tables: List of tables to concatenate.
-        how: How to concatenate the tables.
-
-    Returns:
-        A new table with the concatenated rows or columns.
     """
     match how:
         case "vertical":
