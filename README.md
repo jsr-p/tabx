@@ -1,5 +1,3 @@
-
-
 # tabx - compose LaTeX tables using booktabs in Python
 
 ![Coverage Status](figs/coverage.svg)
@@ -25,16 +23,15 @@
 
 ## Installation
 
-``` bash
+```bash
 uv pip install tabx-py
 ```
 
 ## Showcase
 
-``` python
-from tabx import Cell, Table, Cmidrule, Midrule, multirow_column, multicolumn_row
-
-C = Cell
+```python
+from tabx import Cell as C
+from tabx import Cmidrule, Table, multicolumn_row, multirow_column
 
 base = Table.from_cells(
     [
@@ -76,7 +73,7 @@ Compiling the table and converting to PNG yields:
 
 ![image](figs/showcase.png)
 
-``` python
+```python
 # Add some more complexity to the previous table
 row_labels2 = Table.from_cells(
     [
@@ -137,7 +134,7 @@ Compiling the table and converting to PNG yields:
 
 </details>
 
-------------------------------------------------------------------------
+---
 
 ## Tutorial
 
@@ -149,14 +146,14 @@ Compiling the table and converting to PNG yields:
 
 ### Cell, Table, and concatenation
 
-``` python
+```python
 from tabx import Cell
 from tabx import utils
 ```
 
 The most basic object is a `Cell`
 
-``` python
+```python
 cell = Cell("1")
 cell
 ```
@@ -165,13 +162,13 @@ cell
 
 Rendering a cell returns it values as a `str`
 
-``` python
+```python
 cell.render()
 ```
 
     '1'
 
-``` python
+```python
 cell = Cell(r"$\alpha$")
 cell.render()
 ```
@@ -182,7 +179,7 @@ Cells can be concatenated with other cells. Concatenating three cells
 horizontally with the `|` operator yields a `Table` object of dimension
 (1, 3)
 
-``` python
+```python
 tab = Cell("1") | Cell("2") | Cell("3")
 tab
 ```
@@ -192,7 +189,7 @@ tab
 Rendering this yields a `str` with the three cells concatenated wrapped
 inside a `tabular` environment ready to be used in a LaTeX document.
 
-``` python
+```python
 tab.render()
 ```
 
@@ -201,7 +198,7 @@ tab.render()
 Can also be done vertically with the `/` operator yielding a `Table`
 object of dimension (3, 1)
 
-``` python
+```python
 tab_other = Cell("1") / Cell("2") / Cell("3")
 tab_other
 ```
@@ -211,7 +208,7 @@ tab_other
 We can concatenate a `Table` horizontally to stack the tables above each
 other. This is done using the `/` operator.
 
-``` python
+```python
 stacked_tab = tab / tab
 stacked_tab
 ```
@@ -221,7 +218,7 @@ stacked_tab
 And we can concatenate another table onto it from below and then the
 other from the right
 
-``` python
+```python
 stacked_tab2 = (stacked_tab / tab) | tab_other
 stacked_tab2
 ```
@@ -231,7 +228,7 @@ stacked_tab2
 To print out how the table looks like, we can use the `print` method;
 this does not return anything but prints out the object to the console.
 
-``` python
+```python
 stacked_tab2.print()
 ```
 
@@ -245,7 +242,7 @@ stacked_tab2.print()
 
 Say we want some columns name onto this table. This can be done:
 
-``` python
+```python
 stacked_tab3 = (Cell("A") | Cell("B") | Cell("C") | Cell("D")) / stacked_tab2
 stacked_tab3.print()
 ```
@@ -262,7 +259,7 @@ stacked_tab3.print()
 Maybe we want a `Midrule` underneath the column names. This can be done
 as:
 
-``` python
+```python
 from tabx import Midrule
 
 stacked_tab3 = (
@@ -284,7 +281,7 @@ stacked_tab3.print()
 Let add some variable names on the left side. We can construct a column
 as:
 
-``` python
+```python
 row_labels = (
     # The header row and Midrule row shouldn't get a label hence empty cells
     Cell("") / Cell("") / Cell("Var1") / Cell("Var2") / Cell("Var3")
@@ -307,7 +304,7 @@ If you have a LaTeX compiler in your path, you can compile the table to
 a PDF and convert it to a PNG using `tabx.utils.compile_table` and
 `tabx.utils.pdf_to_png` respectively.
 
-``` python
+```python
 file = utils.compile_table(
     stacked_tab2.render(),
     silent=True,
@@ -321,13 +318,13 @@ Compiling the table to PDF and converting it to PNG yields:
 
 ![image](figs/tutorial.png)
 
-------------------------------------------------------------------------
+---
 
 ### Slicing tables
 
 Tables can be sliced like numpy arrays.
 
-``` python
+```python
 # Slice out the row label column
 sliced_tab = stacked_tab3[:, 1:]
 sliced_tab
@@ -335,7 +332,7 @@ sliced_tab
 
     Table(nrows=5, ncols=4)
 
-``` python
+```python
 sliced_tab.print()
 ```
 
@@ -353,7 +350,7 @@ Lets concatenate the sliced table to the original table, add a header
 above the columns of each concatenated table and two `Cmidrule`s between
 to distinguish the two tables.
 
-``` python
+```python
 from tabx import Cmidrule
 
 tab = (
@@ -396,7 +393,7 @@ table, concatenate the sliced table onto it from below and then
 concatenate a column of multirow labels on the left. Let’s see it in
 action instead of the just read word salad:
 
-``` python
+```python
 from tabx import empty_table
 
 multirow_labels = (
@@ -437,7 +434,7 @@ _ = utils.pdf_to_png(file)
 
 ![image](figs/tutorial3.png)
 
-``` python
+```python
 from tabx import Table
 
 # Renders the table body without the tabular environment
@@ -461,7 +458,7 @@ print(tab_new.render_body())
 
 A custom rendering function can be used to render the body of a table.
 
-``` python
+```python
 def render_body_simple(table: Table):
     if not (align := table.align):
         align = "c" * table.ncols
@@ -497,7 +494,7 @@ print(tab_new.render(custom_render=render_body_simple))
 The function `empty_table` is convienient for creating empty cells of
 dimension (nrows, ncols) as fillers.
 
-``` python
+```python
 n, m = 3, 5
 empty_table(n, m)
 ```
@@ -508,7 +505,7 @@ The notation for the multirow cells above is a bit verbose. The function
 `multirow_column` is a wrapper for creating a multirow column with
 padding before and after the multirow cell.
 
-``` python
+```python
 from tabx import multirow_column
 
 mr = multirow_column("Label1", multirow=3, pad_before=2, pad_after=2)
@@ -517,7 +514,7 @@ print(mr)
 
     Columns(nrows=7, ncols=1)
 
-``` python
+```python
 mr.print()
 ```
 
@@ -531,7 +528,7 @@ mr.print()
 
 We can write the `multirow_labels` column from before as:
 
-``` python
+```python
 multirow_labels_succ = (
     # A multirow label spanning 3 rows should be followed by 2 empty cells
     empty_table(3, 1)
@@ -551,7 +548,7 @@ print(multirow_labels_succ.rows == multirow_labels.rows)
 <!-- NOTE: we need the `---` here else the headers float to the top for some
 reason -->
 
-------------------------------------------------------------------------
+---
 
 ## Wisdom from bookstabs
 
@@ -559,7 +556,6 @@ reason -->
 > times:
 >
 > 1.  Never, ever use vertical rules.
->
 > 2.  Never use double rules.
 
 See Section 2
@@ -578,7 +574,7 @@ for more wisdom.
 
 </summary>
 
-``` python
+```python
 import tabx
 from tabx import ColMap, utils
 
@@ -661,7 +657,7 @@ Create model table quickly from a `polars.DataFrame` using `tabx`. We
 assume the columns are stacked as pairs of estimates and standard errors
 for each model.
 
-``` python
+```python
 import polars as pl
 import tabx
 from tabx import ModelData, utils
@@ -733,7 +729,7 @@ many variables the dictionary passing approach is more flexible.
 
 </summary>
 
-``` python
+```python
 import tabx
 from tabx import ColMap, RowMap, utils
 
@@ -831,7 +827,7 @@ tab = tabx.descriptives_table(
 
 Create descriptive table quickly from a `polars.DataFrame` using `tabx`.
 
-``` python
+```python
 import polars as pl
 import tabx
 from tabx import DescData, utils
@@ -893,7 +889,7 @@ Compiling the table to PDF and converting it to PNG yields:
 Example from:
 [here](https://lazyscientist.wordpress.com/2021/07/23/make-better-tables-in-latex-using-booktabs/)
 
-``` python
+```python
 import tabx
 from tabx import DescData, utils, Cmidrule
 
@@ -948,7 +944,7 @@ Compiling the table to PDF and converting it to PNG yields:
 Example from:
 [here](https://nhigham.com/2019/11/19/better-latex-tables-with-booktabs/)
 
-``` python
+```python
 import tabx
 from tabx import DescData, utils
 
@@ -1012,7 +1008,7 @@ Compiling the table to PDF and converting it to PNG yields:
 The above is a bit verbose. If you have the data as a list of lists, you
 can use `DescData.from_values` to create the table as follows:
 
-``` python
+```python
 column_names = ["$mv$", "Rel.~err", "Time", "$mv$", "Rel.~err", "Time"]
 values = [
     ["\\texttt{trigmv}", 11034, 1.3e-07, 3.9, 15846, 2.7e-11, 5.6],
@@ -1054,7 +1050,7 @@ print(tab == tab_other)
 Construct a table from its components as shown in in [Great
 Tables](https://posit-dev.github.io/great-tables/articles/intro.html)
 
-``` python
+```python
 """
 See: https://posit-dev.github.io/great-tables/articles/intro.html
 """
@@ -1113,14 +1109,14 @@ Compiling the table to PDF and converting it to PNG yields:
 
 ![image](figs/great_tables.png)
 
-------------------------------------------------------------------------
+---
 
 **Annotated table**
 
 Annotate the table as shown in in [Great Tables
 docs](https://posit-dev.github.io/great-tables/articles/intro.html)
 
-``` python
+```python
 # Remove midrules and annotate the table's components
 # Midrules will span the annotations; hence we remove them
 tab = (
@@ -1167,16 +1163,13 @@ Compiling the table to PDF and converting it to PNG yields:
 
 </summary>
 
-``` python
+```python
 import tabx
-from tabx import utils
-from tabx.utils import colored_column_spec, compile_table, pdf_to_png
-from tabx import ColoredRow, ColoredCell
+from tabx import Cell as C
+from tabx import ColoredCell as CC
+from tabx import empty_table as et
+from tabx.utils import colored_column_spec
 
-C = tabx.Cell
-CC = ColoredCell
-et = tabx.empty_table
-CR = ColoredRow
 tab = tabx.Table.from_cells(
     [
         [C("A"), CC("B", "yellow"), C("C")],
@@ -1246,7 +1239,7 @@ Compiling the table to PDF and converting it to PNG yields:
 
 </summary>
 
-``` python
+```python
 import tabx
 from tabx import utils
 from tabx.utils import compile_table, pdf_to_png
@@ -1266,13 +1259,13 @@ tab
 
     Table(nrows=6, ncols=3)
 
-``` python
+```python
 tab.shape
 ```
 
     (6, 3)
 
-``` python
+```python
 tab.shape
 print(tab.render())  # Rendered table
 ```
@@ -1288,7 +1281,7 @@ print(tab.render())  # Rendered table
       \bottomrule
     \end{tabular}
 
-``` python
+```python
 ce = tabx.empty_columns(6, 1)
 ctab = ce | tab | ce
 ctab.print()
@@ -1309,7 +1302,7 @@ Compiling the table to PDF and converting it to PNG yields:
 
 ![image](figs/table0.png)
 
-``` python
+```python
 rlab = tabx.multirow_column(
     r"\rotatebox[origin=c]{90}{$x = 2$}",
     4,
@@ -1361,7 +1354,7 @@ Compiling the table to PDF and converting it to PNG yields:
 
 </summary>
 
-``` python
+```python
 """
 ASCII art tables.
 """
@@ -1435,7 +1428,7 @@ _ = utils.pdf_to_png(file)
 
 ![image](figs/ascii1.png)
 
-``` python
+```python
 words = []
 for word in ["LaTeX", "tables", "in", "Python"]:
     word_cols = []
@@ -1463,11 +1456,11 @@ _ = utils.pdf_to_png(file)
 <!-- NOTE: we need the `---` here else the headers float to the top for some
 reason -->
 
-------------------------------------------------------------------------
+---
 
 ## Development
 
-``` bash
+```bash
 git clone git@github.com:jsr-p/tabx.git
 cd tabx
 uv venv
