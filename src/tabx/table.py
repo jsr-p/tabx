@@ -1195,9 +1195,8 @@ def validate_rows(rows: Sequence[TableRow]):
 
     if not all(isinstance(row, TableRow_) for row in rows):
         raise TypeError(
-            f"All elements of rows must be TableRow instances; got {
-                [type(row) for row in rows]
-            }"
+            "All elements of rows must be TableRow instances; got "
+            f"{[type(row) for row in rows]}"
         )
 
     s = len_rows(rows)
