@@ -9,7 +9,7 @@ from tabx.table import Table, render_rows
 __all__ = [
     "compile_table",
     "pdf_to_png",
-    "save_tab",
+    "save_table",
 ]
 
 
@@ -127,21 +127,21 @@ def pdf_to_png(file: str | Path) -> Path:
     return output_file
 
 
-def save_tab(
-    name: str,
-    tab: str,
-    fp: Path | str,
+def save_table(
+    tab: str | Table,
+    file: str | Path,
 ):  # pragma: no cover
     """Saves a LaTeX table to a file.
 
     Args:
-        name: The name of the file to save.
+        file: The name of the file to save.
         tab: The LaTeX table to save.
-        fp: The path to the folder where the file will be saved.
     """
-    if isinstance(fp, str):
-        fp = Path(fp)
-    with open(fp.joinpath(name), "w") as f:
+    if isinstance(file, str):
+        file = Path(file)
+    if isinstance(tab, Table):
+        tab = tab.render()
+    with open(file, "w") as f:
         f.write(tab)
 
 

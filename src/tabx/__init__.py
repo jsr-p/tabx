@@ -35,7 +35,7 @@ from tabx.utils import (
     compile_table,
     pdf_to_png,
     print_lines,
-    save_tab,
+    save_table,
 )
 
 __all__ = [
@@ -71,7 +71,7 @@ __all__ = [
     "print_lines",
     "compile_table",
     "pdf_to_png",
-    "save_tab",
+    "save_table",
     # modules
     "custom",
     "table",
