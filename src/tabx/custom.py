@@ -172,6 +172,14 @@ class ModelData:
     def __repr__(self) -> str:
         return f"ModelData(name={self.name}, #variables={len(self.variables)})"
 
+    def as_dict(self):
+        return {
+            "variable": self.variables,
+            "estimates": self.estimates,
+            "name": self.name,
+            "extra_data": self.extra_data,
+        }
+
     def __post_init__(self):
         c1 = (l1 := len(self.variables)) != (l2 := len(self.estimates))
         c2 = len(self.variables) != (l3 := len(self.ses))
@@ -254,6 +262,14 @@ class DescData:
 
     def __repr__(self) -> str:
         return f"DescData(name={self.name}, #variables={len(self.values)})"
+
+    def as_dict(self):
+        return {
+            "variable": self.variables,
+            "values": self.values,
+            "name": self.name,
+            "extra_data": self.extra_data,
+        }
 
     @classmethod
     def from_dict(
