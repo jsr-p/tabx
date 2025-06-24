@@ -652,7 +652,7 @@ def models_table(
     col_maps: ColMaps | None = None,
     row_maps: RowMaps | None = None,
     order_map: dict[str, int] = dict(),
-    var_name: str = "variable",
+    var_name: str = "",
     include_extra: bool = True,
     include_header: bool = True,
     include_midrule: bool = True,

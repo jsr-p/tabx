@@ -227,7 +227,7 @@ def test_model_table():
         r"\begin{tabular}{@{}lcc@{}}",
         r"  \toprule",
         r"   & \multicolumn{2}{c}{All vars} \\",
-        r"  variable & (M1) & (M1) \\",
+        r"   & (M1) & (M1) \\",
         r"  \midrule",
         r"  v1 & 1 & 1 \\",
         r"   & (0.1) & (0.1) \\",
