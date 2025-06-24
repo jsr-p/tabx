@@ -174,8 +174,9 @@ class ModelData:
 
     def as_dict(self):
         return {
-            "variable": self.variables,
+            "variables": self.variables,
             "estimates": self.estimates,
+            "ses": self.ses,
             "name": self.name,
             "extra_data": self.extra_data,
         }
@@ -242,30 +243,23 @@ class ModelData:
 
 @dataclass
 class DescData:
-    """Object containing data for descriptive statistics tables.
-
-    Some more information here.
-
-    Attributes:
-        `variables`: List of variable names.
-        `values`: List of values for the variables.
-        `name`: Name of the descriptive statistics.
-        `extra_data`: Dictionary to hold any extra data.
-    """
+    """Object containing data for descriptive statistics tables."""
 
     variables: list[str]
-    """some variable names"""
+    """List of variable names."""
     values: list[float]
-    """some variable names"""
+    """List of values for the variables."""
     name: str
+    """Name of the descriptive statistics."""
     extra_data: dict[str, Any] = dataclasses.field(default_factory=dict)
+    """Dictionary to hold any extra data associated with the variable."""
 
     def __repr__(self) -> str:
         return f"DescData(name={self.name}, #variables={len(self.values)})"
 
     def as_dict(self):
         return {
-            "variable": self.variables,
+            "variables": self.variables,
             "values": self.values,
             "name": self.name,
             "extra_data": self.extra_data,
@@ -568,7 +562,7 @@ def construct_rm_col(
             )
 
     holes = find_holes(pairs)
-    total = rmp.n_vars + (rmp.total - rmp.n_vars) * rmp.include_extra
+    total = rmp.n_vars + (rmp.total - rmp.n_vars) * rmp.has_extra
 
     cols = []
     mr_filled = False
@@ -582,7 +576,7 @@ def construct_rm_col(
         nrows = end - start + 1
         cols.append(multirow_column(name=name, value=name, multirow=nrows))
 
-    if not mr_filled and rmp.include_extra:
+    if not mr_filled and rmp.has_extra:
         cols.extend(empty_cells(1))
 
     (_, last_end), _ = pairs[-1]
@@ -621,9 +615,10 @@ def construct_base(
         include_midrule=include_midrule,
     )
     extra_rows = extra_data_rows(objs, order_map=order_map, fill_value=fill_value)
-    if include_midrule and extra_rows:
+    want_extra = bool(extra_rows and include_extra)
+    if include_midrule and want_extra:
         rows = list(rows) + [Midrule()]
-    if extra_rows and include_extra:
+    if want_extra:
         rows = list(rows) + extra_rows
     if include_header:
         rows = list(header) + list(rows)
@@ -637,7 +632,7 @@ def construct_base(
             include_extra=include_extra,
             include_midrule=include_midrule,
             has_header=include_header,
-            has_extra=bool(extra_rows and include_extra),
+            has_extra=want_extra,
         )
         if isinstance(row_maps, RowMap):
             rm = row_maps

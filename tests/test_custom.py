@@ -1178,3 +1178,99 @@ def test_row_maps_extra():
         r"  \bottomrule",
         r"\end{tabular}",
     ]
+
+    # Some row map stuff
+
+    m1 = tabx.ModelData(
+        **{
+            "variables": ["C1", "C2", "C3"],
+            "estimates": [-0.27, -0.03, -0.02],
+            "ses": [0.96, 1.0, 1.0],
+            "name": "01",
+            "extra_data": {},
+        }
+    )
+    m2 = tabx.ModelData(
+        **{
+            "variables": ["C1", "C2", "C3"],
+            "estimates": [-0.6, -0.54, -0.52],
+            "ses": [0.8, 0.84, 0.85],
+            "name": "O2",
+            "extra_data": {},
+        }
+    )
+
+    tab = tabx.models_table(
+        [m1, m2],
+        var_name="",
+        row_maps=[tabx.RowMap({(1, 3): "All"})],
+        include_extra=False,
+    ).render()
+    tab2 = tabx.models_table(
+        [m1, m2],
+        var_name="",
+        row_maps=[tabx.RowMap({(1, 3): "All"})],
+        include_extra=True,
+    ).render()
+
+    test_lines = [
+        r"\begin{tabular}{@{}llcc@{}}",
+        r"  \toprule",
+        r"   &  & 01 & O2 \\",
+        r"  \midrule",
+        r"  \multirow{3}{*}{All} & C1 & -0.27 & -0.6 \\",
+        r"   &  & (0.96) & (0.8) \\",
+        r"   & C2 & -0.03 & -0.54 \\",
+        r"   &  & (1.0) & (0.84) \\",
+        r"   & C3 & -0.02 & -0.52 \\",
+        r"   &  & (1.0) & (0.85) \\",
+        r"  \bottomrule",
+        r"\end{tabular}",
+    ]
+
+    assert tab.splitlines() == test_lines
+    assert tab2.splitlines() == test_lines
+
+    test_lines2 = [
+        r"\begin{tabular}{@{}llcc@{}}",
+        r"  \toprule",
+        r"   &  & 01 & O2 \\",
+        r"  \midrule",
+        r"  \multirow{3}{*}{All} & C1 & -0.27 & -0.6 \\",
+        r"   &  & (0.96) & (0.8) \\",
+        r"   & C2 & -0.03 & -0.54 \\",
+        r"   &  & (1.0) & (0.84) \\",
+        r"   & C3 & -0.02 & -0.52 \\",
+        r"   &  & (1.0) & (0.85) \\",
+        r"  \midrule",
+        r"   & N & 100 & 100 \\",
+        r"  \bottomrule",
+        r"\end{tabular}",
+    ]
+
+    m1 = tabx.ModelData(
+        **{
+            "variables": ["C1", "C2", "C3"],
+            "estimates": [-0.27, -0.03, -0.02],
+            "ses": [0.96, 1.0, 1.0],
+            "name": "01",
+            "extra_data": {"N": 100},
+        }
+    )
+    m2 = tabx.ModelData(
+        **{
+            "variables": ["C1", "C2", "C3"],
+            "estimates": [-0.6, -0.54, -0.52],
+            "ses": [0.8, 0.84, 0.85],
+            "name": "O2",
+            "extra_data": {"N": 100},
+        }
+    )
+    for ie, tlines in zip([False, True], [test_lines, test_lines2]):
+        tab = tabx.models_table(
+            [m1, m2],
+            var_name="",
+            row_maps=[tabx.RowMap({(1, 3): "All"})],
+            include_extra=ie,
+        )
+        assert tab.render().splitlines() == tlines, tlines
