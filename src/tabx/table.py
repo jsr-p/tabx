@@ -45,6 +45,10 @@ __all__ = [
     "concat",
 ]
 
+# type alias notation >= 3.12
+type TableRow = Row | Cmidrule | Cmidrules | Rule
+type NumOrStr = int | float | str
+
 
 @dataclass
 class Cell:
@@ -1147,10 +1151,7 @@ class Row:
         )
 
 
-# type alias notation >= 3.12
-type TableRow = Row | Cmidrule | Cmidrules | Rule
 TableRow_ = (Row, Cmidrule, Cmidrules, Rule)
-type NumOrStr = int | float | str
 
 
 def len_rows(rows: Iterable[TableRow]) -> set[int]:
