@@ -11,7 +11,7 @@ from collections import defaultdict
 from collections.abc import Sequence
 from dataclasses import dataclass
 from itertools import chain
-from typing import Any, Iterable
+from typing import Any, Iterable, TypeAlias, Union
 
 from tabx.table import (
     Cmidrule,
@@ -41,11 +41,11 @@ __all__ = [
 ]
 
 
-type RCMap = dict[tuple[int, int], str]
+RCMap: TypeAlias = dict[tuple[int, int], str]
 """Row/Column map for mapping indices to multirow/multicolumn names."""
-type ColMaps = Sequence[ColMap] | ColMap
+ColMaps: TypeAlias = Union[Sequence["ColMap"], "ColMap"]
 """Sequence of ColMap objects or a single ColMap object."""
-type RowMaps = Sequence[RowMap] | RowMap
+RowMaps: TypeAlias = Union[Sequence["RowMap"], "RowMap"]
 """Sequence of RowMap objects or a single RowMap object."""
 
 

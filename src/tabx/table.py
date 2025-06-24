@@ -17,6 +17,8 @@ from typing import (
     Literal,
     Self,
     TypeVar,
+    Union,
+    TypeAlias,
     assert_never,
     cast,
     overload,
@@ -44,6 +46,11 @@ __all__ = [
     "Table",
     "concat",
 ]
+
+# type alias notation >= 3.12
+TableRow: TypeAlias = Union["Row", "Cmidrule", "Cmidrules", "Rule"]
+NumOrStr: TypeAlias = Union[int, float, str]
+SequenceKind: TypeAlias = Literal["seq", "seq_of_seq", "other"]
 
 
 @dataclass
@@ -1147,10 +1154,7 @@ class Row:
         )
 
 
-# type alias notation >= 3.12
-type TableRow = Row | Cmidrule | Cmidrules | Rule
 TableRow_ = (Row, Cmidrule, Cmidrules, Rule)
-type NumOrStr = int | float | str
 
 
 def len_rows(rows: Iterable[TableRow]) -> set[int]:
@@ -1237,9 +1241,6 @@ def is_seq_of_type_seq(seq, type_: type = int):
         and len(seq) > 0
         and all(is_type_seq(i, type_) for i in seq)
     )
-
-
-type SequenceKind = Literal["seq", "seq_of_seq", "other"]
 
 
 def match_seq(x, type_) -> SequenceKind:
