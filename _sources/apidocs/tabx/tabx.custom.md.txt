@@ -101,6 +101,14 @@
 
 ````
 
+````{py:method} as_dict()
+:canonical: tabx.custom.DescData.as_dict
+
+```{autodoc2-docstring} tabx.custom.DescData.as_dict
+```
+
+````
+
 ````{py:method} from_dict(data: dict, var_col: str = 'variable', val_col: str = 'values', name: str = '') -> tabx.custom.DescData
 :canonical: tabx.custom.DescData.from_dict
 :classmethod:
@@ -182,6 +190,14 @@
 
 ````
 
+````{py:method} as_dict()
+:canonical: tabx.custom.ModelData.as_dict
+
+```{autodoc2-docstring} tabx.custom.ModelData.as_dict
+```
+
+````
+
 ````{py:method} from_dict(data: dict, v_col: str = 'variable', est_col: str = 'estimates', se_col: str = 'se', name: str = '') -> tabx.custom.ModelData
 :canonical: tabx.custom.ModelData.from_dict
 :classmethod:
@@ -258,7 +274,7 @@
 ```
 ````
 
-````{py:function} models_table(models: collections.abc.Sequence[tabx.custom.ModelData], col_maps: tabx.custom.ColMaps | None = None, row_maps: tabx.custom.RowMaps | None = None, order_map: dict[str, int] = dict(), var_name: str = 'variable', include_extra: bool = True, include_header: bool = True, include_midrule: bool = True, fill_value: tabx.table.NumOrStr = '') -> tabx.table.Table
+````{py:function} models_table(models: collections.abc.Sequence[tabx.custom.ModelData], col_maps: tabx.custom.ColMaps | None = None, row_maps: tabx.custom.RowMaps | None = None, order_map: dict[str, int] = dict(), var_name: str = '', include_extra: bool = True, include_header: bool = True, include_midrule: bool = True, fill_value: tabx.table.NumOrStr = '') -> tabx.table.Table
 :canonical: tabx.custom.models_table
 
 ```{autodoc2-docstring} tabx.custom.models_table

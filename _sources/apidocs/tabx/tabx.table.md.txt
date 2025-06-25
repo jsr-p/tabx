@@ -457,7 +457,7 @@ Bases: {py:obj}`tabx.table.Rule`
 
 ````{py:attribute} value
 :canonical: tabx.table.Cell.value
-:type: NumOrStr
+:type: tabx.table.NumOrStr
 :value: >
    None
 

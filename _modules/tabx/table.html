@@ -260,6 +260,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">reduce</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">chain</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Any</span><span class="p">,</span>
     <span class="n">Callable</span><span class="p">,</span>
     <span class="n">Iterable</span><span class="p">,</span>
     <span class="n">Literal</span><span class="p">,</span>
@@ -292,6 +293,10 @@
     <span class="s2">&quot;Table&quot;</span><span class="p">,</span>
     <span class="s2">&quot;concat&quot;</span><span class="p">,</span>
 <span class="p">]</span>
+
+<span class="c1"># type alias notation &gt;= 3.12</span>
+<span class="nb">type</span> <span class="n">TableRow</span> <span class="o">=</span> <span class="n">Row</span> <span class="o">|</span> <span class="n">Cmidrule</span> <span class="o">|</span> <span class="n">Cmidrules</span> <span class="o">|</span> <span class="n">Rule</span>
+<span class="nb">type</span> <span class="n">NumOrStr</span> <span class="o">=</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span>
 
 
 <div class="viewcode-block" id="Cell">
@@ -329,8 +334,6 @@
 <span class="sd">    print(Cell(&quot;1&quot;))</span>
 <span class="sd">    print(Cell(&quot;1&quot;))</span>
 <span class="sd">    ```</span>
-
-<span class="sd">    \\multirow[〈vpos〉]{〈nrows〉}{〈width〉}[〈vmove〉]{〈text〉}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">value</span><span class="p">:</span> <span class="n">NumOrStr</span>
@@ -693,18 +696,7 @@
 <div class="viewcode-block" id="Cmidrule">
 <a class="viewcode-back" href="../../apidocs/tabx/tabx.table.html#tabx.table.Cmidrule">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Cmidrule</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A LaTeX cmidrule.</span>
-
-<span class="sd">    Up to tree we go, this works in the docs:</span>
-
-<span class="sd">    ```{literalinclude} ../../../../examples/ex2.py</span>
-<span class="sd">    :start-after: start example 1</span>
-<span class="sd">    :end-before: end example 1</span>
-<span class="sd">    ```</span>
-
-<span class="sd">    ```{include} ../../../../examples/doctestex.md</span>
-<span class="sd">    ```</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A LaTeX cmidrule.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1479,6 +1471,15 @@
         <span class="k">return</span> <span class="s2">&quot; &amp; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">render</span><span class="p">()</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cells</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot; </span><span class="se">\\</span><span class="s2">&quot;</span></div>
 
 
+    <span class="nd">@overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Table</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Columns</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Columns</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Cmidrules</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Columns</span><span class="p">:</span> <span class="o">...</span>
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">TableRow_</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Columns</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">])</span>
@@ -1489,7 +1490,15 @@
             <span class="sa">f</span><span class="s2">&quot;and &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
         <span class="p">)</span>
 
+    <span class="nd">@overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Columns</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Columns</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Row</span> <span class="o">|</span> <span class="n">Cell</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Row</span><span class="p">:</span> <span class="o">...</span>
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Columns</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Columns</span><span class="p">([</span><span class="bp">self</span><span class="p">])</span> <span class="o">|</span> <span class="n">other</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Row</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Row</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cells</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">cells</span><span class="p">))</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Cell</span><span class="p">):</span>
@@ -1501,10 +1510,7 @@
 
 
 
-<span class="c1"># type alias notation &gt;= 3.12</span>
-<span class="nb">type</span> <span class="n">TableRow</span> <span class="o">=</span> <span class="n">Row</span> <span class="o">|</span> <span class="n">Cmidrule</span> <span class="o">|</span> <span class="n">Cmidrules</span> <span class="o">|</span> <span class="n">Rule</span>
 <span class="n">TableRow_</span> <span class="o">=</span> <span class="p">(</span><span class="n">Row</span><span class="p">,</span> <span class="n">Cmidrule</span><span class="p">,</span> <span class="n">Cmidrules</span><span class="p">,</span> <span class="n">Rule</span><span class="p">)</span>
-<span class="nb">type</span> <span class="n">NumOrStr</span> <span class="o">=</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">len_rows</span><span class="p">(</span><span class="n">rows</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TableRow</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
@@ -1548,9 +1554,8 @@
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">TableRow_</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;All elements of rows must be TableRow instances; got </span><span class="si">{</span>
-<span class="w">                </span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">rows</span><span class="p">]</span>
-<span class="w">            </span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;All elements of rows must be TableRow instances; got &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">rows</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
 
     <span class="n">s</span> <span class="o">=</span> <span class="n">len_rows</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
@@ -1855,6 +1860,8 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Overload `|`&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Cell</span><span class="p">):</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">Columns</span><span class="p">([</span><span class="n">Row</span><span class="p">([</span><span class="n">other</span><span class="p">])])</span>  <span class="c1"># delegate to Columns below</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Row</span><span class="p">):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Columns</span><span class="p">([</span><span class="n">other</span><span class="p">])</span>  <span class="c1"># delegate to Columns below</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Table</span><span class="p">):</span>
             <span class="n">cols</span> <span class="o">=</span> <span class="n">join_columns</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">])</span>
             <span class="k">return</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_columns</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
@@ -2103,6 +2110,11 @@
     <span class="k">return</span> <span class="n">out</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">reduce_vertical</span><span class="p">(</span><span class="n">objs</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span><span class="p">,</span> <span class="n">objs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">reduce_horizontal</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Cannot use this with multirow cells while they should be linked</span>
@@ -2137,7 +2149,6 @@
 
 <span class="sd">    Notes:</span>
 <span class="sd">    pick out next cells corresponding to column j</span>
-<span class="sd">    &gt;&gt;&gt; f.cells</span>
 <span class="sd">    [</span>
 <span class="sd">        Cell(name=&quot;&quot;, value=&quot;sourcenotes&quot;, multirow=1, multicolumn=4),</span>
 <span class="sd">        EmptyCell(name=)</span>
@@ -2443,19 +2454,20 @@
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Concatenates tables.</span>
 
+<span class="sd">    :param tables: List of `Table` objects to concatenate.</span>
+<span class="sd">    :param how: How to concatenate the tables.</span>
+<span class="sd">    :return: A new `Table` object with the concatenated rows or columns.</span>
+
 <span class="sd">    See also the operator overloading syntax.</span>
 
 <span class="sd">    ```python</span>
-<span class="sd">    &gt;&gt;&gt; concat([table1, table2]) == table1 | table2</span>
-<span class="sd">    True</span>
+<span class="sd">    import tabx</span>
+<span class="sd">    from tabx import Table</span>
+<span class="sd">    table1 = Table.from_values([[1, 2], [3, 4]])</span>
+<span class="sd">    table2 = Table.from_values([[5, 6], [7, 8]])</span>
+<span class="sd">    tabx.concat([table1, table2], how=&quot;horizontal&quot;) == table1 | table2</span>
+<span class="sd">    # True</span>
 <span class="sd">    ```</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        tables: List of tables to concatenate.</span>
-<span class="sd">        how: How to concatenate the tables.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        A new table with the concatenated rows or columns.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">match</span> <span class="n">how</span><span class="p">:</span>
         <span class="k">case</span> <span class="s2">&quot;vertical&quot;</span><span class="p">:</span>

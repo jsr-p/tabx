@@ -23,8 +23,8 @@
   - ```{autodoc2-docstring} tabx.utils.pdf_to_png
     :summary:
     ```
-* - {py:obj}`save_tab <tabx.utils.save_tab>`
-  - ```{autodoc2-docstring} tabx.utils.save_tab
+* - {py:obj}`save_table <tabx.utils.save_table>`
+  - ```{autodoc2-docstring} tabx.utils.save_table
     :summary:
     ```
 ````
@@ -45,9 +45,9 @@
 ```
 ````
 
-````{py:function} save_tab(name: str, tab: str, fp: pathlib.Path | str)
-:canonical: tabx.utils.save_tab
+````{py:function} save_table(tab: str | tabx.table.Table, file: str | pathlib.Path)
+:canonical: tabx.utils.save_table
 
-```{autodoc2-docstring} tabx.utils.save_tab
+```{autodoc2-docstring} tabx.utils.save_table
 ```
 ````

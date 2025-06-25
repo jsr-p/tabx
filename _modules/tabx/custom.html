@@ -255,10 +255,12 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">dataclasses</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">it</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">operator</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span><span class="p">,</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">reduce</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">typing</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">tabx.table</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
@@ -277,6 +279,7 @@
     <span class="n">multirow_column</span><span class="p">,</span>
     <span class="n">reduce_cells_to_col</span><span class="p">,</span>
     <span class="n">NumOrStr</span><span class="p">,</span>
+    <span class="n">multicolumn_row</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
@@ -428,6 +431,18 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;ModelData(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, #variables=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
 
+<div class="viewcode-block" id="ModelData.as_dict">
+<a class="viewcode-back" href="../../apidocs/tabx/tabx.custom.html#tabx.custom.ModelData.as_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">,</span>
+            <span class="s2">&quot;estimates&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimates</span><span class="p">,</span>
+            <span class="s2">&quot;ses&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ses</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;extra_data&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">extra_data</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">c1</span> <span class="o">=</span> <span class="p">(</span><span class="n">l1</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">))</span> <span class="o">!=</span> <span class="p">(</span><span class="n">l2</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">estimates</span><span class="p">))</span>
         <span class="n">c2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="n">l3</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ses</span><span class="p">))</span>
@@ -499,26 +514,30 @@
 <a class="viewcode-back" href="../../apidocs/tabx/tabx.custom.html#tabx.custom.DescData">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">DescData</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object containing data for descriptive statistics tables.</span>
-
-<span class="sd">    Some more information here.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        `variables`: List of variable names.</span>
-<span class="sd">        `values`: List of values for the variables.</span>
-<span class="sd">        `name`: Name of the descriptive statistics.</span>
-<span class="sd">        `extra_data`: Dictionary to hold any extra data.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object containing data for descriptive statistics tables.&quot;&quot;&quot;</span>
 
     <span class="n">variables</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;some variable names&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;List of variable names.&quot;&quot;&quot;</span>
     <span class="n">values</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;some variable names&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;List of values for the variables.&quot;&quot;&quot;</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Name of the descriptive statistics.&quot;&quot;&quot;</span>
     <span class="n">extra_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dictionary to hold any extra data associated with the variable.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;DescData(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, #variables=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+<div class="viewcode-block" id="DescData.as_dict">
+<a class="viewcode-back" href="../../apidocs/tabx/tabx.custom.html#tabx.custom.DescData.as_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">,</span>
+            <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;extra_data&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">extra_data</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
 
 <div class="viewcode-block" id="DescData.from_dict">
 <a class="viewcode-back" href="../../apidocs/tabx/tabx.custom.html#tabx.custom.DescData.from_dict">[docs]</a>
@@ -605,7 +624,7 @@
             <span class="n">est</span><span class="o">=</span><span class="n">Cell</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">est</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
             <span class="n">se</span><span class="o">=</span><span class="n">Cell</span><span class="p">(</span>
                 <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-                <span class="n">value</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">se</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">se</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">se</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">se</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
         <span class="p">)</span>
@@ -779,21 +798,6 @@
     <span class="n">include_midrule</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">handle_rm</span><span class="p">(</span><span class="n">rm</span><span class="p">:</span> <span class="n">RowMap</span><span class="p">,</span> <span class="n">rmp</span><span class="p">:</span> <span class="n">RmParams</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    n_vars includes extra variables if specified.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">max_end</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">end</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span> <span class="ow">in</span> <span class="n">rm</span><span class="o">.</span><span class="n">mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">()])</span>
-    <span class="k">if</span> <span class="n">max_end</span> <span class="o">&gt;</span> <span class="n">rmp</span><span class="o">.</span><span class="n">total</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Row map end (</span><span class="si">{</span><span class="n">max_end</span><span class="si">}</span><span class="s2">) exceeds rows (</span><span class="si">{</span><span class="n">rmp</span><span class="o">.</span><span class="n">total</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">rmp</span><span class="o">.</span><span class="n">has_header</span><span class="p">:</span>
-        <span class="n">pad_before</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rmp</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>  <span class="c1"># Midrule in header usually</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">pad_before</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">rm_col</span> <span class="o">=</span> <span class="n">construct_rm_col</span><span class="p">(</span><span class="n">rm</span><span class="p">,</span> <span class="n">rmp</span><span class="p">,</span> <span class="n">pad_before</span><span class="o">=</span><span class="n">pad_before</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">rm_col</span>
-
-
 <span class="k">def</span><span class="w"> </span><span class="nf">construct_rm_col</span><span class="p">(</span>
     <span class="n">rm</span><span class="p">:</span> <span class="n">RowMap</span><span class="p">,</span>
     <span class="n">rmp</span><span class="p">:</span> <span class="n">RmParams</span><span class="p">,</span>
@@ -824,7 +828,7 @@
             <span class="p">)</span>
 
     <span class="n">holes</span> <span class="o">=</span> <span class="n">find_holes</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span>
-    <span class="n">total</span> <span class="o">=</span> <span class="n">rmp</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">+</span> <span class="p">(</span><span class="n">rmp</span><span class="o">.</span><span class="n">total</span> <span class="o">-</span> <span class="n">rmp</span><span class="o">.</span><span class="n">n_vars</span><span class="p">)</span> <span class="o">*</span> <span class="n">rmp</span><span class="o">.</span><span class="n">include_extra</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">rmp</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">+</span> <span class="p">(</span><span class="n">rmp</span><span class="o">.</span><span class="n">total</span> <span class="o">-</span> <span class="n">rmp</span><span class="o">.</span><span class="n">n_vars</span><span class="p">)</span> <span class="o">*</span> <span class="n">rmp</span><span class="o">.</span><span class="n">has_extra</span>
 
     <span class="n">cols</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">mr_filled</span> <span class="o">=</span> <span class="kc">False</span>
@@ -838,7 +842,7 @@
         <span class="n">nrows</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">multirow_column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">multirow</span><span class="o">=</span><span class="n">nrows</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">mr_filled</span> <span class="ow">and</span> <span class="n">rmp</span><span class="o">.</span><span class="n">include_extra</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">mr_filled</span> <span class="ow">and</span> <span class="n">rmp</span><span class="o">.</span><span class="n">has_extra</span><span class="p">:</span>
         <span class="n">cols</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">empty_cells</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 
     <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">last_end</span><span class="p">),</span> <span class="n">_</span> <span class="o">=</span> <span class="n">pairs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -853,6 +857,21 @@
     <span class="n">col</span><span class="o">.</span><span class="n">set_align</span><span class="p">(</span><span class="s2">&quot;l&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">col</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">handle_rm</span><span class="p">(</span><span class="n">rm</span><span class="p">:</span> <span class="n">RowMap</span><span class="p">,</span> <span class="n">rmp</span><span class="p">:</span> <span class="n">RmParams</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    n_vars includes extra variables if specified.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_end</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">end</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span> <span class="ow">in</span> <span class="n">rm</span><span class="o">.</span><span class="n">mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">()])</span>
+    <span class="k">if</span> <span class="n">max_end</span> <span class="o">&gt;</span> <span class="n">rmp</span><span class="o">.</span><span class="n">total</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Row map end (</span><span class="si">{</span><span class="n">max_end</span><span class="si">}</span><span class="s2">) exceeds rows (</span><span class="si">{</span><span class="n">rmp</span><span class="o">.</span><span class="n">total</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rmp</span><span class="o">.</span><span class="n">has_header</span><span class="p">:</span>
+        <span class="n">pad_before</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rmp</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>  <span class="c1"># Midrule in header usually</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pad_before</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">rm_col</span> <span class="o">=</span> <span class="n">construct_rm_col</span><span class="p">(</span><span class="n">rm</span><span class="p">,</span> <span class="n">rmp</span><span class="p">,</span> <span class="n">pad_before</span><span class="o">=</span><span class="n">pad_before</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rm_col</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">construct_base</span><span class="p">(</span>
@@ -877,9 +896,10 @@
         <span class="n">include_midrule</span><span class="o">=</span><span class="n">include_midrule</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">extra_rows</span> <span class="o">=</span> <span class="n">extra_data_rows</span><span class="p">(</span><span class="n">objs</span><span class="p">,</span> <span class="n">order_map</span><span class="o">=</span><span class="n">order_map</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="n">fill_value</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">include_midrule</span> <span class="ow">and</span> <span class="n">extra_rows</span><span class="p">:</span>
+    <span class="n">want_extra</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">extra_rows</span> <span class="ow">and</span> <span class="n">include_extra</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">include_midrule</span> <span class="ow">and</span> <span class="n">want_extra</span><span class="p">:</span>
         <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">Midrule</span><span class="p">()]</span>
-    <span class="k">if</span> <span class="n">extra_rows</span> <span class="ow">and</span> <span class="n">include_extra</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">want_extra</span><span class="p">:</span>
         <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">+</span> <span class="n">extra_rows</span>
     <span class="k">if</span> <span class="n">include_header</span><span class="p">:</span>
         <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">header</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
@@ -893,7 +913,7 @@
             <span class="n">include_extra</span><span class="o">=</span><span class="n">include_extra</span><span class="p">,</span>
             <span class="n">include_midrule</span><span class="o">=</span><span class="n">include_midrule</span><span class="p">,</span>
             <span class="n">has_header</span><span class="o">=</span><span class="n">include_header</span><span class="p">,</span>
-            <span class="n">has_extra</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">extra_rows</span> <span class="ow">and</span> <span class="n">include_extra</span><span class="p">),</span>
+            <span class="n">has_extra</span><span class="o">=</span><span class="n">want_extra</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row_maps</span><span class="p">,</span> <span class="n">RowMap</span><span class="p">):</span>
             <span class="n">rm</span> <span class="o">=</span> <span class="n">row_maps</span>
@@ -915,7 +935,7 @@
     <span class="n">col_maps</span><span class="p">:</span> <span class="n">ColMaps</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">row_maps</span><span class="p">:</span> <span class="n">RowMaps</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">order_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(),</span>
-    <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;variable&quot;</span><span class="p">,</span>
+    <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">include_extra</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">include_header</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">include_midrule</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -987,6 +1007,149 @@
         <span class="n">fill_value</span><span class="o">=</span><span class="n">fill_value</span><span class="p">,</span>
     <span class="p">)</span></div>
 
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">normalized_mapping</span><span class="p">(</span><span class="n">rcmap</span><span class="p">:</span> <span class="n">RCMap</span><span class="p">):</span>
+    <span class="n">pairs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">rcmap</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">({(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span> <span class="n">name</span> <span class="k">for</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">),</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">})</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Chunk</span><span class="p">:</span>
+    <span class="n">start</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">end</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">value</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;filled&quot;</span><span class="p">,</span> <span class="s2">&quot;empty&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;filled&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_chunks</span><span class="p">(</span><span class="n">omap</span><span class="p">:</span> <span class="n">RCMap</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">prev_end</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">),</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">omap</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">diff</span> <span class="o">:=</span> <span class="n">start</span> <span class="o">-</span> <span class="p">(</span><span class="n">prev_end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Chunk</span><span class="p">(</span>
+                    <span class="n">start</span><span class="o">=</span><span class="n">prev_end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="n">end</span><span class="o">=</span><span class="n">start</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="n">length</span><span class="o">=</span><span class="n">diff</span><span class="p">,</span>
+                    <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;empty&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Chunk</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
+        <span class="n">prev_end</span> <span class="o">=</span> <span class="n">end</span>
+    <span class="k">if</span> <span class="n">prev_end</span> <span class="o">&lt;</span> <span class="n">total</span><span class="p">:</span>
+        <span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">Chunk</span><span class="p">(</span>
+                <span class="n">start</span><span class="o">=</span><span class="n">prev_end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="n">end</span><span class="o">=</span><span class="n">total</span><span class="p">,</span>
+                <span class="n">length</span><span class="o">=</span><span class="n">total</span> <span class="o">-</span> <span class="n">prev_end</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;empty&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">chunks</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cmap_cols_from_chunks</span><span class="p">(</span><span class="n">chunks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Chunk</span><span class="p">],</span> <span class="n">col_map</span><span class="p">:</span> <span class="n">ColMap</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Columns</span><span class="p">:</span>
+    <span class="n">col</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">|</span> <span class="n">y</span><span class="p">,</span>
+        <span class="p">[</span>
+            <span class="n">empty_columns</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;empty&quot;</span>
+            <span class="k">else</span> <span class="n">multicolumn_row</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">multicolumn</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chunks</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">col_map</span><span class="o">.</span><span class="n">include_cmidrule</span><span class="p">:</span>
+        <span class="n">cmids</span> <span class="o">=</span> <span class="n">Cmidrules</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">Cmidrule</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">end</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chunks</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;filled&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">col</span> <span class="o">/</span> <span class="n">cmids</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">Row</span><span class="p">):</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">Columns</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">col</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rmap_cols_from_chunks</span><span class="p">(</span><span class="n">chunks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Chunk</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Columns</span><span class="p">:</span>
+    <span class="n">col</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span><span class="p">,</span>
+        <span class="p">[</span>
+            <span class="n">empty_columns</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;empty&quot;</span>
+            <span class="k">else</span> <span class="n">multirow_column</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">multirow</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chunks</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">col</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_col_map</span><span class="p">(</span><span class="n">col_map</span><span class="p">:</span> <span class="n">ColMap</span><span class="p">,</span> <span class="n">ncols</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">omapc</span> <span class="o">=</span> <span class="n">normalized_mapping</span><span class="p">(</span><span class="n">col_map</span><span class="o">.</span><span class="n">mapping</span><span class="p">)</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="n">get_chunks</span><span class="p">(</span><span class="n">omapc</span><span class="p">,</span> <span class="n">ncols</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cmap_cols_from_chunks</span><span class="p">(</span><span class="n">chunks</span><span class="p">,</span> <span class="n">col_map</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_row_map</span><span class="p">(</span><span class="n">row_map</span><span class="p">:</span> <span class="n">RowMap</span><span class="p">,</span> <span class="n">nrows</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">omapr</span> <span class="o">=</span> <span class="n">normalized_mapping</span><span class="p">(</span><span class="n">row_map</span><span class="o">.</span><span class="n">mapping</span><span class="p">)</span>
+    <span class="n">chunksr</span> <span class="o">=</span> <span class="n">get_chunks</span><span class="p">(</span><span class="n">omapr</span><span class="p">,</span> <span class="n">nrows</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rmap_cols_from_chunks</span><span class="p">(</span><span class="n">chunksr</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">simple_table</span><span class="p">(</span>
+    <span class="n">values</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">NumOrStr</span><span class="p">]</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">NumOrStr</span><span class="p">]],</span>
+    <span class="n">column_names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">col_maps</span><span class="p">:</span> <span class="n">ColMaps</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">row_maps</span><span class="p">:</span> <span class="n">RowMaps</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple table with optional column names and row/col maps.&quot;&quot;&quot;</span>
+    <span class="n">tab</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_values</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">column_names</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">column_names</span><span class="p">)</span> <span class="o">!=</span> <span class="n">tab</span><span class="o">.</span><span class="n">ncols</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Column names length (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">column_names</span><span class="p">)</span><span class="si">}</span><span class="s2">) does not match &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;number of columns in the table (</span><span class="si">{</span><span class="n">tab</span><span class="o">.</span><span class="n">ncols</span><span class="si">}</span><span class="s2">).&quot;</span>
+            <span class="p">)</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="n">Row</span><span class="p">([</span><span class="n">Cell</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">column_names</span><span class="p">])</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="n">header</span> <span class="o">/</span> <span class="n">tab</span>
+
+    <span class="n">parsed_row_maps</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Columns</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">parsed_col_maps</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Columns</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">row_maps</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row_maps</span><span class="p">,</span> <span class="n">RowMap</span><span class="p">):</span>
+            <span class="n">row_maps</span> <span class="o">=</span> <span class="p">[</span><span class="n">row_maps</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">row_map</span> <span class="ow">in</span> <span class="n">row_maps</span><span class="p">:</span>
+            <span class="n">parsed_row_maps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parse_row_map</span><span class="p">(</span><span class="n">row_map</span><span class="p">,</span> <span class="n">tab</span><span class="o">.</span><span class="n">nrows</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">col_maps</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">col_maps</span><span class="p">,</span> <span class="n">ColMap</span><span class="p">):</span>
+            <span class="n">col_maps</span> <span class="o">=</span> <span class="p">[</span><span class="n">col_maps</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">col_map</span> <span class="ow">in</span> <span class="n">col_maps</span><span class="p">:</span>
+            <span class="n">parsed_col_maps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parse_col_map</span><span class="p">(</span><span class="n">col_map</span><span class="p">,</span> <span class="n">tab</span><span class="o">.</span><span class="n">ncols</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">parsed_col_maps</span> <span class="ow">and</span> <span class="n">parsed_row_maps</span><span class="p">:</span>
+        <span class="n">num_row_maps</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">parsed_row_maps</span><span class="p">)</span>
+        <span class="n">parsed_col_maps</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="c1"># prepend empty cells to align with row map columns</span>
+            <span class="n">empty_columns</span><span class="p">(</span>
+                <span class="c1"># nrows to handle cmidrules case</span>
+                <span class="n">nrows</span><span class="o">=</span><span class="n">cols</span><span class="o">.</span><span class="n">nrows</span><span class="p">,</span>
+                <span class="n">ncols</span><span class="o">=</span><span class="n">num_row_maps</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="o">|</span> <span class="n">cols</span>
+            <span class="k">for</span> <span class="n">cols</span> <span class="ow">in</span> <span class="n">parsed_col_maps</span>
+        <span class="p">]</span>
+        <span class="n">cols_prepend</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">|</span> <span class="n">y</span><span class="p">,</span> <span class="n">parsed_row_maps</span><span class="p">)</span>
+        <span class="n">cols_stack</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span><span class="p">,</span> <span class="n">parsed_col_maps</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cols_stack</span> <span class="o">/</span> <span class="p">(</span><span class="n">cols_prepend</span> <span class="o">|</span> <span class="n">tab</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">parsed_row_maps</span><span class="p">:</span>
+        <span class="n">cols_prepend</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span><span class="p">,</span> <span class="n">parsed_row_maps</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cols_prepend</span> <span class="o">|</span> <span class="n">tab</span>
+    <span class="k">if</span> <span class="n">parsed_col_maps</span><span class="p">:</span>
+        <span class="n">cols_stack</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">|</span> <span class="n">y</span><span class="p">,</span> <span class="n">parsed_col_maps</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cols_stack</span> <span class="o">/</span> <span class="n">tab</span>
+    <span class="k">return</span> <span class="n">tab</span>  <span class="c1"># only way to make pyright *understand* ;=)</span>
 </pre></div>
         </article>
       </div>

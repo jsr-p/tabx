@@ -340,7 +340,6 @@
 <dt class="sig sig-object py" id="tabx.table.Cmidrule">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tabx.table.</span></span><span class="sig-name descname"><span class="pre">Cmidrule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tabx/table.html#Cmidrule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tabx.table.Cmidrule" title="Link to this definition">¶</a></dt>
 <dd><p>A LaTeX cmidrule.</p>
-<p>Up to tree we go, this works in the docs:</p>
 <p class="rubric">Initialization</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="tabx.table.Cmidrule.interval">
@@ -548,9 +547,9 @@ string becomes long and verbose.</p>
 <p>Requires the <a class="reference external" href="https://ctan.org/pkg/xcolor?lang=en">xcolor</a>
 Latex package.</p>
 <p>Examples:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">Row</span><span class="p">,</span> <span class="n">ColoredRow</span>
-<span class="n">tab</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_cells</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
-<span class="n">tab</span> <span class="o">=</span> <span class="n">ColoredRow</span><span class="p">(</span><span class="s2">&quot;red&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">tab</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">Row</span><span class="p">,</span> <span class="n">ColoredRow</span>
+<span class="linenos">2</span><span class="n">tab</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_cells</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="linenos">3</span><span class="n">tab</span> <span class="o">=</span> <span class="n">ColoredRow</span><span class="p">(</span><span class="s2">&quot;red&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">tab</span>
 </pre></div>
 </div>
 <p><img alt="table" src="../../_images/color_red_simple.png" /></p>
@@ -594,7 +593,11 @@ Latex package.</p>
 or rows, and supporting LaTeX-style rendering (e.g., math mode, bold,
 italic).</p>
 <p class="rubric" id="id1">Attributes</p>
-<p>:value: The displayed value in the table cell.</p>
+<dl class="myst field-list simple">
+<dt class="field-odd">Value<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The displayed value in the table cell.</p>
+</dd>
+</dl>
 <ul class="simple">
 <li><p>name: An optional identifier or key for the cell (used internally).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">style</span></code>: Text style for LaTeX rendering: ‘math’, ‘bold’, ‘italic’, or
@@ -609,18 +612,16 @@ italic).</p>
 <ul class="simple">
 <li><p>ValueError: If both multicolumn and multirow are greater than 1.</p></li>
 </ul>
-<p>{lineno-start=1 emphasize-lines=”2,3”}</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cell</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cell</span>
+<span class="hll"><span class="linenos">2</span><span class="nb">print</span><span class="p">(</span><span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">))</span>
+</span><span class="hll"><span class="linenos">3</span><span class="nb">print</span><span class="p">(</span><span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">))</span>
+</span><span class="linenos">4</span><span class="nb">print</span><span class="p">(</span><span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">))</span>
+<span class="linenos">5</span><span class="nb">print</span><span class="p">(</span><span class="n">Cell</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>\multirow[〈vpos〉]{〈nrows〉}{〈width〉}[〈vmove〉]{〈text〉}</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="tabx.table.Cell.value">
-<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NumOrStr</span></em><a class="headerlink" href="#tabx.table.Cell.value" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#tabx.table.NumOrStr" title="tabx.table.NumOrStr"><span class="pre">NumOrStr</span></a></em><a class="headerlink" href="#tabx.table.Cell.value" title="Link to this definition">¶</a></dt>
 <dd><p>None</p>
 </dd></dl>
 
@@ -929,14 +930,26 @@ If <code class="docutils literal notranslate"><span class="pre">custom_render</s
 
 <span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tabx/table.html#concat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tabx.table.concat" title="Link to this definition">¶</a></dt>
 <dd><p>Concatenates tables.</p>
+<dl class="myst field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tables</strong> – List of <code class="docutils literal notranslate"><span class="pre">Table</span></code> objects to concatenate.</p></li>
+<li><p><strong>how</strong> – How to concatenate the tables.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new <code class="docutils literal notranslate"><span class="pre">Table</span></code> object with the concatenated rows or columns.</p>
+</dd>
+</dl>
 <p>See also the operator overloading syntax.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">concat</span><span class="p">([</span><span class="n">table1</span><span class="p">,</span> <span class="n">table2</span><span class="p">])</span> <span class="o">==</span> <span class="n">table1</span> <span class="o">|</span> <span class="n">table2</span>
-<span class="go">True</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">import</span><span class="w"> </span><span class="nn">tabx</span>
+<span class="linenos">2</span><span class="kn">from</span><span class="w"> </span><span class="nn">tabx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="linenos">3</span><span class="n">table1</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_values</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="linenos">4</span><span class="n">table2</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_values</span><span class="p">([[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]])</span>
+<span class="linenos">5</span><span class="n">tabx</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">table1</span><span class="p">,</span> <span class="n">table2</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">table1</span> <span class="o">|</span> <span class="n">table2</span>
+<span class="linenos">6</span><span class="c1"># True</span>
 </pre></div>
 </div>
-<p>:param tables: List of tables to concatenate.
-:param how: How to concatenate the tables.</p>
-<p>:returns: A new table with the concatenated rows or columns.</p>
 </dd></dl>
 
 <section id="types">

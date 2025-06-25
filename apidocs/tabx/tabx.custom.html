@@ -299,40 +299,38 @@
 <dt class="sig sig-object py" id="tabx.custom.DescData">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tabx.custom.</span></span><span class="sig-name descname"><span class="pre">DescData</span></span><a class="reference internal" href="../../_modules/tabx/custom.html#DescData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tabx.custom.DescData" title="Link to this definition">¶</a></dt>
 <dd><p>Object containing data for descriptive statistics tables.</p>
-<p>Some more information here.</p>
-<p>.. attribute:: <code class="docutils literal notranslate"><span class="pre">variables</span></code></p>
-<p>List of variable names.</p>
-<p>.. attribute:: <code class="docutils literal notranslate"><span class="pre">values</span></code></p>
-<p>List of values for the variables.</p>
-<p>.. attribute:: <code class="docutils literal notranslate"><span class="pre">name</span></code></p>
-<p>Name of the descriptive statistics.</p>
-<p>.. attribute:: <code class="docutils literal notranslate"><span class="pre">extra_data</span></code></p>
-<p>Dictionary to hold any extra data.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="tabx.custom.DescData.variables">
 <span class="sig-name descname"><span class="pre">variables</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#tabx.custom.DescData.variables" title="Link to this definition">¶</a></dt>
 <dd><p>None</p>
-<p>some variable names</p>
+<p>List of variable names.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="tabx.custom.DescData.values">
 <span class="sig-name descname"><span class="pre">values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#tabx.custom.DescData.values" title="Link to this definition">¶</a></dt>
 <dd><p>None</p>
-<p>some variable names</p>
+<p>List of values for the variables.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="tabx.custom.DescData.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#tabx.custom.DescData.name" title="Link to this definition">¶</a></dt>
 <dd><p>None</p>
+<p>Name of the descriptive statistics.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="tabx.custom.DescData.extra_data">
 <span class="sig-name descname"><span class="pre">extra_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#tabx.custom.DescData.extra_data" title="Link to this definition">¶</a></dt>
 <dd><p>‘field(…)’</p>
+<p>Dictionary to hold any extra data associated with the variable.</p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tabx.custom.DescData.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tabx/custom.html#DescData.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tabx.custom.DescData.as_dict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="tabx.custom.DescData.from_dict">
@@ -348,13 +346,13 @@
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#tabx.custom.DescData" title="tabx.custom.DescData"><span class="pre">DescData</span></a></span></span><a class="reference internal" href="../../_modules/tabx/custom.html#DescData.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tabx.custom.DescData.from_dict" title="Link to this definition">¶</a></dt>
 <dd><p>Create DescData from dictionary.</p>
 <p><strong>Example</strong>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;var1&quot;</span><span class="p">,</span> <span class="s2">&quot;var2&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span>
-    <span class="s2">&quot;extra_data&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">},</span>
-<span class="p">}</span>
-<span class="n">desc_data</span> <span class="o">=</span> <span class="n">DescData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">desc_data</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">2</span>    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;var1&quot;</span><span class="p">,</span> <span class="s2">&quot;var2&quot;</span><span class="p">],</span>
+<span class="linenos">3</span>    <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span>
+<span class="linenos">4</span>    <span class="s2">&quot;extra_data&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">},</span>
+<span class="linenos">5</span><span class="p">}</span>
+<span class="linenos">6</span><span class="n">desc_data</span> <span class="o">=</span> <span class="n">DescData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="linenos">7</span><span class="nb">print</span><span class="p">(</span><span class="n">desc_data</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -371,13 +369,19 @@
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#tabx.custom.DescData" title="tabx.custom.DescData"><span class="pre">DescData</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/tabx/custom.html#DescData.from_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tabx.custom.DescData.from_values" title="Link to this definition">¶</a></dt>
 <dd><p>Construct list of <code class="docutils literal notranslate"><span class="pre">DescData</span></code> objects from a list of values.</p>
-<p>:param values: List of lists, where each inner list contains the variable
-name followed by its values.
-:param column_names: List of column names for the data.
-:param extras: Optional list of dictionaries containing extra data for each
+<dl class="myst field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – List of lists, where each inner list contains the variable
+name followed by its values.</p></li>
+<li><p><strong>column_names</strong> – List of column names for the data.</p></li>
+<li><p><strong>extras</strong> – Optional list of dictionaries containing extra data for each
 <code class="docutils literal notranslate"><span class="pre">DescData</span></code> object.
 This is deliberately not a dict but a list of dicts to
-allow for repeated column names.</p>
+allow for repeated column names.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -420,6 +424,11 @@ allow for repeated column names.</p>
 <dd><p>‘field(…)’</p>
 <p>Dictionary to hold any extra data associated with the model.</p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tabx.custom.ModelData.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tabx/custom.html#ModelData.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tabx.custom.ModelData.as_dict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="tabx.custom.ModelData.from_dict">
@@ -515,7 +524,7 @@ allow for repeated column names.</p>
 <dd><em class="sig-param"><span class="n"><span class="pre">col_maps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tabx.custom.ColMaps" title="tabx.custom.ColMaps"><span class="pre">ColMaps</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">row_maps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tabx.custom.RowMaps" title="tabx.custom.RowMaps"><span class="pre">RowMaps</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">order_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">dict()</span></span></em>,</dd>
-<dd><em class="sig-param"><span class="n"><span class="pre">var_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'variable'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">var_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">include_extra</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">include_header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">include_midrule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>,</dd>
@@ -616,6 +625,7 @@ allow for repeated column names.</p>
 <li><a class="reference internal" href="#tabx.custom.DescData.values"><code class="docutils literal notranslate"><span class="pre">DescData.values</span></code></a></li>
 <li><a class="reference internal" href="#tabx.custom.DescData.name"><code class="docutils literal notranslate"><span class="pre">DescData.name</span></code></a></li>
 <li><a class="reference internal" href="#tabx.custom.DescData.extra_data"><code class="docutils literal notranslate"><span class="pre">DescData.extra_data</span></code></a></li>
+<li><a class="reference internal" href="#tabx.custom.DescData.as_dict"><code class="docutils literal notranslate"><span class="pre">DescData.as_dict()</span></code></a></li>
 <li><a class="reference internal" href="#tabx.custom.DescData.from_dict"><code class="docutils literal notranslate"><span class="pre">DescData.from_dict()</span></code></a></li>
 <li><a class="reference internal" href="#tabx.custom.DescData.from_values"><code class="docutils literal notranslate"><span class="pre">DescData.from_values()</span></code></a></li>
 </ul>
@@ -626,6 +636,7 @@ allow for repeated column names.</p>
 <li><a class="reference internal" href="#tabx.custom.ModelData.ses"><code class="docutils literal notranslate"><span class="pre">ModelData.ses</span></code></a></li>
 <li><a class="reference internal" href="#tabx.custom.ModelData.name"><code class="docutils literal notranslate"><span class="pre">ModelData.name</span></code></a></li>
 <li><a class="reference internal" href="#tabx.custom.ModelData.extra_data"><code class="docutils literal notranslate"><span class="pre">ModelData.extra_data</span></code></a></li>
+<li><a class="reference internal" href="#tabx.custom.ModelData.as_dict"><code class="docutils literal notranslate"><span class="pre">ModelData.as_dict()</span></code></a></li>
 <li><a class="reference internal" href="#tabx.custom.ModelData.from_dict"><code class="docutils literal notranslate"><span class="pre">ModelData.from_dict()</span></code></a></li>
 <li><a class="reference internal" href="#tabx.custom.ModelData.from_values"><code class="docutils literal notranslate"><span class="pre">ModelData.from_values()</span></code></a></li>
 </ul>
