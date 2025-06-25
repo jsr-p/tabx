@@ -70,19 +70,20 @@ def compile_table(
             input=doc.encode("utf-8"),
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
-            check=True,
+            check=False,
         )
     else:
         out = subprocess.run(
             [command, f"-jobname={name}", f"-output-directory={output_dir}"],
             input=doc.encode("utf-8"),
-            check=True,
+            check=False,
         )
 
     if out.returncode == 0:
         return output_dir.joinpath(f"{name}.pdf")
     raise RuntimeError(
         f"Error compiling table with {command}. Check the output for more details."
+        f"The tex file had content:\n{doc}\n"
     )
 
 
