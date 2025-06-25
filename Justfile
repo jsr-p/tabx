@@ -28,6 +28,7 @@ readme:
     quarto render examples/booktabs1.py --output-dir ../_output
     quarto render examples/booktabs2.py --output-dir ../_output
     quarto render examples/ascii.py --output-dir ../_output
+    quarto render examples/cli.qmd --output-dir ../_output
     quarto render README.qmd
 
 sphinx: 

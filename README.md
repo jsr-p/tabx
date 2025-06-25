@@ -1460,6 +1460,108 @@ _ = utils.pdf_to_png(file)
 
 </details>
 
+### CLI
+
+<details>
+
+<summary>
+
+</summary>
+
+``` bash
+tabx --help
+```
+
+    usage: tabx [-h] {compile,check} ...
+
+    tabx CLI
+
+    positional arguments:
+      {compile,check}
+        compile        Compile a LaTeX table to PDF.
+        check          Check if LaTeX compilers are available.
+
+    options:
+      -h, --help       show this help message and exit
+
+``` bash
+tabx compile --help
+```
+
+    usage: tabx compile [-h] (--file FILE | --stdin)
+                        [--command {pdflatex,lualatex,xelatex}]
+                        [--output-dir OUTPUT_DIR] [--name NAME] [--silent]
+                        [--extra-preamble EXTRA_PREAMBLE]
+
+    options:
+      -h, --help            show this help message and exit
+      --file FILE           Path to file containing LaTeX table.
+      --stdin               Read LaTeX table from stdin.
+      --command {pdflatex,lualatex,xelatex}
+                            LaTeX engine to use (default: pdflatex).
+      --output-dir OUTPUT_DIR
+                            Directory for output PDF (default: /tmp/).
+      --name NAME           Base name for output file (default: table).
+      --silent              Suppress LaTeX output.
+      --extra-preamble EXTRA_PREAMBLE
+                            Extra LaTeX preamble content.
+
+``` bash
+tabx check --help
+```
+
+    usage: tabx check [-h]
+
+    options:
+      -h, --help  show this help message and exit
+
+#### Compile table
+
+``` bash
+python -c 'import tabx
+tab = tabx.Table.from_values([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+tabx.save_table(tab, "/tmp/table.tex")
+'
+```
+
+``` bash
+cat /tmp/table.tex
+```
+
+    \begin{tabular}{@{}ccc@{}}
+      \toprule
+      1 & 2 & 3 \\
+      4 & 5 & 6 \\
+      7 & 8 & 9 \\
+      \bottomrule
+    \end{tabular}
+
+``` bash
+tabx compile --file /tmp/table.tex --output-dir /tmp/ --silent
+```
+
+    Compiled PDF saved to: /tmp/table.pdf
+
+or from stdin
+
+``` bash
+tabx compile --stdin --output-dir /tmp/ --silent < /tmp/table.tex 
+```
+
+    Compiled PDF saved to: /tmp/table.pdf
+
+#### Check latex commands available
+
+``` bash
+tabx check
+```
+
+    pdflatex: found at /usr/bin/pdflatex
+    lualatex: found at /usr/bin/lualatex
+    xelatex: found at /usr/bin/xelatex
+
+</details>
+
 <!-- NOTE: we need the `---` here else the headers float to the top for some
 reason -->
 

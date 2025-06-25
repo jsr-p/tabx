@@ -1,0 +1,50 @@
+---
+format: gfm
+output-dir: _output
+engine: knitr
+---
+
+```{bash} 
+tabx --help
+```
+
+```{bash} 
+tabx compile --help
+```
+
+
+```{bash} 
+tabx check --help
+```
+
+#### Compile table
+
+```{bash} 
+python -c 'import tabx
+tab = tabx.Table.from_values([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+tabx.save_table(tab, "/tmp/table.tex")
+'
+```
+
+
+```{bash} 
+cat /tmp/table.tex
+```
+
+
+```{bash} 
+tabx compile --file /tmp/table.tex --output-dir /tmp/ --silent
+```
+
+
+or from stdin
+
+```{bash} 
+tabx compile --stdin --output-dir /tmp/ --silent < /tmp/table.tex 
+```
+
+#### Check latex commands available
+
+```{bash} 
+tabx check
+```

@@ -22,6 +22,9 @@ Homepage = "https://github.com/jsr-p/tabx"
 Documentation = "https://jsr-p.github.io/tabx"
 Repository = "https://github.com/jsr-p/tabx"
 
+[project.scripts]
+tabx = "tabx.cli:main"
+
 [dependency-groups]
 dev = [
     "coverage>=7.8.0",

@@ -207,6 +207,18 @@ Markdown(
 )
 ```
 
+### CLI
+
+```{python} 
+#| echo: false
+from IPython.display import Markdown
+Markdown(
+  "<details>\n" 
+  + "<summary></summary>\n" 
+  + open("_output/cli.md").read() + "\n</details>"
+)
+```
+
 <!-- NOTE: we need the `---` here else the headers float to the top for some
 reason -->
 ---

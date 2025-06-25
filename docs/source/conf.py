@@ -44,6 +44,7 @@ autodoc2_hidden_objects = [
 
 autodoc2_skip_module_regexes = [
     r"tabx._ext*",
+    r"tabx.cli",
 ]
 
 myst_enable_extensions = [
