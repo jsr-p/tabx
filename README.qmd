@@ -78,6 +78,18 @@ See Section 2
 
 ## Examples
 
+### Simple table
+
+```{python} 
+#| echo: false
+from IPython.display import Markdown
+Markdown(
+  "<details>\n" 
+  + "<summary></summary>\n" 
+  + open("_output/simple.md").read() + "\n</details>\n<br>\n"
+)
+```
+
 ### Models estimates and standard errors
 
 #### Model results dictionary passing

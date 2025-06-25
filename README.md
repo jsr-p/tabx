@@ -568,6 +568,50 @@ for more wisdom.
 
 ## Examples
 
+### Simple table
+
+<details>
+
+<summary>
+
+</summary>
+
+``` python
+import tabx
+from tabx import ColMap, RowMap
+
+tab = tabx.simple_table(
+    values=[
+        [3.14, 3.14, 3.14, 3.14],
+        [1.62, 1.62, 1.62, 1.62],
+        [1.41, 1.41, 1.41, 1.41],
+        [2.72, 2.72, 2.72, 2.72],
+    ],
+    col_maps=[ColMap({(1, 2): r"$\beta$", (3, 4): r"$\gamma$"})],
+    row_maps=[
+        RowMap({(1, 4): r"$R_{1}$"}),
+        RowMap(
+            {
+                (1, 1): r"$\sigma = 0.1$",
+                (2, 2): r"$\sigma = 0.3$",
+                (3, 3): r"$\eta = 0.1$",
+                (4, 4): r"$\eta = 0.3$",
+            }
+        ),
+    ],
+)
+```
+
+Compiling the table and converting to PNG yields:
+
+![image](figs/simple.png)
+
+equivalent to the image from the [Showcase](#showcase).
+
+</details>
+
+<br>
+
 ### Models estimates and standard errors
 
 #### Model results dictionary passing
@@ -1500,7 +1544,7 @@ tabx compile --help
       --command {pdflatex,lualatex,xelatex}
                             LaTeX engine to use (default: pdflatex).
       --output-dir OUTPUT_DIR
-                            Directory for output PDF (default: /tmp/).
+                            Directory for output PDF (default: cwd).
       --name NAME           Base name for output file (default: table).
       --silent              Suppress LaTeX output.
       --extra-preamble EXTRA_PREAMBLE

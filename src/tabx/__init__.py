@@ -8,6 +8,7 @@ from tabx.custom import (
     RowMap,
     descriptives_table,
     models_table,
+    simple_table,
 )
 from tabx.table import (
     Cell,
@@ -67,6 +68,7 @@ __all__ = [
     "RowMap",
     "descriptives_table",
     "models_table",
+    "simple_table",
     # utils
     "print_lines",
     "compile_table",
