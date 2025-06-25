@@ -277,11 +277,6 @@ def test_rows():
     with pytest.raises(
         TypeError,
     ):
-        _ = row | tabx.empty_columns(2, 2)
-
-    with pytest.raises(
-        TypeError,
-    ):
         _ = row / Cell("1")
 
 

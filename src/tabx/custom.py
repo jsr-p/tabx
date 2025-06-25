@@ -7,10 +7,12 @@ from __future__ import annotations
 import dataclasses
 import itertools as it
 import operator
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from collections.abc import Sequence
 from dataclasses import dataclass
+from functools import reduce
 from itertools import chain
+import typing
 from typing import Any, Iterable
 
 from tabx.table import (
@@ -29,6 +31,7 @@ from tabx.table import (
     multirow_column,
     reduce_cells_to_col,
     NumOrStr,
+    multicolumn_row,
 )
 
 __all__ = [
@@ -517,21 +520,6 @@ class RmParams:
     include_midrule: bool = True
 
 
-def handle_rm(rm: RowMap, rmp: RmParams):
-    """
-    n_vars includes extra variables if specified.
-    """
-    max_end = max([end for (_, end) in rm.mapping.keys()])
-    if max_end > rmp.total:
-        raise ValueError(f"Row map end ({max_end}) exceeds rows ({rmp.total})")
-    if rmp.has_header:
-        pad_before = len(rmp.header)  # Midrule in header usually
-    else:
-        pad_before = 0
-    rm_col = construct_rm_col(rm, rmp, pad_before=pad_before)
-    return rm_col
-
-
 def construct_rm_col(
     rm: RowMap,
     rmp: RmParams,
@@ -591,6 +579,21 @@ def construct_rm_col(
     col.set_align("l")
 
     return col
+
+
+def handle_rm(rm: RowMap, rmp: RmParams):
+    """
+    n_vars includes extra variables if specified.
+    """
+    max_end = max([end for (_, end) in rm.mapping.keys()])
+    if max_end > rmp.total:
+        raise ValueError(f"Row map end ({max_end}) exceeds rows ({rmp.total})")
+    if rmp.has_header:
+        pad_before = len(rmp.header)  # Midrule in header usually
+    else:
+        pad_before = 0
+    rm_col = construct_rm_col(rm, rmp, pad_before=pad_before)
+    return rm_col
 
 
 def construct_base(
@@ -720,3 +723,146 @@ def descriptives_table(
         include_midrule=include_midrule,
         fill_value=fill_value,
     )
+
+
+def normalized_mapping(rcmap: RCMap):
+    pairs = sorted(rcmap.items(), key=operator.itemgetter(0))
+    return OrderedDict({(start, end): name for (start, end), name in pairs})
+
+
+@dataclass
+class Chunk:
+    start: int
+    end: int
+    length: int
+    value: str
+    kind: typing.Literal["filled", "empty"] = "filled"
+
+
+def get_chunks(omap: RCMap, total: int):
+    prev_end = 0
+    chunks = []
+    for (start, end), name in omap.items():
+        if (diff := start - (prev_end + 1)) >= 1:
+            chunks.append(
+                Chunk(
+                    start=prev_end + 1,
+                    end=start - 1,
+                    length=diff,
+                    value="",
+                    kind="empty",
+                )
+            )
+        chunks.append(Chunk(start=start, end=end, length=end - start + 1, value=name))
+        prev_end = end
+    if prev_end < total:
+        chunks.append(
+            Chunk(
+                start=prev_end + 1,
+                end=total,
+                length=total - prev_end,
+                value="",
+                kind="empty",
+            )
+        )
+    return chunks
+
+
+def cmap_cols_from_chunks(chunks: list[Chunk], col_map: ColMap) -> Columns:
+    col = reduce(
+        lambda x, y: x | y,
+        [
+            empty_columns(nrows=1, ncols=c.length)
+            if c.kind == "empty"
+            else multicolumn_row(value=c.value, multicolumn=c.length, name=c.value)
+            for c in chunks
+        ],
+    )
+
+    if col_map.include_cmidrule:
+        cmids = Cmidrules(
+            [Cmidrule(start=c.start, end=c.end) for c in chunks if c.kind == "filled"]
+        )
+        col = col / cmids
+    if isinstance(col, Row):
+        col = Columns(rows=[col])
+    return col
+
+
+def rmap_cols_from_chunks(chunks: list[Chunk]) -> Columns:
+    col = reduce(
+        lambda x, y: x / y,
+        [
+            empty_columns(nrows=c.length, ncols=1)
+            if c.kind == "empty"
+            else multirow_column(value=c.value, multirow=c.length, name=c.value)
+            for c in chunks
+        ],
+    )
+    return col
+
+
+def parse_col_map(col_map: ColMap, ncols: int):
+    omapc = normalized_mapping(col_map.mapping)
+    chunks = get_chunks(omapc, ncols)
+    return cmap_cols_from_chunks(chunks, col_map)
+
+
+def parse_row_map(row_map: RowMap, nrows: int):
+    omapr = normalized_mapping(row_map.mapping)
+    chunksr = get_chunks(omapr, nrows)
+    return rmap_cols_from_chunks(chunksr)
+
+
+def simple_table(
+    values: Sequence[NumOrStr] | Sequence[Sequence[NumOrStr]],
+    column_names: Sequence[str] | None = None,
+    col_maps: ColMaps | None = None,
+    row_maps: RowMaps | None = None,
+) -> Table:
+    """Simple table with optional column names and row/col maps."""
+    tab = Table.from_values(values)
+    if column_names:
+        if len(column_names) != tab.ncols:
+            raise ValueError(
+                f"Column names length ({len(column_names)}) does not match "
+                f"number of columns in the table ({tab.ncols})."
+            )
+        header = Row([Cell(c) for c in column_names])
+        tab = header / tab
+
+    parsed_row_maps: list[Columns] = []
+    parsed_col_maps: list[Columns] = []
+    if row_maps:
+        if isinstance(row_maps, RowMap):
+            row_maps = [row_maps]
+        for row_map in row_maps:
+            parsed_row_maps.append(parse_row_map(row_map, tab.nrows))
+    if col_maps:
+        if isinstance(col_maps, ColMap):
+            col_maps = [col_maps]
+        for col_map in col_maps:
+            parsed_col_maps.append(parse_col_map(col_map, tab.ncols))
+
+    if parsed_col_maps and parsed_row_maps:
+        num_row_maps = len(parsed_row_maps)
+        parsed_col_maps = [
+            # prepend empty cells to align with row map columns
+            empty_columns(
+                # nrows to handle cmidrules case
+                nrows=cols.nrows,
+                ncols=num_row_maps,
+            )
+            | cols
+            for cols in parsed_col_maps
+        ]
+        cols_prepend = reduce(lambda x, y: x | y, parsed_row_maps)
+        cols_stack = reduce(lambda x, y: x / y, parsed_col_maps)
+        return cols_stack / (cols_prepend | tab)
+    if parsed_row_maps:
+        cols_prepend = reduce(lambda x, y: x / y, parsed_row_maps)
+        return cols_prepend | tab
+    if parsed_col_maps:
+        cols_stack = reduce(lambda x, y: x | y, parsed_col_maps)
+        return cols_stack / tab
+    return tab  # only way to make pyright *understand* ;=)

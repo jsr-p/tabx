@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from functools import reduce
 from itertools import chain
 from typing import (
+    Any,
     Callable,
     Iterable,
     Literal,
@@ -1130,6 +1131,15 @@ class Row:
     def render(self) -> str:
         return " & ".join(cell.render() for cell in self.cells) + r" \\"
 
+    @overload
+    def __truediv__(self: Self, other: Table) -> Table: ...
+
+    @overload
+    def __truediv__(self: Self, other: Columns) -> Columns: ...
+
+    @overload
+    def __truediv__(self: Self, other: Cmidrules) -> Columns: ...
+
     def __truediv__(self, other):
         if isinstance(other, TableRow_):
             return Columns([self, other])
@@ -1140,7 +1150,15 @@ class Row:
             f"and '{type(other).__name__}'"
         )
 
+    @overload
+    def __or__(self: Self, other: Columns) -> Columns: ...
+
+    @overload
+    def __or__(self: Self, other: Row | Cell) -> Row: ...
+
     def __or__(self: Self, other):
+        if isinstance(other, Columns):
+            return Columns([self]) | other
         if isinstance(other, Row):
             return Row(list(self.cells) + list(other.cells))
         if isinstance(other, Cell):
@@ -1466,6 +1484,8 @@ class Columns:
         """Overload `|`"""
         if isinstance(other, Cell):
             other = Columns([Row([other])])  # delegate to Columns below
+        if isinstance(other, Row):
+            other = Columns([other])  # delegate to Columns below
         if isinstance(other, Table):
             cols = join_columns([self, other])
             return Table.from_columns(cols)
@@ -1668,6 +1688,11 @@ def filled_table(nrows: int, ncols: int, value: str, **kwargs):
 def reduce_cells_to_col(cells: list[Cell | Columns]) -> Columns:
     out = reduce(lambda x, y: x / y, cells)
     out = cast(Columns, out)
+    return out
+
+
+def reduce_vertical(objs: Sequence[Any]) -> Any:
+    out = reduce(lambda x, y: x / y, objs)
     return out
 
 
