@@ -343,7 +343,7 @@ def make_est_col(data: ModelData) -> list[RegCell]:
             est=Cell(name=name, value=f"{est}"),
             se=Cell(
                 name="",
-                value=f"({se})" if isinstance(se, float) else f"{se}",
+                value=f"({se})",
             ),
             name=name,
         )
