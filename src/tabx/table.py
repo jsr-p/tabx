@@ -1383,11 +1383,40 @@ class Columns:
         """Insert a row at index."""
         if not isinstance(row, TableRow_):
             raise TypeError(f"Row must be a TableRow object; got {type(row)}")
+        if index == self.nrows:
+            return self.append_row(row)
+        if index > self.nrows or index < -self.nrows:
+            raise IndexError(f"Index {index} out of bounds for {self.nrows} rows")
         index = list(range(self.nrows))[index]
         return Columns(
             rows=list(self.rows[:index]) + [row] + list(self.rows[index:]),
             align=self.align,
         )
+
+    def insert_rows(self, rows: Sequence[TableRow], indices: list[int]):
+        """Insert multiple rows at specified indices."""
+        if len(rows) != len(indices):
+            raise ValueError("Number of rows must match number of indices")
+        for row in rows:
+            if not isinstance(row, TableRow_):
+                raise TypeError(f"All rows must be TableRow objects; got {type(row)}")
+
+        def normalize_index(i: int) -> int:
+            if i == self.nrows:
+                return i
+            return list(range(self.nrows))[i]
+
+        norm_indices = [normalize_index(i) for i in indices]
+
+        # Sort by index descending so later insertions don't affect earlier ones
+        inserts = sorted(zip(norm_indices, rows), key=lambda x: -x[0])
+        new_rows = list(self.rows)
+        for idx, row in inserts:
+            if idx == self.nrows:
+                new_rows.append(row)
+            else:
+                new_rows[idx:idx] = [row]
+        return Columns(rows=new_rows, align=self.align)
 
     @classmethod
     def from_cells(
@@ -1633,6 +1662,10 @@ class Table(Columns):
     def insert_row(self, row: TableRow, index: int):
         """insert a row."""
         return Table.from_columns(super().insert_row(row, index))
+
+    def insert_rows(self, rows: Sequence[TableRow], indices: list[int]):
+        """insert a row."""
+        return Table.from_columns(super().insert_rows(rows, indices))
 
     def print(
         self,

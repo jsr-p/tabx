@@ -429,3 +429,47 @@ def test_color():
         match="Cannot have multiple ColoredRows in same row",
     ):
         c1 | c2
+
+
+def test_insert_rows():
+    """test inserting rows"""
+
+    def test_tab():
+        return tabx.Table.from_values(
+            [
+                [1, 2, 3],
+                [1, 2, 3],
+                [1, 2, 3],
+            ]
+        )
+
+    # every other row is a Midrule
+    tab = test_tab()
+    tab = tab.insert_row(tabx.Midrule(), 3)
+    tab = tab.insert_row(tabx.Midrule(), 2)
+    tab = tab.insert_row(tabx.Midrule(), 1)
+    tab = tab.insert_row(tabx.Midrule(), 0)
+    for i, row in enumerate(tab.rows):
+        if i % 2 == 0:
+            assert isinstance(row, tabx.Midrule)
+
+    # every other row is a Midrule
+    tab = test_tab()
+    tab = tab.insert_rows(
+        [
+            tabx.Midrule(),
+            tabx.Midrule(),
+            tabx.Midrule(),
+            tabx.Midrule(),
+        ],
+        [0, 1, 2, 3],
+    )
+    for i, row in enumerate(tab.rows):
+        if i % 2 == 0:
+            assert isinstance(row, tabx.Midrule)
+
+    # insert Midrule at every position
+    for i in range(3 + 1):
+        tab = test_tab()
+        tab = tab.insert_row(tabx.Midrule(), i)
+        assert isinstance(tab.rows[i], tabx.Midrule)
