@@ -3,6 +3,8 @@ Module for creating tables for descriptive statistics and model output.
 """
 
 from __future__ import annotations
+from typing import TYPE_CHECKING
+
 
 import dataclasses
 import itertools as it
@@ -33,6 +35,9 @@ from tabx.table import (
     NumOrStr,
     multicolumn_row,
 )
+
+if TYPE_CHECKING:
+    import polars as pl
 
 __all__ = [
     "DescData",
@@ -866,3 +871,8 @@ def simple_table(
         cols_stack = reduce(lambda x, y: x | y, parsed_col_maps)
         return cols_stack / tab
     return tab  # only way to make pyright *understand* ;=)
+
+
+def simple_table_from_pl(df: "pl.DataFrame", **kwargs):
+    """Create simple table from a polars dataframe"""
+    return simple_table(values=df.rows(), column_names=df.columns, **kwargs)

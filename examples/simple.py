@@ -30,6 +30,9 @@ tab = tabx.simple_table(
     ],
 )
 
+# To save table as a LaTeX file use:
+# `tabx.save_table(tab, "/tmp/simple_table.tex")`
+
 # %%
 # | echo: false
 r = file = tabx.compile_table(
