@@ -6,9 +6,8 @@
 # %%
 # | echo: true
 
-from tabx import Cell, Table, Cmidrule, Midrule, multirow_column, multicolumn_row
-
-C = Cell
+from tabx import Cell as C
+from tabx import Cmidrule, Midrule, Table, multicolumn_row, multirow_column
 
 base = Table.from_cells(
     [
