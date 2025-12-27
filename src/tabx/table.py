@@ -582,6 +582,8 @@ class Cmidrule:
     def __truediv__(self: Self, other):
         if isinstance(other, (Table, Columns)):
             return other.prepend_row(self)
+        if isinstance(other, Row):
+            return Table([self, other])
         if isinstance(other, Cell):
             return Table([self, Row([other])])
         if isinstance(other, (Cmidrule, Cmidrules, Midrule)):
@@ -729,8 +731,10 @@ class Rule(ABC):
         return self
 
     def __truediv__(self, other: Table | Columns):
+        if isinstance(other, Row):
+            return Table([self, other])
         if isinstance(other, Cell):
-            return Columns([self, Row([other])])
+            return Table([self, Row([other])])
         if isinstance(other, (Table, Columns)):
             return other.prepend_row(self)
         if isinstance(other, Rule):
@@ -1138,11 +1142,14 @@ class Row:
     def __truediv__(self: Self, other: Columns) -> Columns: ...
 
     @overload
-    def __truediv__(self: Self, other: Cmidrules) -> Columns: ...
+    def __truediv__(self: Self, other: Cmidrules) -> Table: ...
+
+    @overload
+    def __truediv__(self: Self, other: Cmidrule) -> Table: ...
 
     def __truediv__(self, other):
         if isinstance(other, TableRow_):
-            return Columns([self, other])
+            return Table([self, other])
         if isinstance(other, Table | Columns):
             return other.prepend_row(self)
         raise TypeError(
@@ -1672,6 +1679,9 @@ class Table(Columns):
         custom_render: Callable[..., str] | None = None,
     ):
         print(self.render(custom_render))
+
+    def save(self): ...
+    def compile(self): ...
 
     @classmethod
     def from_cells(
