@@ -13,7 +13,7 @@ def test_basic_wrappers():
 
 
 def test_color_wrapper():
-    assert text.color("red", "warn") == r"\textcolor{red}{warn}"
+    assert text.color("warn", "red") == r"\textcolor{red}{warn}"
 
 
 def test_empty_strings():
@@ -21,3 +21,11 @@ def test_empty_strings():
     assert text.tt("") == r"\texttt{}"
     assert text.it("") == r"\textit{}"
     assert text.color("", "") == r"\textcolor{}{}"
+
+
+def test_rotatebox():
+    assert text.rotatebox("abc") == r"\rotatebox[origin=c]{0}{abc}"
+    assert text.rotatebox("abc", angle=90) == r"\rotatebox[origin=c]{90}{abc}"
+    assert (
+        text.rotatebox("abc", angle=45, origin="l") == r"\rotatebox[origin=l]{45}{abc}"
+    )
