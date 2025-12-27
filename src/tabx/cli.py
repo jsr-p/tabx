@@ -6,10 +6,11 @@ Cli for tabx.
 """
 
 import argparse
+import shutil
 import sys
 from pathlib import Path
+
 from tabx import utils
-import shutil
 
 
 def check_latex_commands():

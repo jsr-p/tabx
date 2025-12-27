@@ -24,15 +24,59 @@ def print_lines(s: str):  # pragma: no cover
     print("]")
 
 
+def pdf_to_png(file: str | Path) -> Path:
+    """Convert a PDF file to PNG using ImageMagick."""
+    if shutil.which("magick") is None:
+        print("Error: magick is not in PATH.")
+        sys.exit(1)
+
+    file = Path(file)
+    if not file.exists():
+        raise FileNotFoundError(f"PDF file not found: {file}")
+    if file.suffix.lower() != ".pdf":
+        raise ValueError(f"Expected a .pdf file, got: {file.name}")
+
+    output_file = file.with_suffix(".png")
+
+    subprocess.run(
+        [
+            "magick",
+            "-density",
+            "300",
+            str(file),
+            "-quality",
+            "100",
+            # remove all metadata from png files s.t.
+            # they are smaller *and* don't change on each run
+            "-strip",
+            "-define",
+            "png:exclude-chunk=time",
+            "-trim",
+            "+repage",
+            "-background",
+            "white",
+            "-alpha",
+            "remove",
+            str(output_file),
+        ],
+        check=True,
+    )
+
+    return output_file
+
+
 def compile_table(
-    tab: str,
-    command: Literal["pdflatex", "lualatex", "xelatex"] = "pdflatex",
-    output_dir: str | Path = "/tmp/",
+    tab: str | Table,
     name: str = "table",
+    output_dir: str | Path = "/tmp/",
+    command: Literal["pdflatex", "lualatex", "xelatex"] = "pdflatex",
     silent: bool = True,
     extra_preamble: str = "",
-):
-    """Compile a LaTeX table to PDF."""
+) -> Path:
+    """Compile a LaTeX table to PDF.
+
+    Returns the compiled pdf file as a Path object on succesful compilation.
+    """
 
     # Ensure pdflatex is available
     if shutil.which(command) is None:
@@ -87,51 +131,7 @@ def compile_table(
     )
 
 
-def pdf_to_png(file: str | Path) -> Path:
-    """Convert a PDF file to PNG using ImageMagick."""
-    if shutil.which("magick") is None:
-        print("Error: magick is not in PATH.")
-        sys.exit(1)
-
-    file = Path(file)
-    if not file.exists():
-        raise FileNotFoundError(f"PDF file not found: {file}")
-    if file.suffix.lower() != ".pdf":
-        raise ValueError(f"Expected a .pdf file, got: {file.name}")
-
-    output_file = file.with_suffix(".png")
-
-    subprocess.run(
-        [
-            "magick",
-            "-density",
-            "300",
-            str(file),
-            "-quality",
-            "100",
-            # remove all metadata from png files s.t.
-            # they are smaller *and* don't change on each run
-            "-strip",
-            "-define",
-            "png:exclude-chunk=time",
-            "-trim",
-            "+repage",
-            "-background",
-            "white",
-            "-alpha",
-            "remove",
-            str(output_file),
-        ],
-        check=True,
-    )
-
-    return output_file
-
-
-def save_table(
-    tab: str | Table,
-    file: str | Path,
-):  # pragma: no cover
+def save_table(tab: str | Table, file: str | Path):  # pragma: no cover
     """Saves a LaTeX table to a file.
 
     Args:

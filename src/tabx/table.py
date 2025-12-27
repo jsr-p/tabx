@@ -11,6 +11,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 from functools import reduce
 from itertools import chain
+from pathlib import Path
 from typing import (
     Any,
     Callable,
@@ -1680,8 +1681,29 @@ class Table(Columns):
     ):
         print(self.render(custom_render))
 
-    def save(self): ...
-    def compile(self): ...
+    def save(self, file: str | Path):
+        from tabx.utils import save_table
+
+        save_table(self.render(), file)
+
+    def compile(
+        self,
+        name: str,
+        output_dir: str | Path = "/tmp/",
+        command: Literal["pdflatex", "lualatex", "xelatex"] = "pdflatex",
+        silent: bool = True,
+        extra_preamble: str = "",
+    ):
+        from tabx.utils import compile_table
+
+        return compile_table(
+            self.render(),
+            command=command,
+            output_dir=output_dir,
+            name=name,
+            silent=silent,
+            extra_preamble=extra_preamble,
+        )
 
     @classmethod
     def from_cells(

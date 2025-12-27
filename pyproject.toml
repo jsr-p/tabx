@@ -82,3 +82,7 @@ packages = ["src/tabx"]
 
 [tool.hatch.version]
 path = "src/tabx/__init__.py"
+
+[tool.ruff.lint]
+extend-select = ["I"]
+ignore = ["F401"]
