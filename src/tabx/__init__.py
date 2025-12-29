@@ -1,4 +1,6 @@
-""" """
+"""
+tabx - compose LaTeX tables using booktabs in Python
+"""
 
 from tabx import custom, table, utils
 from tabx.custom import (
@@ -11,26 +13,26 @@ from tabx.custom import (
     simple_table,
 )
 from tabx.table import (
+    Bottomrule,
     Cell,
-    ColoredCell,
     Cmidrule,
     Cmidrules,
+    ColoredCell,
     ColoredRow,
     Columns,
     Midrule,
-    Toprule,
-    Bottomrule,
     Row,
     Table,
-    empty_columns,
+    Toprule,
+    concat,
     empty_cell,
     empty_cells,
+    empty_columns,
     empty_table,
     filled_columns,
     filled_table,
-    multirow_column,
     multicolumn_row,
-    concat,
+    multirow_column,
 )
 from tabx.utils import (
     compile_table,

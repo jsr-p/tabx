@@ -3,37 +3,35 @@ Module for creating tables for descriptive statistics and model output.
 """
 
 from __future__ import annotations
-from typing import TYPE_CHECKING
-
 
 import dataclasses
 import itertools as it
 import operator
-from collections import defaultdict, OrderedDict
+import typing
+from collections import OrderedDict, defaultdict
 from collections.abc import Sequence
 from dataclasses import dataclass
 from functools import reduce
 from itertools import chain
-import typing
-from typing import Any, Iterable
+from typing import TYPE_CHECKING, Any, Iterable
 
 from tabx.table import (
+    Cell,
     Cmidrule,
     Cmidrules,
     Columns,
-    Cell,
     Midrule,
+    NumOrStr,
     Row,
     Table,
     TableRow,
-    empty_columns,
     empty_cell,
     empty_cells,
+    empty_columns,
     join_columns,
+    multicolumn_row,
     multirow_column,
     reduce_cells_to_col,
-    NumOrStr,
-    multicolumn_row,
 )
 
 if TYPE_CHECKING:
