@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 from typing import Literal
 
-from tabx.table import Table, render_rows
+from tabx.table import PathArg, Table, render_rows
 
 __all__ = [
     "compile_table",
@@ -131,7 +131,7 @@ def compile_table(
     )
 
 
-def save_table(tab: str | Table, file: str | Path):  # pragma: no cover
+def save_table(tab: str | Table, file: PathArg):  # pragma: no cover
     """Saves a LaTeX table to a file.
 
     Args:

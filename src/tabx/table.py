@@ -11,6 +11,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 from functools import reduce
 from itertools import chain
+from os import PathLike
 from pathlib import Path
 from typing import (
     Any,
@@ -18,11 +19,14 @@ from typing import (
     Iterable,
     Literal,
     Self,
+    TypeAlias,
     TypeVar,
     assert_never,
     cast,
     overload,
 )
+
+PathArg: TypeAlias = str | PathLike[str]
 
 __all__ = [
     "Cmidrule",
@@ -1659,19 +1663,19 @@ class Table(Columns):
         """Render the body of the table without the tabular environment."""
         return render_rows(self.rows)
 
-    def prepend_row(self, row: TableRow):
+    def prepend_row(self, row: TableRow) -> Table:
         """Prepend a row."""
         return Table.from_columns(super().prepend_row(row))
 
-    def append_row(self, row: TableRow):
+    def append_row(self, row: TableRow) -> Table:
         """add a row."""
         return Table.from_columns(super().append_row(row))
 
-    def insert_row(self, row: TableRow, index: int):
+    def insert_row(self, row: TableRow, index: int) -> Table:
         """insert a row."""
         return Table.from_columns(super().insert_row(row, index))
 
-    def insert_rows(self, rows: Sequence[TableRow], indices: list[int]):
+    def insert_rows(self, rows: Sequence[TableRow], indices: list[int]) -> Table:
         """insert a row."""
         return Table.from_columns(super().insert_rows(rows, indices))
 
@@ -1681,20 +1685,28 @@ class Table(Columns):
     ):
         print(self.render(custom_render))
 
-    def save(self, file: str | Path):
+    def save(self, file: PathArg):
         from tabx.utils import save_table
 
         save_table(self.render(), file)
 
     def compile(
         self,
-        name: str,
-        output_dir: str | Path = "/tmp/",
+        file: PathArg,
+        *,
         command: Literal["pdflatex", "lualatex", "xelatex"] = "pdflatex",
         silent: bool = True,
         extra_preamble: str = "",
     ):
+        """
+        Compile the rendered table to `file`, like open(file, ...).
+        """
+
         from tabx.utils import compile_table
+
+        path = Path(file)  # normalize once
+        output_dir = path.parent
+        name = path.stem
 
         return compile_table(
             self.render(),

@@ -11,6 +11,7 @@ from tabx.custom import (
     descriptives_table,
     models_table,
     simple_table,
+    simple_table_from_pl,
 )
 from tabx.table import (
     Bottomrule,
