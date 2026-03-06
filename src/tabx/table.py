@@ -1152,6 +1152,9 @@ class Row:
     @overload
     def __truediv__(self: Self, other: Cmidrule) -> Table: ...
 
+    @overload
+    def __truediv__(self: Self, other: Row) -> Table: ...
+
     def __truediv__(self, other):
         if isinstance(other, TableRow_):
             return Table([self, other])
@@ -1704,15 +1707,10 @@ class Table(Columns):
 
         from tabx.utils import compile_table
 
-        path = Path(file)  # normalize once
-        output_dir = path.parent
-        name = path.stem
-
         return compile_table(
             self.render(),
             command=command,
-            output_dir=output_dir,
-            name=name,
+            file=Path(file),
             silent=silent,
             extra_preamble=extra_preamble,
         )
@@ -2092,6 +2090,22 @@ def join_columns(all_cols: Sequence[Columns | Column]):
                             # based on the Columns object they came from.
                             all_cmids.append((j, cmid))
                 new_cmidrule = update_cmidrules(all_cmids, cmid_ns)
+                new_rows.append(new_cmidrule)
+            case [*rows] if all(isinstance(x, (Cmidrules, Cmidrule)) for x in rows):
+                cmidrules: list[Cmidrule] = []
+                for row in rows:
+                    if isinstance(row, Cmidrules):
+                        if len(row.values) > 1:
+                            raise ValueError(
+                                "Join with multiple cmidrules not implemented yet"
+                            )
+                        cmidrules.extend(row.values)
+                    else:
+                        cmidrules.append(row)
+                new_cmidrule = update_cmidrules(
+                    [(j, r) for j, r in enumerate(cmidrules)],
+                    cmid_ns,
+                )
                 new_rows.append(new_cmidrule)
             case _:  # pragma: no cover
                 raise ValueError("All rows must be of same type (Row or Cmidrule)")
