@@ -3,6 +3,13 @@ Cli for tabx.
 
 - Use `argparse` to avoid dependencies :=)
 - The standard library is an endless pool of fun https://docs.python.org/3/
+
+Examples:
+
+    tabx compile table.tex
+    tabx compile table.tex -o out.pdf
+    cat table.tex | tabx compile -
+    cat table.tex | tabx compile - -o out.pdf
 """
 
 import argparse
@@ -13,7 +20,7 @@ from pathlib import Path
 from tabx import utils
 
 
-def check_latex_commands():
+def check_latex_commands() -> None:
     commands = ["pdflatex", "lualatex", "xelatex"]
     for cmd in commands:
         path = shutil.which(cmd)
@@ -23,86 +30,102 @@ def check_latex_commands():
             print(f"{cmd}: NOT found")
 
 
-def check_cmd(args):
+def check_cmd(args) -> None:
     """Check if LaTeX compilers are available."""
     check_latex_commands()
     sys.exit(0)
 
 
-def compile_cmd(args):
-    tab_content = ""
-    if args.file:
-        tab_content = args.file.read_text()
-    elif args.stdin:
+def read_table_input(file_arg: str | None) -> tuple[str, Path | None]:
+    """
+    Returns (content, file_path_if_any)
+    """
+    if file_arg is None:
+        raise SystemExit("compile requires a file argument or '-' for stdin")
+
+    if file_arg == "-":
         if sys.stdin.isatty():
-            print("Reading from stdin (press Ctrl+D to finish):", file=sys.stderr)
-        tab_content = sys.stdin.read()
-    if not tab_content:
-        print(
-            "No content provided. Please provide a file or input via stdin.",
-            file=sys.stderr,
-        )
+            print("Reading from stdin (Ctrl+D to finish)", file=sys.stderr)
+        return sys.stdin.read(), None
+
+    path = Path(file_arg)
+    return path.read_text(encoding="utf-8"), path
+
+
+def compile_cmd(args) -> None:
+    tab_content, file_path = read_table_input(args.file)
+
+    if not tab_content.strip():
+        print("No LaTeX content provided.", file=sys.stderr)
         sys.exit(1)
+
+    output = args.output
+    if output is None:
+        if file_path is not None:
+            output = file_path.with_suffix(".pdf")
+        else:
+            output = Path("table.pdf")
 
     pdf_path = utils.compile_table(
         tab=tab_content,
-        command=args.command,
-        output_dir=args.output_dir,
-        name=args.name,
-        silent=args.silent,
+        file=output,
+        command=args.engine,
+        silent=not args.verbose,
         extra_preamble=args.extra_preamble,
     )
 
-    print(f"Compiled PDF saved to: {pdf_path}")
+    print(pdf_path)
 
 
-def add_compile_subparser(subparsers):
+def add_compile_subparser(subparsers) -> None:
     parser = subparsers.add_parser("compile", help="Compile a LaTeX table to PDF.")
 
-    input_group = parser.add_mutually_exclusive_group(required=True)
-    input_group.add_argument(
-        "--file", type=Path, help="Path to file containing LaTeX table."
-    )
-    input_group.add_argument(
-        "--stdin", action="store_true", help="Read LaTeX table from stdin."
+    parser.add_argument(
+        "file",
+        help="Input LaTeX file or '-' to read from stdin.",
     )
 
     parser.add_argument(
-        "--command",
+        "-o",
+        "--output",
+        type=Path,
+        help="Output PDF path (default: derived from input file or 'table.pdf').",
+    )
+
+    parser.add_argument(
+        "--engine",
         choices=["pdflatex", "lualatex", "xelatex"],
         default="pdflatex",
-        help="LaTeX engine to use (default: pdflatex).",
+        help="LaTeX engine to use.",
     )
+
     parser.add_argument(
-        "--output-dir",
-        type=Path,
-        default=Path.cwd(),
-        help="Directory for output PDF (default: cwd).",
+        "--verbose",
+        action="store_true",
+        help="Suppress LaTeX output.",
     )
+
     parser.add_argument(
-        "--name",
+        "--extra-preamble",
         type=str,
-        default="table",
-        help="Base name for output file (default: table).",
-    )
-    parser.add_argument("--silent", action="store_true", help="Suppress LaTeX output.")
-    parser.add_argument(
-        "--extra-preamble", type=str, default="", help="Extra LaTeX preamble content."
+        default="",
+        help="Extra LaTeX preamble content.",
     )
 
     parser.set_defaults(func=compile_cmd)
 
 
-def add_check_subparser(subparsers):
+def add_check_subparser(subparsers) -> None:
     parser = subparsers.add_parser(
-        "check", help="Check if LaTeX compilers are available."
+        "check",
+        help="Check if LaTeX compilers are available.",
     )
     parser.set_defaults(func=check_cmd)
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="tabx CLI")
-    subparsers = parser.add_subparsers(dest="command", required=True)
+    subparsers = parser.add_subparsers(dest="subcommand", required=True)
 
     add_compile_subparser(subparsers)
     add_check_subparser(subparsers)

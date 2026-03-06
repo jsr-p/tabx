@@ -67,8 +67,7 @@ def pdf_to_png(file: str | Path) -> Path:
 
 def compile_table(
     tab: str | Table,
-    name: str = "table",
-    output_dir: str | Path = "/tmp/",
+    file: PathArg,
     command: Literal["pdflatex", "lualatex", "xelatex"] = "pdflatex",
     silent: bool = True,
     extra_preamble: str = "",
@@ -104,7 +103,9 @@ def compile_table(
 \end{{document}}
         """
 
-    output_dir = Path(output_dir)
+    file = Path(file)
+    output_dir = file.parent
+    name = file.stem
     if not output_dir.exists():
         output_dir.mkdir(parents=True, exist_ok=True)
 
