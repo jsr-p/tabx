@@ -871,6 +871,6 @@ def simple_table(
     return tab  # only way to make pyright *understand* ;=)
 
 
-def simple_table_from_pl(df: "pl.DataFrame", **kwargs):
+def simple_table_from_pl(df: "pl.DataFrame", **kwargs) -> Table:
     """Create simple table from a polars dataframe"""
     return simple_table(values=df.rows(), column_names=df.columns, **kwargs)
