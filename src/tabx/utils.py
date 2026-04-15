@@ -25,10 +25,7 @@ def print_lines(s: str):  # pragma: no cover
 
 
 def pdf_to_png(file: str | Path) -> Path:
-    """Convert a PDF file to PNG using ImageMagick."""
-    if shutil.which("magick") is None:
-        print("Error: magick is not in PATH.")
-        sys.exit(1)
+    """Convert a PDF file to PNG using ImageMagick or pdftoppm."""
 
     file = Path(file)
     if not file.exists():
@@ -38,29 +35,46 @@ def pdf_to_png(file: str | Path) -> Path:
 
     output_file = file.with_suffix(".png")
 
-    subprocess.run(
-        [
-            "magick",
-            "-density",
-            "300",
-            str(file),
-            "-quality",
-            "100",
-            # remove all metadata from png files s.t.
-            # they are smaller *and* don't change on each run
-            "-strip",
-            "-define",
-            "png:exclude-chunk=time",
-            "-trim",
-            "+repage",
-            "-background",
-            "white",
-            "-alpha",
-            "remove",
-            str(output_file),
-        ],
-        check=True,
-    )
+    if shutil.which("magick") is not None:
+        subprocess.run(
+            [
+                "magick",
+                "-density",
+                "300",
+                str(file),
+                "-quality",
+                "100",
+                # remove all metadata from png files s.t.
+                # they are smaller *and* don't change on each run
+                "-strip",
+                "-define",
+                "png:exclude-chunk=time",
+                "-trim",
+                "+repage",
+                "-background",
+                "white",
+                "-alpha",
+                "remove",
+                str(output_file),
+            ],
+            check=True,
+        )
+    elif shutil.which("pdftoppm") is not None:
+        subprocess.run(
+            [
+                "pdftoppm",
+                "-png",
+                "-r",
+                "300",
+                str(file),
+                str(file.with_suffix("")),
+            ],
+            check=True,
+        )
+        generated_file = file.with_name(f"{file.stem}-1.png")
+        generated_file.replace(output_file)
+    else:
+        raise RuntimeError("Neither 'magick' nor 'pdftoppm' is available in PATH.")
 
     return output_file
 
