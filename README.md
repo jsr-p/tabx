@@ -23,6 +23,12 @@
   - … see the [rest](#examples)
 - See also the [documentation](https://jsr-p.github.io/tabx/index.html)
 
+Links:
+
+- Documentation: <https://jsr-p.github.io/tabx>
+- Repository: <https://github.com/jsr-p/tabx>
+- PyPi: <https://pypi.org/project/tabx-py/>
+
 ## Installation
 
 ``` bash
