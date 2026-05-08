@@ -91,6 +91,9 @@ def compile_table(
     Returns the compiled pdf file as a Path object on succesful compilation.
     """
 
+    if isinstance(tab, Table):
+        tab = tab.render()
+
     # Ensure pdflatex is available
     if shutil.which(command) is None:
         print(f"Error: {command} is not in PATH.")
